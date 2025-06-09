@@ -4,7 +4,7 @@ part 'account_create_request.freezed.dart';
 part 'account_create_request.g.dart';
 
 @freezed
-class AccountCreateRequest with _$AccountCreateRequest {
+abstract class AccountCreateRequest with _$AccountCreateRequest {
   const factory AccountCreateRequest({
     // example: Основной счёт
     required String name,
