@@ -1,3 +1,4 @@
+import 'package:coinio_app/domain/models/stat_item/stat_item.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'account_response.freezed.dart';
