@@ -34,6 +34,21 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: NavigationBar(
+        destinations: const [
+          NavigationDestination(icon: Icon(Icons.home), label: 'Главная'),
+          NavigationDestination(
+            icon: Icon(Icons.account_balance),
+            label: 'Счета',
+          ),
+          NavigationDestination(icon: Icon(Icons.settings), label: 'Настройки'),
+        ],
+        selectedIndex: 0,
+        onDestinationSelected: (value) {
+          // обработчик нажатия пока пустой
+          // Здесь можно добавить логику для переключения между экранами
+        },
+      ),
     );
   }
 }
