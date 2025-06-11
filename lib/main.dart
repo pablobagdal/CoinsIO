@@ -1,3 +1,4 @@
+import 'package:coinio_app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 void main(List<String> args) {
@@ -9,7 +10,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: 'Coins IO', home: const HomeScreen());
+    return MaterialApp(
+      title: 'Coins IO',
+      home: const HomeScreen(),
+      theme: AppTheme.light,
+    );
   }
 }
 
