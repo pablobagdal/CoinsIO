@@ -22,15 +22,15 @@ class MockAccountRepository implements AccountRepository {
     await Future.delayed(Duration(seconds: 1));
 
     // Simulate to remember change time of update
-    final updatedAccount = Account(
-      id: account.id,
-      userId: account.userId,
-      name: account.name,
-      balance: account.balance,
-      currency: account.currency,
-      createdAt: account.createdAt,
-      updatedAt: DateTime.now(),
-    );
+    // final updatedAccount = Account(
+    //   id: account.id,
+    //   userId: account.userId,
+    //   name: account.name,
+    //   balance: account.balance,
+    //   currency: account.currency,
+    //   createdAt: account.createdAt,
+    //   updatedAt: DateTime.now(),
+    // );
 
     // TODO add logger instead of print
     print("Account updated: ${account.name}, Balance: ${account.balance}");
