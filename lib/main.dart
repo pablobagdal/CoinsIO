@@ -1,4 +1,5 @@
-import 'package:coinio_app/theme/app_theme.dart';
+import 'package:coinio_app/config/assets.dart';
+import 'package:coinio_app/core/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 
 void main(List<String> args) {
@@ -59,33 +60,23 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
     return NavigationBar(
       destinations: const [
         NavigationDestination(
-          icon: ImageIcon(
-            AssetImage('assets/navigation_bar_icons/spendings_icon.png'),
-          ),
+          icon: ImageIcon(AssetImage(Assets.iconSpendings)),
           label: 'Расходы',
         ),
         NavigationDestination(
-          icon: ImageIcon(
-            AssetImage('assets/navigation_bar_icons/incomes_icon.png'),
-          ),
+          icon: ImageIcon(AssetImage(Assets.iconIncomes)),
           label: 'Доходы',
         ),
         NavigationDestination(
-          icon: ImageIcon(
-            AssetImage('assets/navigation_bar_icons/accounts_icon.png'),
-          ),
+          icon: ImageIcon(AssetImage(Assets.iconAccounts)),
           label: 'Счёт',
         ),
         NavigationDestination(
-          icon: ImageIcon(
-            AssetImage('assets/navigation_bar_icons/categories_icon.png'),
-          ),
+          icon: ImageIcon(AssetImage(Assets.iconCategories)),
           label: 'Статьи',
         ),
         NavigationDestination(
-          icon: ImageIcon(
-            AssetImage('assets/navigation_bar_icons/settings_icon.png'),
-          ),
+          icon: ImageIcon(AssetImage(Assets.iconSettings)),
           label: 'Настройки',
         ),
       ],
