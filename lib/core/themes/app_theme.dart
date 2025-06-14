@@ -5,23 +5,23 @@ abstract class AppTheme {
   static final light = ThemeData(
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: AppColors.white1,
-      indicatorColor: Color.fromARGB(255, 212, 250, 230),
+      indicatorColor: const Color.fromARGB(255, 212, 250, 230),
       labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>((states) {
         if (states.contains(WidgetState.selected)) {
-          return TextStyle(
+          return const TextStyle(
             color: AppColors.black1,
             fontWeight: FontWeight.bold,
           );
         } else {
-          return TextStyle(color: AppColors.grey1);
+          return const TextStyle(color: AppColors.grey1);
         }
       }),
 
       iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((states) {
         if (states.contains(WidgetState.selected)) {
-          return IconThemeData(color: AppColors.greenbright1);
+          return const IconThemeData(color: AppColors.greenbright1);
         } else {
-          return IconThemeData(color: AppColors.black2);
+          return const IconThemeData(color: AppColors.black2);
         }
       }),
     ),
