@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 abstract class AppTheme {
   static final light = ThemeData(
     navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: Color.fromRGBO(255, 255, 255, 0.75),
+      backgroundColor: Color.fromARGB(192, 255, 255, 255),
       indicatorColor: Color.fromARGB(255, 212, 250, 230),
       labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>((states) {
         if (states.contains(WidgetState.selected)) {
