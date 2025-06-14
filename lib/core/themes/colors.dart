@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 abstract final class AppColors {
-  static const white1 = Color.fromARGB(192, 255, 255, 255;
-  static const greenlight1 = Color.fromARGB(255, 212, 250, 230;
+  static const white1 = Color.fromARGB(192, 255, 255, 255);
+  static const greenlight1 = Color.fromARGB(255, 212, 250, 230);
   static const black1 = Color.fromARGB(255, 0, 0, 0);
   static const grey1 = Color.fromARGB(255, 153, 153, 153);
   static const greenbright1 = Color.fromARGB(255, 42, 232, 128);
