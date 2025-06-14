@@ -1,4 +1,4 @@
-import 'package:coinio_app/config/assets.dart';
+import 'package:coinio_app/core/fonts/my_font_icons.dart';
 import 'package:coinio_app/core/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -59,26 +59,11 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   Widget build(BuildContext context) {
     return NavigationBar(
       destinations: const [
-        NavigationDestination(
-          icon: ImageIcon(AssetImage(Assets.iconSpendings)),
-          label: 'Расходы',
-        ),
-        NavigationDestination(
-          icon: ImageIcon(AssetImage(Assets.iconIncomes)),
-          label: 'Доходы',
-        ),
-        NavigationDestination(
-          icon: ImageIcon(AssetImage(Assets.iconAccounts)),
-          label: 'Счёт',
-        ),
-        NavigationDestination(
-          icon: ImageIcon(AssetImage(Assets.iconCategories)),
-          label: 'Статьи',
-        ),
-        NavigationDestination(
-          icon: ImageIcon(AssetImage(Assets.iconSettings)),
-          label: 'Настройки',
-        ),
+        NavigationDestination(icon: Icon(MyIcons.spendings), label: 'Расходы'),
+        NavigationDestination(icon: Icon(MyIcons.incomes), label: 'Доходы'),
+        NavigationDestination(icon: Icon(MyIcons.account), label: 'Счёт'),
+        NavigationDestination(icon: Icon(MyIcons.category), label: 'Статьи'),
+        NavigationDestination(icon: Icon(MyIcons.settings), label: 'Настройки'),
       ],
       selectedIndex: selectedIndex,
       onDestinationSelected: (value) {
