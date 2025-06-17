@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Coins IO',
+      debugShowCheckedModeBanner: false,
       home: BlocProvider(
         create: (context) => NavigationBloc(),
         child: const HomeScreen(),
@@ -64,7 +65,7 @@ class HomeScreen extends StatelessWidget {
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(title: const Text('Coins IO')),
+          // appBar: AppBar(title: const Text('Coins IO')),
           body: _screens[state.index],
           bottomNavigationBar: MyNavigationBar(),
         );

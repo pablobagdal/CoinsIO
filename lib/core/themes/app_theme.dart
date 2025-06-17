@@ -3,6 +3,27 @@ import 'package:flutter/material.dart';
 
 abstract class AppTheme {
   static final light = ThemeData(
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(color: AppColors.black1, fontSize: 16),
+      bodyMedium: TextStyle(color: AppColors.black2, fontSize: 14),
+      bodySmall: TextStyle(color: AppColors.grey1, fontSize: 12),
+      titleLarge: TextStyle(
+        color: Colors.amber,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.greenbright1,
+      foregroundColor: AppColors.black1,
+      elevation: 0,
+      // Используйте тот же стиль, что и в textTheme.titleLarge
+      titleTextStyle: TextStyle(
+        color: AppColors.black1,
+        fontSize: 22,
+        // fontWeight: FontWeight.bold,
+      ),
+    ),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: AppColors.white1,
       indicatorColor: const Color.fromARGB(255, 212, 250, 230),
@@ -26,7 +47,7 @@ abstract class AppTheme {
       }),
     ),
     brightness: Brightness.light,
-    useMaterial3: true, // обязательно для NavigationBar
+    useMaterial3: true,
   );
 
   static final dark = ThemeData(brightness: Brightness.dark);
