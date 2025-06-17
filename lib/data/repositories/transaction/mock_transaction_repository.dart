@@ -135,6 +135,26 @@ class MockTransactionRepository implements TransactionRepository {
           createdAt: DateTime.parse("2025-06-11T12:00:00Z"),
           updatedAt: DateTime.parse("2025-06-11T12:00:00Z"),
         ),
+        Transaction(
+          id: 8,
+          accountId: 1,
+          categoryId: 1,
+          amount: "200.12",
+          transactionDate: DateTime.parse("2025-06-18T12:00:00Z"),
+          comment: "Трата 18.6 первая",
+          createdAt: DateTime.parse("2025-06-18T12:00:00Z"),
+          updatedAt: DateTime.parse("2025-06-18T12:00:00Z"),
+        ),
+        Transaction(
+          id: 9,
+          accountId: 1,
+          categoryId: 1,
+          amount: "2200.12",
+          transactionDate: DateTime.parse("2025-06-18T12:00:00Z"),
+          comment: "Трата 18.6 вторая",
+          createdAt: DateTime.parse("2025-06-18T12:00:00Z"),
+          updatedAt: DateTime.parse("2025-06-18T12:00:00Z"),
+        ),
       ];
 
       // Filter transactions by the given period
