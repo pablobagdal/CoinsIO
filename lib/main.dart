@@ -1,6 +1,12 @@
 import 'package:coinio_app/core/fonts/my_font_icons.dart';
 import 'package:coinio_app/core/themes/app_theme.dart';
+import 'package:coinio_app/ui/accounts/accounts_screen.dart';
+import 'package:coinio_app/ui/categories/categories_screen.dart';
+import 'package:coinio_app/ui/incomes/incomes_screen.dart';
+import 'package:coinio_app/ui/settings/settings_screen.dart';
+import 'package:coinio_app/ui/spendings/spendings_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main(List<String> args) {
   runApp(MyApp());
@@ -13,34 +19,56 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Coins IO',
-      home: const HomeScreen(),
+      home: BlocProvider(
+        create: (context) => NavigationBloc(),
+        child: const HomeScreen(),
+      ),
       theme: AppTheme.light,
     );
   }
 }
 
+abstract class NavigationEvent {}
+
+class NavigateToTab extends NavigationEvent {
+  final int index;
+  NavigateToTab(this.index);
+}
+
+class NavigationState {
+  final int index;
+
+  NavigationState({required this.index});
+}
+
+class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
+  NavigationBloc() : super(NavigationState(index: 0)) {
+    on<NavigateToTab>((event, emit) {
+      emit(NavigationState(index: event.index));
+    });
+  }
+}
+
 class HomeScreen extends StatelessWidget {
+  final List<Widget> _screens = const [
+    SpendingsScreen(),
+    IncomesScreen(),
+    AccountsScreen(),
+    CategoriesScreen(),
+    SettingsScreen(),
+  ];
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Coins IO')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('Welcome to Coins IO!'),
-            ElevatedButton(
-              onPressed: () {
-                // Placeholder for navigation or action
-              },
-              child: const Text('Get Started'),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: MyNavigationBar(),
+    return BlocBuilder<NavigationBloc, NavigationState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(title: const Text('Coins IO')),
+          body: _screens[state.index],
+          bottomNavigationBar: MyNavigationBar(),
+        );
+      },
     );
   }
 }
@@ -53,8 +81,6 @@ class MyNavigationBar extends StatefulWidget {
 }
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
-  int selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return NavigationBar(
@@ -65,12 +91,10 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
         NavigationDestination(icon: Icon(MyIcons.category), label: 'Статьи'),
         NavigationDestination(icon: Icon(MyIcons.settings), label: 'Настройки'),
       ],
-      selectedIndex: selectedIndex,
+      selectedIndex: context.read<NavigationBloc>().state.index,
       onDestinationSelected: (value) {
         // Здесь можно добавить логику для переключения между экранами
-        setState(() {
-          selectedIndex = value;
-        });
+        context.read<NavigationBloc>().add(NavigateToTab(value));
       },
     );
   }
