@@ -8,11 +8,10 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   final GetTransactionUseCase getTransactionUseCase;
   final GetTransactionsByPeriodUseCase getTransactionsByPeriodUseCase;
 
-  TransactionBloc(
-    super.initialState, {
+  TransactionBloc({
     required this.getTransactionUseCase,
     required this.getTransactionsByPeriodUseCase,
-  }) {
+  }) : super(TransactionsLoading()) {
     on<LoadTransactionsByPeriod>((event, emit) async {
       emit(TransactionsLoading());
       try {
