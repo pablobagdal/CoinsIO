@@ -13,7 +13,7 @@ class SpendingsScreen extends StatelessWidget {
           IconButton(onPressed: () {}, icon: const Icon(Icons.history)),
         ],
       ),
-      body: const TransactionsBody(),
+      body: TransactionsBody(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: const Icon(Icons.add),
