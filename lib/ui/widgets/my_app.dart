@@ -3,7 +3,6 @@ import 'package:coinio_app/main.dart';
 import 'package:coinio_app/ui/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_event.dart';
-import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_state.dart';
 import 'package:coinio_app/ui/widgets/my_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
