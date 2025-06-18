@@ -2,6 +2,8 @@ import 'package:coinio_app/domain/models/transaction/transaction.dart';
 
 class TransactionState {}
 
+class InitialState extends TransactionState {}
+
 class TransactionsLoading extends TransactionState {}
 
 class TransactionsLoaded extends TransactionState {
