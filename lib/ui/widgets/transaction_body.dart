@@ -1,27 +1,6 @@
-import 'package:coinio_app/data/repositories/transaction/mock_transaction_repository.dart';
+import 'package:coinio_app/data/services/mock_transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction/transaction.dart';
 import 'package:flutter/material.dart';
-
-class SpendingsScreen extends StatelessWidget {
-  const SpendingsScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Расходы сегодня'),
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.history)),
-        ],
-      ),
-      body: TransactionsBody(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-}
 
 class TransactionsBody extends StatefulWidget {
   const TransactionsBody({super.key});

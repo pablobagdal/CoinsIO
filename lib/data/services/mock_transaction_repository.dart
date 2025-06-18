@@ -1,4 +1,4 @@
-import 'package:coinio_app/data/repositories/transaction/transaction_repository.dart';
+import 'package:coinio_app/data/repositories/transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction/transaction.dart';
 
 class MockTransactionRepository implements TransactionRepository {

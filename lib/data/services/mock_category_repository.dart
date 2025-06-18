@@ -1,4 +1,4 @@
-import 'package:coinio_app/data/repositories/category/category_repository.dart';
+import 'package:coinio_app/data/repositories/category_repository.dart';
 import 'package:coinio_app/domain/models/category/category.dart';
 
 class MockCategoryRepository implements CategoryRepository {
