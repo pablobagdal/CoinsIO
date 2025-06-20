@@ -3,6 +3,7 @@ import 'package:coinio_app/domain/models/transaction_response/transaction_respon
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_event.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_state.dart';
+import 'package:coinio_app/ui/pages/history_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,7 +52,24 @@ class _FinancialListPageState extends State<FinancialListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.isIncome ? 'Доходы' : 'Расходы')),
+      appBar: AppBar(
+        title: Text(widget.isIncome ? 'Доходы' : 'Расходы'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push<void>(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return HistoryListPage(isIncome: widget.isIncome);
+                  },
+                ),
+              );
+            },
+            icon: Icon(Icons.history_outlined),
+          ),
+        ],
+      ),
       body: BlocBuilder<TransactionBloc, TransactionState>(
         // listener: (context, state) {
         //   if (state is TransactionError) {
