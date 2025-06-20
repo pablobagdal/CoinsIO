@@ -108,8 +108,113 @@ class MockTransactionRepository implements TransactionRepository {
           ),
           category: Category(
             id: 1,
-            name: "Операция 2 доход",
+            name: "Операция 1 доход",
             emoji: "💰",
+            isIncome: true,
+          ),
+          amount: '100.00',
+          transactionDate: DateTime.now()
+              .subtract(const Duration(hours: 1))
+              .subtract(const Duration(hours: 1)),
+          createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+          updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
+        ),
+        TransactionResponse(
+          id: 1,
+          account: AccountBrief(
+            id: 1,
+            name: "Счет 1",
+            balance: "100.00",
+            currency: "RUB",
+          ),
+          category: Category(
+            id: 1,
+            name: "Операция 1 доход",
+            emoji: "💰",
+            isIncome: true,
+          ),
+          amount: '100.00',
+          transactionDate: DateTime.now()
+              .subtract(const Duration(hours: 1))
+              .subtract(const Duration(hours: 1)),
+          createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+          updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
+        ),
+        TransactionResponse(
+          id: 1,
+          account: AccountBrief(
+            id: 1,
+            name: "Счет 1",
+            balance: "100.00",
+            currency: "RUB",
+          ),
+          category: Category(
+            id: 1,
+            name: "Операция 1 доход",
+            emoji: "💰",
+            isIncome: true,
+          ),
+          amount: '100.00',
+          transactionDate: DateTime.now()
+              .subtract(const Duration(hours: 1))
+              .subtract(const Duration(hours: 1)),
+          createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+          updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
+        ),
+        TransactionResponse(
+          id: 1,
+          account: AccountBrief(
+            id: 1,
+            name: "Счет 1",
+            balance: "100.00",
+            currency: "RUB",
+          ),
+          category: Category(
+            id: 1,
+            name: "Операция 1 доход",
+            emoji: "💰",
+            isIncome: true,
+          ),
+          amount: '100.00',
+          transactionDate: DateTime.now()
+              .subtract(const Duration(hours: 1))
+              .subtract(const Duration(hours: 1)),
+          createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+          updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
+        ),
+        TransactionResponse(
+          id: 1,
+          account: AccountBrief(
+            id: 1,
+            name: "Счет 1",
+            balance: "100.00",
+            currency: "RUB",
+          ),
+          category: Category(
+            id: 1,
+            name: "Операция 1 доход",
+            emoji: "💰",
+            isIncome: true,
+          ),
+          amount: '100.00',
+          transactionDate: DateTime.now()
+              .subtract(const Duration(hours: 1))
+              .subtract(const Duration(hours: 1)),
+          createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+          updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
+        ),
+        TransactionResponse(
+          id: 1,
+          account: AccountBrief(
+            id: 1,
+            name: "Счет 1",
+            balance: "100.00",
+            currency: "RUB",
+          ),
+          category: Category(
+            id: 1,
+            name: "Операция 2 доход",
+            emoji: "🤑",
             isIncome: true,
           ),
           amount: '100.00',
@@ -129,7 +234,7 @@ class MockTransactionRepository implements TransactionRepository {
           category: Category(
             id: 1,
             name: "Операция 3 доход",
-            emoji: "💰",
+            emoji: "💵",
             isIncome: true,
           ),
           amount: '100.00',
@@ -149,7 +254,7 @@ class MockTransactionRepository implements TransactionRepository {
           category: Category(
             id: 1,
             name: "Операция 4 расход",
-            emoji: "💰",
+            emoji: "💸",
             isIncome: false,
           ),
           amount: '120.00',
@@ -168,7 +273,7 @@ class MockTransactionRepository implements TransactionRepository {
           category: Category(
             id: 1,
             name: "Операция 5 расход",
-            emoji: "💰",
+            emoji: "🧾",
             isIncome: false,
           ),
           amount: '100.00',
@@ -188,12 +293,32 @@ class MockTransactionRepository implements TransactionRepository {
           category: Category(
             id: 1,
             name: "Операция 6 расход",
-            emoji: "💰",
+            emoji: "🛒",
             isIncome: false,
           ),
           amount: '100.00',
           transactionDate: DateTime.now().subtract(const Duration(hours: 1)),
           comment: "Описание транзакции",
+          createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+          updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
+        ),
+        TransactionResponse(
+          id: 1,
+          account: AccountBrief(
+            id: 1,
+            name: "Счет 1",
+            balance: "100.00",
+            currency: "RUB",
+          ),
+          category: Category(
+            id: 1,
+            name: "Операция 7 расход",
+            emoji: "🍔",
+            isIncome: false,
+          ),
+          amount: '100.00',
+          transactionDate: DateTime.now().subtract(const Duration(hours: 24)),
+          comment: "Это всегда вчерашняя операция",
           createdAt: DateTime.now().subtract(const Duration(hours: 1)),
           updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
         ),

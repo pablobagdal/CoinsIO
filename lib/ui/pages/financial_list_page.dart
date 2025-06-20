@@ -20,11 +20,12 @@ class _FinancialListPageState extends State<FinancialListPage> {
   void initState() {
     super.initState();
     // Request to load all transactions when the page initializes
+    final now = DateTime.now();
     BlocProvider.of<TransactionBloc>(context).add(
       LoadTransactionsByPeriod(
         id: 1,
-        startDate: DateTime.now().subtract(const Duration(days: 30)),
-        endDate: DateTime.now(),
+        startDate: DateTime(now.year, now.month, now.day, 0, 0, 0),
+        endDate: DateTime(now.year, now.month, now.day, 23, 59, 59),
       ),
     );
   }
@@ -132,13 +133,26 @@ class _FinancialListPageState extends State<FinancialListPage> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    padding: const EdgeInsets.all(8.0),
+                    // padding: const EdgeInsets.all(8.0),
                     itemCount: filteredTransactions.length,
                     itemBuilder: (BuildContext context, int index) {
                       final transaction = filteredTransactions[index];
-                      return Card(
-                        elevation: 2,
-                        margin: const EdgeInsets.symmetric(vertical: 4.0),
+                      return Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            top:
+                                index == 0
+                                    ? BorderSide(
+                                      color: AppColors.grey1,
+                                      width: 1,
+                                    )
+                                    : BorderSide.none,
+                            bottom: BorderSide(
+                              color: AppColors.grey1,
+                              width: 1,
+                            ),
+                          ),
+                        ),
                         child: ListTile(
                           leading: CircleAvatar(
                             child: Text(
@@ -163,11 +177,14 @@ class _FinancialListPageState extends State<FinancialListPage> {
                                   fontSize: 16.0,
                                 ),
                               ),
-                              // IconButton(
-                              //   icon: const Icon(Icons.delete, color: Colors.red),
-                              //   onPressed:
-                              //       () => _deleteTransaction(context, transaction.id),
-                              // ),
+                              IconButton(
+                                icon: const Icon(Icons.arrow_forward_ios),
+                                onPressed: () {},
+                                // () => _deleteTransaction(
+                                //   context,
+                                //   transaction.id,
+                                // ),
+                              ),
                             ],
                           ),
                         ),
