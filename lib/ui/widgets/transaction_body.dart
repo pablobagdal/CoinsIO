@@ -1,5 +1,3 @@
-import 'package:coinio_app/data/services/mock_transaction_repository.dart';
-import 'package:coinio_app/domain/models/transaction/transaction.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_state.dart';
 import 'package:flutter/material.dart';

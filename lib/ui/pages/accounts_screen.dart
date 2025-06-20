@@ -7,8 +7,7 @@ class AccountsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Настройки')),
-      body: const Center(child: Text('Здесь будут настройки приложения')),
-      floatingActionButton: FloatingActionButton(onPressed: () {}),
+      body: const Center(child: Text('Здесь будут счета')),
     );
   }
 }

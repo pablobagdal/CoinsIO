@@ -1,4 +1,4 @@
-import 'package:coinio_app/data/datasources/local/transaction_repository.dart';
+import 'package:coinio_app/data/repositories/transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction/transaction.dart';
 
 class GetTransactionUseCase {

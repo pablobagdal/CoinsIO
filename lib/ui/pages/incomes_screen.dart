@@ -7,7 +7,7 @@ class IncomesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Доходы')),
-      body: const Center(child: Text('Здесь будут настройки приложения')),
+      body: const Center(child: Text('Здесь будут доходы')),
       floatingActionButton: FloatingActionButton(onPressed: () {}),
     );
   }

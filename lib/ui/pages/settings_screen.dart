@@ -8,7 +8,6 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Настройки')),
       body: const Center(child: Text('Здесь будут настройки приложения')),
-      floatingActionButton: FloatingActionButton(onPressed: () {}),
     );
   }
 }
