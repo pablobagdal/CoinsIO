@@ -11,31 +11,44 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   TransactionBloc({
     required this.getTransactionUseCase,
     required this.getTransactionsByPeriodUseCase,
-  }) : super(InitialState()) {
-    on<LoadTransactionsByPeriod>((event, emit) async {
+  }) : super(TransactionInitial()) {
+    on<LoadTransactionsByPeriod>(_onLoadTransactionsByPeriod);
+
+    on<LoadTransaction>(_onLoadTransaction);
+  }
+
+  Future<void> _onLoadTransaction(
+    LoadTransaction event,
+    Emitter<TransactionState> emit,
+  ) async {
+    // TODO loadTransaction emit
+  }
+
+  Future<void> _onLoadTransactionsByPeriod(
+    LoadTransactionsByPeriod event,
+    Emitter<TransactionState> emit,
+  ) async {
+    (event, emit) async {
       emit(TransactionsLoading());
       try {
-        final now = DateTime.now();
+        // final now = DateTime.now();
 
         // final startOfDay = event.startDate;
-        final startOfDay = DateTime(now.year, now.month, now.day);
+        // final startOfDay = DateTime(now.year, now.month, now.day);
 
-        final endOfDay = event.endDate;
+        // final endOfDay = event.endDate;
         // final endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
 
         final transactions = await getTransactionsByPeriodUseCase.call(
-          startOfDay,
-          endOfDay,
+          event.startDate,
+          event.endDate,
+          id: event.id,
         );
 
         emit(TransactionsLoaded(transactions: transactions));
       } catch (e) {
         emit(TransactionError(e.toString()));
       }
-    });
-
-    on<LoadTransaction>((event, emit) {
-      // TODO loadTransaction emit
-    });
+    };
   }
 }

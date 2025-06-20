@@ -3,6 +3,17 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'transaction.freezed.dart';
 part 'transaction.g.dart';
 
+// extension TransactionTypeExtension on bool {
+//   String get isIncomeName {
+//     switch (this) {
+//       case true:
+//         return 'Доход';
+//       case false:
+//         return 'Расход';
+//     }
+//   }
+// }
+
 @freezed
 abstract class Transaction with _$Transaction {
   const factory Transaction({

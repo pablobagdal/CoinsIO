@@ -27,8 +27,11 @@ class MyApp extends StatelessWidget {
                       dependencies.getTransactionsByPeriodUseCase,
                 )..add(
                   LoadTransactionsByPeriod(
-                    startDate: DateTime.now(),
+                    startDate: DateTime.now().subtract(
+                      const Duration(days: 30),
+                    ),
                     endDate: DateTime.now(),
+                    id: 1,
                   ),
                 ),
           ),

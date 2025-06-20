@@ -1,13 +1,13 @@
-import 'package:coinio_app/domain/models/transaction/transaction.dart';
+import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
 
 class TransactionState {}
 
-class InitialState extends TransactionState {}
+class TransactionInitial extends TransactionState {}
 
 class TransactionsLoading extends TransactionState {}
 
 class TransactionsLoaded extends TransactionState {
-  final List<Transaction> transactions;
+  final List<TransactionResponse> transactions;
 
   TransactionsLoaded({required this.transactions});
 }
