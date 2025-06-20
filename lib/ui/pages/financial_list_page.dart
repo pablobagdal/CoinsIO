@@ -141,10 +141,9 @@ class _FinancialListPageState extends State<FinancialListPage> {
                         margin: const EdgeInsets.symmetric(vertical: 4.0),
                         child: ListTile(
                           leading: CircleAvatar(
-                            child: Icon(
-                              widget.isIncome
-                                  ? Icons.arrow_circle_up
-                                  : Icons.arrow_circle_down,
+                            child: Text(
+                              filteredTransactions[index].category.emoji,
+                              style: TextStyle(fontSize: 28),
                             ),
                           ),
                           title: Text(
