@@ -86,14 +86,14 @@ class _FinancialListPageState extends State<FinancialListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.isIncome ? 'Доходы' : 'Расходы')),
-      body: BlocConsumer<TransactionBloc, TransactionState>(
-        listener: (context, state) {
-          if (state is TransactionError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
-          }
-        },
+      body: BlocBuilder<TransactionBloc, TransactionState>(
+        // listener: (context, state) {
+        //   if (state is TransactionError) {
+        //     ScaffoldMessenger.of(
+        //       context,
+        //     ).showSnackBar(SnackBar(content: Text(state.message)));
+        //   }
+        // },
         builder: (context, state) {
           if (state is TransactionsLoading && state is! TransactionsLoaded) {
             return const Center(child: CircularProgressIndicator());
@@ -189,8 +189,9 @@ class _FinancialListPageState extends State<FinancialListPage> {
                 );
               },
             );
+          } else {
+            return const Center(child: Text('Loading transactions...'));
           }
-          return const Center(child: Text('Loading transactions...'));
         },
       ),
       floatingActionButton: FloatingActionButton(

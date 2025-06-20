@@ -12,7 +12,21 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     required this.getTransactionUseCase,
     required this.getTransactionsByPeriodUseCase,
   }) : super(TransactionInitial()) {
-    on<LoadTransactionsByPeriod>(_onLoadTransactionsByPeriod);
+    on<LoadTransactionsByPeriod>((event, emit) async {
+      emit(TransactionsLoading());
+
+      try {
+        final transactions = await getTransactionsByPeriodUseCase.call(
+          event.startDate,
+          event.endDate,
+          id: event.id,
+        );
+
+        emit(TransactionsLoaded(transactions: transactions));
+      } catch (e) {
+        emit(TransactionError(e.toString()));
+      }
+    });
 
     on<LoadTransaction>(_onLoadTransaction);
   }
@@ -24,31 +38,31 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     // TODO loadTransaction emit
   }
 
-  Future<void> _onLoadTransactionsByPeriod(
-    LoadTransactionsByPeriod event,
-    Emitter<TransactionState> emit,
-  ) async {
-    (event, emit) async {
-      emit(TransactionsLoading());
-      try {
-        // final now = DateTime.now();
+  //   Future<void> _onLoadTransactionsByPeriod(
+  //     LoadTransactionsByPeriod event,
+  //     Emitter<TransactionState> emit,
+  //   ) async {
+  //     (event, emit) async {
+  //       emit(TransactionsLoading());
+  //       try {
+  //         // final now = DateTime.now();
 
-        // final startOfDay = event.startDate;
-        // final startOfDay = DateTime(now.year, now.month, now.day);
+  //         // final startOfDay = event.startDate;
+  //         // final startOfDay = DateTime(now.year, now.month, now.day);
 
-        // final endOfDay = event.endDate;
-        // final endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
+  //         // final endOfDay = event.endDate;
+  //         // final endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
 
-        final transactions = await getTransactionsByPeriodUseCase.call(
-          event.startDate,
-          event.endDate,
-          id: event.id,
-        );
+  //         final transactions = await getTransactionsByPeriodUseCase.call(
+  //           event.startDate,
+  //           event.endDate,
+  //           id: event.id,
+  //         );
 
-        emit(TransactionsLoaded(transactions: transactions));
-      } catch (e) {
-        emit(TransactionError(e.toString()));
-      }
-    };
-  }
+  //         emit(TransactionsLoaded(transactions: transactions));
+  //       } catch (e) {
+  //         emit(TransactionError(e.toString()));
+  //       }
+  //     };
+  //   }
 }

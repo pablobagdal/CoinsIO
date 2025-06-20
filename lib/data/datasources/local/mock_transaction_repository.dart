@@ -48,10 +48,10 @@ class MockTransactionRepository implements TransactionRepository {
           emoji: "💰",
           isIncome: true,
         ),
-        amount: '',
-        transactionDate: DateTime.now(),
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
+        amount: '100.00',
+        transactionDate: DateTime.now().subtract(const Duration(hours: 1)),
+        createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+        updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
       );
     });
   }
@@ -64,10 +64,12 @@ class MockTransactionRepository implements TransactionRepository {
   }) {
     return Future.delayed(Duration(seconds: 1), () {
       // if startDate or endDate is null, set them to default values
-      startDate ??= DateTime.now().subtract(
-        Duration(days: 30),
-      ); // Default to 30 days ago
-      endDate ??= DateTime.now(); // Default to now
+      startDate ??= DateTime.now()
+          .subtract(const Duration(hours: 1))
+          .subtract(Duration(days: 30)); // Default to 30 days ago
+      endDate ??= DateTime.now().subtract(
+        const Duration(hours: 1),
+      ); // Default to now
 
       // TODO try to remove  ! operator
       if (startDate!.isAfter(endDate!)) {
@@ -84,15 +86,17 @@ class MockTransactionRepository implements TransactionRepository {
             currency: "RUB",
           ),
           category: Category(
-            id: id,
+            id: 1,
             name: "Операция 1 доход",
             emoji: "💰",
             isIncome: true,
           ),
-          amount: '',
-          transactionDate: DateTime.now(),
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+          amount: '100.00',
+          transactionDate: DateTime.now()
+              .subtract(const Duration(hours: 1))
+              .subtract(const Duration(hours: 1)),
+          createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+          updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
         ),
         TransactionResponse(
           id: 1,
@@ -103,15 +107,15 @@ class MockTransactionRepository implements TransactionRepository {
             currency: "RUB",
           ),
           category: Category(
-            id: id,
+            id: 1,
             name: "Операция 2 доход",
             emoji: "💰",
             isIncome: true,
           ),
-          amount: '',
-          transactionDate: DateTime.now(),
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+          amount: '100.00',
+          transactionDate: DateTime.now().subtract(const Duration(hours: 1)),
+          createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+          updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
         ),
         TransactionResponse(
           id: 1,
@@ -122,15 +126,15 @@ class MockTransactionRepository implements TransactionRepository {
             currency: "RUB",
           ),
           category: Category(
-            id: id,
+            id: 1,
             name: "Операция 3 доход",
             emoji: "💰",
             isIncome: true,
           ),
-          amount: '',
-          transactionDate: DateTime.now(),
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+          amount: '100.00',
+          transactionDate: DateTime.now().subtract(const Duration(hours: 1)),
+          createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+          updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
         ),
         TransactionResponse(
           id: 1,
@@ -141,15 +145,15 @@ class MockTransactionRepository implements TransactionRepository {
             currency: "RUB",
           ),
           category: Category(
-            id: id,
+            id: 1,
             name: "Операция 4 расход",
             emoji: "💰",
-            isIncome: true,
+            isIncome: false,
           ),
-          amount: '',
-          transactionDate: DateTime.now(),
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+          amount: '100.00',
+          transactionDate: DateTime.now().subtract(const Duration(hours: 1)),
+          createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+          updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
         ),
         TransactionResponse(
           id: 1,
@@ -160,15 +164,15 @@ class MockTransactionRepository implements TransactionRepository {
             currency: "RUB",
           ),
           category: Category(
-            id: id,
+            id: 1,
             name: "Операция 5 расход",
             emoji: "💰",
-            isIncome: true,
+            isIncome: false,
           ),
-          amount: '',
-          transactionDate: DateTime.now(),
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+          amount: '100.00',
+          transactionDate: DateTime.now().subtract(const Duration(hours: 1)),
+          createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+          updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
         ),
         TransactionResponse(
           id: 1,
@@ -179,15 +183,15 @@ class MockTransactionRepository implements TransactionRepository {
             currency: "RUB",
           ),
           category: Category(
-            id: id,
+            id: 1,
             name: "Операция 6 расход",
             emoji: "💰",
-            isIncome: true,
+            isIncome: false,
           ),
-          amount: '',
-          transactionDate: DateTime.now(),
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+          amount: '100.00',
+          transactionDate: DateTime.now().subtract(const Duration(hours: 1)),
+          createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+          updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
         ),
       ];
 
@@ -196,7 +200,8 @@ class MockTransactionRepository implements TransactionRepository {
           .where(
             (transaction) =>
                 transaction.transactionDate.isAfter(startDate!) &&
-                transaction.transactionDate.isBefore(endDate!),
+                transaction.transactionDate.isBefore(endDate!) &&
+                transaction.id == id,
           )
           .toList();
     });
