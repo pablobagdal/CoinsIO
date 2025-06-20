@@ -11,7 +11,7 @@ abstract class TransactionRepository {
   Future<void> deleteTransaction(int id);
   Future<List<TransactionResponse>> getTransactionsByPeriod({
     required int id,
-    DateTime startDate,
-    DateTime endDate,
+    DateTime? startDate,
+    DateTime? endDate,
   });
 }
