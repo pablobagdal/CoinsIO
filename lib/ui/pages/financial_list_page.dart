@@ -1,3 +1,4 @@
+import 'package:coinio_app/core/themes/colors.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_event.dart';
@@ -71,6 +72,11 @@ class _FinancialListPageState extends State<FinancialListPage> {
                     .where((tr) => tr.category.isIncome == widget.isIncome)
                     .toList();
 
+            final totalAmount = filteredTransactions.fold<double>(
+              0.0,
+              (sum, item) => sum + double.parse(item.amount),
+            );
+
             if (filteredTransactions.isEmpty) {
               return Center(
                 child: Column(
@@ -109,49 +115,68 @@ class _FinancialListPageState extends State<FinancialListPage> {
               (a, b) => b.transactionDate.compareTo(a.transactionDate),
             );
 
-            return ListView.builder(
-              padding: const EdgeInsets.all(8.0),
-              itemCount: filteredTransactions.length,
-              itemBuilder: (BuildContext context, int index) {
-                final transaction = filteredTransactions[index];
-                return Card(
-                  elevation: 2,
-                  margin: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      child: Icon(
-                        widget.isIncome
-                            ? Icons.arrow_circle_up
-                            : Icons.arrow_circle_down,
+            return Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(8),
+                  color: AppColors.greenlight1,
+                  child: Row(
+                    children: [
+                      Text('Всего'),
+                      Text(
+                        '${totalAmount} ${filteredTransactions.first.account.currency}',
                       ),
-                    ),
-                    title: Text(
-                      transaction.category.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      '${transaction.comment ?? "No comment yet"}', // Display date only
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                          '${widget.isIncome ? '+' : '-'}${transaction.amount}${transaction.account.currency}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(8.0),
+                    itemCount: filteredTransactions.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final transaction = filteredTransactions[index];
+                      return Card(
+                        elevation: 2,
+                        margin: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            child: Icon(
+                              widget.isIncome
+                                  ? Icons.arrow_circle_up
+                                  : Icons.arrow_circle_down,
+                            ),
+                          ),
+                          title: Text(
+                            transaction.category.name,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            '${transaction.comment ?? ""}', // Display date only
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                '${widget.isIncome ? '+' : '-'}${transaction.amount}${transaction.account.currency}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              // IconButton(
+                              //   icon: const Icon(Icons.delete, color: Colors.red),
+                              //   onPressed:
+                              //       () => _deleteTransaction(context, transaction.id),
+                              // ),
+                            ],
                           ),
                         ),
-                        // IconButton(
-                        //   icon: const Icon(Icons.delete, color: Colors.red),
-                        //   onPressed:
-                        //       () => _deleteTransaction(context, transaction.id),
-                        // ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+              ],
             );
           } else {
             return const Center(child: Text('Loading transactions...'));
