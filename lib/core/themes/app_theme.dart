@@ -46,6 +46,15 @@ abstract class AppTheme {
         }
       }),
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      shape: const CircleBorder(),
+      elevation: 0,
+      focusElevation: 0,
+      hoverElevation: 0,
+      disabledElevation: 0,
+      highlightElevation: 0,
+      backgroundColor: AppColors.greenbright1,
+    ),
     brightness: Brightness.light,
     useMaterial3: true,
   );
