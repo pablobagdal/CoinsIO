@@ -1,92 +1,29 @@
-import 'package:coinio_app/config/assets.dart';
-import 'package:coinio_app/core/themes/app_theme.dart';
+import 'package:coinio_app/data/repositories/transaction_repository.dart';
+import 'package:coinio_app/data/datasources/local/mock_transaction_repository.dart';
+import 'package:coinio_app/domain/usecases/get_transaction_use_case.dart';
+import 'package:coinio_app/domain/usecases/get_transactions_by_period_use_case.dart';
+import 'package:coinio_app/ui/widgets/my_app.dart';
 import 'package:flutter/material.dart';
 
+/// class with usecases shared around app
+class AppDependencies {
+  late final TransactionRepository transactionRepository;
+  late final GetTransactionUseCase getTransactionUseCase;
+  late final GetTransactionsByPeriodUseCase getTransactionsByPeriodUseCase;
+
+  AppDependencies() {
+    transactionRepository = MockTransactionRepository();
+    getTransactionUseCase = GetTransactionUseCase(
+      repository: transactionRepository,
+    );
+    getTransactionsByPeriodUseCase = GetTransactionsByPeriodUseCase(
+      repository: transactionRepository,
+    );
+  }
+}
+
 void main(List<String> args) {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Coins IO',
-      home: const HomeScreen(),
-      theme: AppTheme.light,
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Coins IO')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('Welcome to Coins IO!'),
-            ElevatedButton(
-              onPressed: () {
-                // Placeholder for navigation or action
-              },
-              child: const Text('Get Started'),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: MyNavigationBar(),
-    );
-  }
-}
-
-class MyNavigationBar extends StatefulWidget {
-  const MyNavigationBar({super.key});
-
-  @override
-  State<MyNavigationBar> createState() => _MyNavigationBarState();
-}
-
-class _MyNavigationBarState extends State<MyNavigationBar> {
-  int selectedIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return NavigationBar(
-      destinations: const [
-        NavigationDestination(
-          icon: ImageIcon(AssetImage(Assets.iconSpendings)),
-          label: 'Расходы',
-        ),
-        NavigationDestination(
-          icon: ImageIcon(AssetImage(Assets.iconIncomes)),
-          label: 'Доходы',
-        ),
-        NavigationDestination(
-          icon: ImageIcon(AssetImage(Assets.iconAccounts)),
-          label: 'Счёт',
-        ),
-        NavigationDestination(
-          icon: ImageIcon(AssetImage(Assets.iconCategories)),
-          label: 'Статьи',
-        ),
-        NavigationDestination(
-          icon: ImageIcon(AssetImage(Assets.iconSettings)),
-          label: 'Настройки',
-        ),
-      ],
-      selectedIndex: selectedIndex,
-      onDestinationSelected: (value) {
-        // Здесь можно добавить логику для переключения между экранами
-        setState(() {
-          selectedIndex = value;
-        });
-      },
-    );
-  }
+  final dependencies = AppDependencies();
+  // ignore: prefer_const_constructors
+  runApp(MyApp(dependencies: dependencies));
 }

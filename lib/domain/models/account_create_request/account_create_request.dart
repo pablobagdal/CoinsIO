@@ -6,11 +6,13 @@ part 'account_create_request.g.dart';
 @freezed
 abstract class AccountCreateRequest with _$AccountCreateRequest {
   const factory AccountCreateRequest({
-    // example: Основной счёт
+    /// example: Основной счёт
     required String name,
-    // example: 1000.00
+
+    /// example: 1000.00
     required String balance,
-    // example: RUB
+
+    /// example: RUB
     required String currency,
   }) = _AccountCreateRequest;
 
