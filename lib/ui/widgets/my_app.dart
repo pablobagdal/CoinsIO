@@ -36,12 +36,12 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
           ),
-          BlocProvider(
-            create:
-                (context) => HistoryBloc(
-                  transactionRepository: dependencies.transactionRepository,
-                ),
-          ),
+          // BlocProvider(
+          //   create:
+          //       (context) => HistoryBloc(
+          //         transactionRepository: dependencies.transactionRepository,
+          //       ),
+          // ),
         ],
         child: const MyScreens(),
       ),

@@ -1,9 +1,12 @@
 import 'package:coinio_app/core/themes/colors.dart';
+import 'package:coinio_app/data/datasources/local/mock_transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
+import 'package:coinio_app/ui/blocs/history_bloc/history_bloc.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_event.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_state.dart';
 import 'package:coinio_app/ui/pages/history_list_page.dart';
+import 'package:coinio_app/ui/widgets/my_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,16 +59,60 @@ class _FinancialListPageState extends State<FinancialListPage> {
         title: Text(widget.isIncome ? 'Доходы' : 'Расходы'),
         actions: [
           IconButton(
+            // onPressed: () {
+            //   Navigator.push<void>(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder:
+            //           // TODO check if I can remove this extra Provider
+            //           (context) => BlocProvider(
+            //             create:
+            //                 (context) => HistoryBloc(
+            //                   transactionRepository:
+            //                       context
+            //                           .findAncestorWidgetOfExactType<MyApp>()!
+            //                           .dependencies
+            //                           .transactionRepository,
+            //                 ),
+            //             child: HistoryListPage(isIncome: widget.isIncome),
+            //           ),
+            //     ),
+            //   );
+            // },
+            // onPressed: () {
+            //   Navigator.push<void>(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder:
+            //           // TODO check if I can remove this extra Provider
+            //           (context) => BlocProvider.value(
+            //             value: context.read<HistoryBloc>(),
+            //             child: HistoryListPage(isIncome: widget.isIncome),
+            //           ),
+            //     ),
+            //   );
+            // },
             onPressed: () {
               Navigator.push<void>(
                 context,
                 MaterialPageRoute(
-                  builder: (context) {
-                    return HistoryListPage(isIncome: widget.isIncome);
-                  },
+                  builder:
+                      // TODO check if I can remove this extra Provider
+                      (context) => BlocProvider(
+                        create:
+                            (context) => HistoryBloc(
+                              transactionRepository:
+                                  context
+                                      .findAncestorWidgetOfExactType<MyApp>()!
+                                      .dependencies
+                                      .transactionRepository,
+                            ),
+                        child: HistoryListPage(isIncome: widget.isIncome),
+                      ),
                 ),
               );
             },
+
             icon: Icon(Icons.history_outlined),
           ),
         ],

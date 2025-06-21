@@ -13,6 +13,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   HistorySort _sort = HistorySort.dateDesc;
 
   HistoryBloc({required this.transactionRepository}) : super(HistoryLoading()) {
+    // on<LoadHistory>(_onLoadHistory);
     on<LoadHistory>(_onLoadHistory);
     on<ChangePeriod>(_onChangePeriod);
     on<ChangeSort>(_onChangeSort);
@@ -23,7 +24,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     Emitter<HistoryState> emit,
   ) async {
     isIncome = event.isIncome;
-    DateTime dateFrom = DateTime(
+    startDate = DateTime(
       DateTime.now().year,
       DateTime.now().month - 1,
       DateTime.now().day,
@@ -32,7 +33,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       0,
     );
 
-    DateTime dateTo = DateTime(
+    endDate = DateTime(
       DateTime.now().year,
       DateTime.now().month,
       DateTime.now().day,
