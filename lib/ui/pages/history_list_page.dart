@@ -37,6 +37,16 @@ class _HistoryListPageState extends State<HistoryListPage> {
             !isFrom
                 ? DateTime(picked.year, picked.month, picked.day, 23, 59, 59)
                 : state.endDate;
+
+        // Корректировка границ периода
+        if (from.isAfter(to)) {
+          if (isFrom) {
+            to = from;
+          } else {
+            from = to;
+          }
+        }
+
         bloc.add(
           ChangePeriod(startDate: from, endDate: to, isIncome: widget.isIncome),
         );
