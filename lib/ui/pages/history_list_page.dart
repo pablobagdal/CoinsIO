@@ -2,6 +2,7 @@ import 'package:coinio_app/core/themes/colors.dart';
 import 'package:coinio_app/ui/blocs/history_bloc/history_bloc.dart';
 import 'package:coinio_app/ui/blocs/history_bloc/history_event.dart';
 import 'package:coinio_app/ui/blocs/history_bloc/history_state.dart';
+import 'package:coinio_app/ui/widgets/history_sort_drop_down.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -151,6 +152,19 @@ class _HistoryListPageState extends State<HistoryListPage> {
                   ],
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  HistorySortDropDown(
+                    value: state.sort,
+                    onChanged: (sort) {
+                      if (sort != null) {
+                        context.read<HistoryBloc>().add(ChangeSort(sort));
+                      }
+                    },
+                  ),
+                ],
               ),
               Expanded(
                 child:
