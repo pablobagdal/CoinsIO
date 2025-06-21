@@ -29,8 +29,14 @@ class _HistoryListPageState extends State<HistoryListPage> {
       final bloc = context.read<HistoryBloc>();
       final state = bloc.state;
       if (state is HistoryLoaded) {
-        DateTime from = isFrom ? picked : state.startDate;
-        DateTime to = !isFrom ? picked : state.endDate;
+        DateTime from =
+            isFrom
+                ? DateTime(picked.year, picked.month, picked.day, 0, 0, 0)
+                : state.startDate;
+        DateTime to =
+            !isFrom
+                ? DateTime(picked.year, picked.month, picked.day, 23, 59, 59)
+                : state.endDate;
         bloc.add(
           ChangePeriod(startDate: from, endDate: to, isIncome: widget.isIncome),
         );
@@ -131,9 +137,7 @@ class _HistoryListPageState extends State<HistoryListPage> {
                 child: Row(
                   children: [
                     Text('Сумма'),
-                    Text(
-                      '${state.total.toString()} ${transactions.first.account.currency}',
-                    ),
+                    Text('${state.total.toString()} RUB'),
                   ],
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 ),
