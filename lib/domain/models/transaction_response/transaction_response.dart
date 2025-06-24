@@ -8,19 +8,24 @@ part 'transaction_response.g.dart';
 @freezed
 abstract class TransactionResponse with _$TransactionResponse {
   const factory TransactionResponse({
-    // example: 1
+    /// example: 1
     required int id,
     required AccountBrief account,
     required Category category,
-    // example: 500.00
+
+    /// example: 500.00
     required String amount,
-    // example: 2023-10-01T12:00:00Z
+
+    /// example: 2023-10-01T12:00:00Z
     required DateTime transactionDate,
-    // example: Зарплата за месяц
+
+    /// example: Зарплата за месяц
     String? comment,
-    // example: 2023-10-01T12:00:00Z
+
+    /// example: 2023-10-01T12:00:00Z
     required DateTime createdAt,
-    // example: 2023-10-01T12:00:00Z
+
+    /// example: 2023-10-01T12:00:00Z
     required DateTime updatedAt,
   }) = _TransactionResponse;
 

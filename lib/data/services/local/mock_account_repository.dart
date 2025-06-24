@@ -54,7 +54,7 @@ class MockAccountRepository implements AccountRepository {
         id: 1,
         userId: 1,
         name: "Основной счёт",
-        balance: "1000.0",
+        balance: "1000.00",
         currency: "RUB",
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -63,7 +63,7 @@ class MockAccountRepository implements AccountRepository {
         id: 2,
         userId: 1,
         name: "Сбережения",
-        balance: "5000.0",
+        balance: "5000.00",
         currency: "USD",
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -80,13 +80,13 @@ class MockAccountRepository implements AccountRepository {
         previousState: AccountState(
           id: 0,
           name: "Начальное состояние",
-          balance: "0.0",
+          balance: "0.00",
           currency: "RUB",
         ),
         newState: AccountState(
           id: 1,
           name: "Следующее состояние",
-          balance: "100.0",
+          balance: "100.00",
           currency: "RUB",
         ),
         changeTimestamp: DateTime.now().subtract(Duration(days: 10)),
@@ -99,13 +99,13 @@ class MockAccountRepository implements AccountRepository {
         previousState: AccountState(
           id: 1,
           name: "Следующее состояние",
-          balance: "1000.0",
+          balance: "1000.00",
           currency: "RUB",
         ),
         newState: AccountState(
           id: 2,
           name: "Последнее состояние",
-          balance: "500.0",
+          balance: "500.00",
           currency: "RUB",
         ),
         changeTimestamp: DateTime.now().subtract(Duration(days: 5)),
@@ -116,7 +116,7 @@ class MockAccountRepository implements AccountRepository {
 
   Account _mockAccount(int id) {
     return Account(
-      balance: "1000.0",
+      balance: "1000.00",
       userId: id,
       id: 1,
       name: "Основной счёт",

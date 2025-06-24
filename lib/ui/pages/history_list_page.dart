@@ -27,6 +27,7 @@ class _HistoryListPageState extends State<HistoryListPage> {
       lastDate: DateTime.now(),
     );
     if (picked != null) {
+      // if (context.mounted) {}
       final bloc = context.read<HistoryBloc>();
       final state = bloc.state;
       if (state is HistoryLoaded) {

@@ -1,5 +1,4 @@
 import 'package:coinio_app/core/themes/colors.dart';
-import 'package:coinio_app/data/datasources/local/mock_transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
 import 'package:coinio_app/ui/blocs/history_bloc/history_bloc.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
@@ -53,221 +52,214 @@ class _FinancialListPageState extends State<FinancialListPage> {
   // }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.isIncome ? 'Доходы' : 'Расходы'),
-        actions: [
-          IconButton(
-            // onPressed: () {
-            //   Navigator.push<void>(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder:
-            //           // TODO check if I can remove this extra Provider
-            //           (context) => BlocProvider(
-            //             create:
-            //                 (context) => HistoryBloc(
-            //                   transactionRepository:
-            //                       context
-            //                           .findAncestorWidgetOfExactType<MyApp>()!
-            //                           .dependencies
-            //                           .transactionRepository,
-            //                 ),
-            //             child: HistoryListPage(isIncome: widget.isIncome),
-            //           ),
-            //     ),
-            //   );
-            // },
-            // onPressed: () {
-            //   Navigator.push<void>(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder:
-            //           // TODO check if I can remove this extra Provider
-            //           (context) => BlocProvider.value(
-            //             value: context.read<HistoryBloc>(),
-            //             child: HistoryListPage(isIncome: widget.isIncome),
-            //           ),
-            //     ),
-            //   );
-            // },
-            onPressed: () {
-              Navigator.push<void>(
-                context,
-                MaterialPageRoute(
-                  builder:
-                      // TODO check if I can remove this extra Provider
-                      (context) => BlocProvider(
-                        create:
-                            (context) => HistoryBloc(
-                              transactionRepository:
-                                  context
-                                      .findAncestorWidgetOfExactType<MyApp>()!
-                                      .dependencies
-                                      .transactionRepository,
-                            ),
-                        child: HistoryListPage(isIncome: widget.isIncome),
-                      ),
-                ),
-              );
-            },
-
-            icon: Icon(Icons.history_outlined),
-          ),
-        ],
-      ),
-      body: BlocBuilder<TransactionBloc, TransactionState>(
-        // listener: (context, state) {
-        //   if (state is TransactionError) {
-        //     ScaffoldMessenger.of(
-        //       context,
-        //     ).showSnackBar(SnackBar(content: Text(state.message)));
-        //   }
-        // },
-        builder: (context, state) {
-          if (state is TransactionsLoading && state is! TransactionsLoaded) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is TransactionError) {
-            return Center(child: Text('Error: ${state.message}'));
-          } else if (state is TransactionsLoaded) {
-            final List<TransactionResponse>
-            filteredTransactions =
-                // state.transactions.where((t) => t.type == widget.type).toList();
-                state.transactions
-                    .where((tr) => tr.category.isIncome == widget.isIncome)
-                    .toList();
-
-            final totalAmount = filteredTransactions.fold<double>(
-              0.0,
-              (sum, item) => sum + double.parse(item.amount),
+  Widget build(final BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: Text(widget.isIncome ? 'Доходы' : 'Расходы'),
+      actions: [
+        IconButton(
+          // onPressed: () {
+          //   Navigator.push<void>(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder:
+          //           // TODO check if I can remove this extra Provider
+          //           (context) => BlocProvider(
+          //             create:
+          //                 (context) => HistoryBloc(
+          //                   transactionRepository:
+          //                       context
+          //                           .findAncestorWidgetOfExactType<MyApp>()!
+          //                           .dependencies
+          //                           .transactionRepository,
+          //                 ),
+          //             child: HistoryListPage(isIncome: widget.isIncome),
+          //           ),
+          //     ),
+          //   );
+          // },
+          // onPressed: () {
+          //   Navigator.push<void>(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder:
+          //           // TODO check if I can remove this extra Provider
+          //           (context) => BlocProvider.value(
+          //             value: context.read<HistoryBloc>(),
+          //             child: HistoryListPage(isIncome: widget.isIncome),
+          //           ),
+          //     ),
+          //   );
+          // },
+          onPressed: () {
+            Navigator.push<void>(
+              context,
+              MaterialPageRoute(
+                builder:
+                    // TODO check if I can remove this extra Provider
+                    (final context) => BlocProvider(
+                      create:
+                          (final context) => HistoryBloc(
+                            transactionRepository:
+                                context
+                                    .findAncestorWidgetOfExactType<MyApp>()!
+                                    .dependencies
+                                    .transactionRepository,
+                          ),
+                      child: HistoryListPage(isIncome: widget.isIncome),
+                    ),
+              ),
             );
+          },
 
-            if (filteredTransactions.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      widget.isIncome
-                          ? Icons.monetization_on_outlined
-                          : Icons.shopping_cart_outlined,
-                      size: 80,
-                      color: Colors.grey[400],
-                    ),
-                    const SizedBox(height: 20),
+          icon: Icon(Icons.history_outlined),
+        ),
+      ],
+    ),
+    body: BlocBuilder<TransactionBloc, TransactionState>(
+      // listener: (context, state) {
+      //   if (state is TransactionError) {
+      //     ScaffoldMessenger.of(
+      //       context,
+      //     ).showSnackBar(SnackBar(content: Text(state.message)));
+      //   }
+      // },
+      builder: (final context, final state) {
+        if (state is TransactionsLoading && state is! TransactionsLoaded) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is TransactionError) {
+          return Center(child: Text('Error: ${state.message}'));
+        } else if (state is TransactionsLoaded) {
+          final List<TransactionResponse>
+          filteredTransactions =
+              // state.transactions.where((t) => t.type == widget.type).toList();
+              state.transactions
+                  .where((final tr) => tr.category.isIncome == widget.isIncome)
+                  .toList();
+
+          final totalAmount = filteredTransactions.fold<double>(
+            0.0,
+            (final sum, final item) => sum + double.parse(item.amount),
+          );
+
+          if (filteredTransactions.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    widget.isIncome
+                        ? Icons.monetization_on_outlined
+                        : Icons.shopping_cart_outlined,
+                    size: 80,
+                    color: Colors.grey[400],
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Сегодня отсутствуют ${widget.isIncome ? 'доходы' : 'расходы'}.',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleMedium?.copyWith(color: Colors.grey[600]),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Нажми + чтобы добавить новую транзакцию.',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            );
+          }
+
+          // Sort transactions by date, newest first
+          filteredTransactions.sort(
+            (final a, final b) =>
+                b.transactionDate.compareTo(a.transactionDate),
+          );
+
+          return Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(8),
+                color: AppColors.greenlight1,
+                child: Row(
+                  children: [
+                    Text('Всего'),
                     Text(
-                      'Сегодня отсутствуют ${widget.isIncome ? 'доходы' : 'расходы'}.',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Colors.grey[600],
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Нажми + чтобы добавить новую транзакцию.',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
-                      textAlign: TextAlign.center,
+                      '${totalAmount} ${filteredTransactions.first.account.currency}',
                     ),
                   ],
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 ),
-              );
-            }
-
-            // Sort transactions by date, newest first
-            filteredTransactions.sort(
-              (a, b) => b.transactionDate.compareTo(a.transactionDate),
-            );
-
-            return Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(8),
-                  color: AppColors.greenlight1,
-                  child: Row(
-                    children: [
-                      Text('Всего'),
-                      Text(
-                        '${totalAmount} ${filteredTransactions.first.account.currency}',
+              ),
+              Expanded(
+                child: ListView.builder(
+                  // padding: const EdgeInsets.all(8.0),
+                  itemCount: filteredTransactions.length,
+                  itemBuilder: (final BuildContext context, final int index) {
+                    final transaction = filteredTransactions[index];
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          top:
+                              index == 0
+                                  ? BorderSide(color: AppColors.grey1, width: 1)
+                                  : BorderSide.none,
+                          bottom: BorderSide(color: AppColors.grey1, width: 1),
+                        ),
                       ),
-                    ],
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    // padding: const EdgeInsets.all(8.0),
-                    itemCount: filteredTransactions.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final transaction = filteredTransactions[index];
-                      return Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            top:
-                                index == 0
-                                    ? BorderSide(
-                                      color: AppColors.grey1,
-                                      width: 1,
-                                    )
-                                    : BorderSide.none,
-                            bottom: BorderSide(
-                              color: AppColors.grey1,
-                              width: 1,
-                            ),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          child: Text(
+                            filteredTransactions[index].category.emoji,
+                            style: TextStyle(fontSize: 28),
                           ),
                         ),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            child: Text(
-                              filteredTransactions[index].category.emoji,
-                              style: TextStyle(fontSize: 28),
-                            ),
-                          ),
-                          title: Text(
-                            transaction.category.name,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                            '${transaction.comment ?? ""}', // Display date only
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Text(
-                                '${widget.isIncome ? '+' : '-'}${transaction.amount}${transaction.account.currency}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.arrow_forward_ios),
-                                onPressed: () {},
-                                // () => _deleteTransaction(
-                                //   context,
-                                //   transaction.id,
-                                // ),
-                              ),
-                            ],
-                          ),
+                        title: Text(
+                          transaction.category.name,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                      );
-                    },
-                  ),
+                        subtitle: Text(
+                          '${transaction.comment ?? ""}', // Display date only
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              '${widget.isIncome ? '+' : '-'}${transaction.amount}${transaction.account.currency}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.arrow_forward_ios),
+                              onPressed: () {},
+                              // () => _deleteTransaction(
+                              //   context,
+                              //   transaction.id,
+                              // ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              ],
-            );
-          } else {
-            return const Center(child: Text('Loading transactions...'));
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => () {},
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
+              ),
+            ],
+          );
+        } else {
+          return const Center(child: Text('Loading transactions...'));
+        }
+      },
+    ),
+    floatingActionButton: FloatingActionButton(
+      onPressed: () => () {},
+      child: const Icon(Icons.add),
+    ),
+  );
 }

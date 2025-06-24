@@ -7,15 +7,19 @@ part 'account_history_response.g.dart';
 @freezed
 abstract class AccountHistoryResponse with _$AccountHistoryResponse {
   const factory AccountHistoryResponse({
-    // example: 1
+    /// example: 1
     required int accountId,
-    // example: Основной счет
+
+    /// example: Основной счет
     required String accountName,
-    // example: USD
+
+    /// example: USD
     required String currency,
-    // example: 2000.00
+
+    /// example: 2000.00
     required String currentBalance,
-    // example: [AccountHistory{...}]
+
+    /// example: [AccountHistory{...}]
     required List<AccountHistory> history,
   }) = _AccountHistoryResponse;
 

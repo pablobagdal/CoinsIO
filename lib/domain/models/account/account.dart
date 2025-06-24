@@ -6,15 +6,19 @@ part 'account.g.dart';
 @freezed
 abstract class Account with _$Account {
   const factory Account({
-    // example: 1
+    /// example: 1
     required int id,
-    // example: 1
+
+    /// example: 1
     required int userId,
-    // example: Основной счёт
+
+    /// example: Основной счёт
     required String name,
-    // example: 1000.00
+
+    /// example: 1000.00
     required String balance,
-    // example: RUB
+
+    /// example: RUB
     required String currency,
     required DateTime createdAt,
     required DateTime updatedAt,

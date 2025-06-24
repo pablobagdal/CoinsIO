@@ -5,13 +5,16 @@ part 'stat_item.g.dart';
 @freezed
 abstract class StatItem with _$StatItem {
   const factory StatItem({
-    // example: 1
+    /// example: 1
     required int categoryId,
-    // example: Зарплата
+
+    /// example: Зарплата
     required String categoryName,
-    // example: 💰
+
+    /// example: 💰
     required String emoji,
-    // example: 5000.00
+
+    /// example: 5000.00
     required String amount,
   }) = _StatItem;
 

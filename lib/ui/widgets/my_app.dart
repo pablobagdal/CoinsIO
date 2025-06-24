@@ -1,6 +1,5 @@
 import 'package:coinio_app/core/themes/app_theme.dart';
 import 'package:coinio_app/main.dart';
-import 'package:coinio_app/ui/blocs/history_bloc/history_bloc.dart';
 import 'package:coinio_app/ui/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_event.dart';

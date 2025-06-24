@@ -10,19 +10,25 @@ enum ChangeType { MODIFICATION, CREATION }
 @freezed
 abstract class AccountHistory with _$AccountHistory {
   const factory AccountHistory({
-    // example: 1
+    /// example: 1
     required int id,
-    // example: 1
+
+    /// example: 1
     required int accountId,
-    // example: MODIFICATION or CREATION
+
+    /// example: MODIFICATION or CREATION
     required ChangeType changeType,
-    // previous state of the account
+
+    /// previous state of the account
     required AccountState previousState,
-    // new state of the account after the change
+
+    /// new state of the account after the change
     required AccountState newState,
-    // timestamp of the change
+
+    /// timestamp of the change
     required DateTime changeTimestamp,
-    // creation timestamp of the history record
+
+    /// creation timestamp of the history record
     required DateTime createdAt,
   }) = _AccountHistory;
 

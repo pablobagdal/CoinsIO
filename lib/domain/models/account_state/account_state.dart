@@ -5,13 +5,16 @@ part 'account_state.g.dart';
 @freezed
 abstract class AccountState with _$AccountState {
   const factory AccountState({
-    // example: 1
+    /// example: 1
     required int id,
-    // example: Основной счет
+
+    /// example: Основной счет
     required String name,
-    // example: 1000.00
+
+    /// example: 1000.00
     required String balance,
-    // example: USD
+
+    /// example: USD
     required String currency,
   }) = _AccountState;
 

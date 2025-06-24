@@ -6,13 +6,16 @@ part 'category.g.dart';
 @freezed
 abstract class Category with _$Category {
   const factory Category({
-    // example: 1
+    /// example: 1
     required int id,
-    // example: Зарплата
+
+    /// example: Зарплата
     required String name,
-    // example: 💰
+
+    /// example: 💰
     required String emoji,
-    // example: true
+
+    /// example: true
     required bool isIncome,
   }) = _Category;
 

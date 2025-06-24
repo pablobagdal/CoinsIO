@@ -6,11 +6,13 @@ part 'account_update_request.g.dart';
 @freezed
 abstract class AccountUpdateRequest with _$AccountUpdateRequest {
   const factory AccountUpdateRequest({
-    // example: Основной счёт
+    /// example: Основной счёт
     required String name,
-    // example: 100.00
+
+    /// example: 100.00
     required String balance,
-    // example: RUB
+
+    /// example: RUB
     required String currency,
   }) = _AccountUpdateRequest;
 
