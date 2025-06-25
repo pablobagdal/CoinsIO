@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:coinio_app/core/fonts/my_font_icons.dart';
+import 'package:coinio_app/core/fonts/my_icons.dart';
 import 'package:coinio_app/ui/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:coinio_app/ui/blocs/navigation_bloc/navigation_event.dart';
 import 'package:flutter/material.dart';

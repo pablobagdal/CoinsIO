@@ -82,7 +82,7 @@ flutter:
   fonts:
     - family: MyIcons
       fonts:
-        - asset: fonts/MyIcons.ttf 
+        - asset: assets/fonts/MyIcons.ttf 
     # - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

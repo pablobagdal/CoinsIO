@@ -1,22 +1,22 @@
-import 'package:coinio_app/domain/usecases/get_transaction_use_case.dart';
-import 'package:coinio_app/domain/usecases/get_transactions_by_period_use_case.dart';
+import 'package:coinio_app/domain/usecases/transactions/get_transaction_usecase.dart';
+import 'package:coinio_app/domain/usecases/transactions/get_transactions_by_period_usecase.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_event.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
-  final GetTransactionUseCase getTransactionUseCase;
-  final GetTransactionsByPeriodUseCase getTransactionsByPeriodUseCase;
+  final GetTransactionUsecase getTransactionUseCase;
+  final GetTransactionsByPeriodUsecase getTransactionsByPeriodUsecase;
 
   TransactionBloc({
     required this.getTransactionUseCase,
-    required this.getTransactionsByPeriodUseCase,
+    required this.getTransactionsByPeriodUsecase,
   }) : super(TransactionInitial()) {
     on<LoadTransactionsByPeriod>((event, emit) async {
       emit(TransactionsLoading());
 
       try {
-        final transactions = await getTransactionsByPeriodUseCase.call(
+        final transactions = await getTransactionsByPeriodUsecase.call(
           event.startDate,
           event.endDate,
           id: event.id,
@@ -53,7 +53,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   //         // final endOfDay = event.endDate;
   //         // final endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
 
-  //         final transactions = await getTransactionsByPeriodUseCase.call(
+  //         final transactions = await GetTransactionsByPeriodUsecase.call(
   //           event.startDate,
   //           event.endDate,
   //           id: event.id,

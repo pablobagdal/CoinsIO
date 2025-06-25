@@ -1,20 +1,21 @@
 import 'package:coinio_app/core/themes/colors.dart';
-import 'package:coinio_app/ui/blocs/history_bloc/history_bloc.dart';
-import 'package:coinio_app/ui/blocs/history_bloc/history_event.dart';
-import 'package:coinio_app/ui/blocs/history_bloc/history_state.dart';
+import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_bloc.dart';
+import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_event.dart';
+import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_state.dart';
 import 'package:coinio_app/ui/widgets/history_sort_drop_down.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HistoryListPage extends StatefulWidget {
+class TransactionsHistoryPage extends StatefulWidget {
   final bool isIncome;
-  const HistoryListPage({super.key, required this.isIncome});
+  const TransactionsHistoryPage({super.key, required this.isIncome});
 
   @override
-  State<HistoryListPage> createState() => _HistoryListPageState();
+  State<TransactionsHistoryPage> createState() =>
+      _TransactionsHistoryPageState();
 }
 
-class _HistoryListPageState extends State<HistoryListPage> {
+class _TransactionsHistoryPageState extends State<TransactionsHistoryPage> {
   Future<void> _pickDate(
     BuildContext context,
     bool isFrom,
@@ -28,9 +29,9 @@ class _HistoryListPageState extends State<HistoryListPage> {
     );
     if (picked != null) {
       // if (context.mounted) {}
-      final bloc = context.read<HistoryBloc>();
+      final bloc = context.read<TransactionsHistoryBloc>();
       final state = bloc.state;
-      if (state is HistoryLoaded) {
+      if (state is TransactionsHistoryLoaded) {
         DateTime from =
             isFrom
                 ? DateTime(picked.year, picked.month, picked.day, 0, 0, 0)
@@ -49,22 +50,24 @@ class _HistoryListPageState extends State<HistoryListPage> {
           }
         }
 
-        bloc.add(
-          ChangePeriod(startDate: from, endDate: to, isIncome: widget.isIncome),
-        );
+        // bloc.add(
+        //   ChangePeriod(startDate: from, endDate: to, isIncome: widget.isIncome),
+        // );
       }
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    context.read<HistoryBloc>().add(LoadHistory(isIncome: widget.isIncome));
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   context.read<TransactionsHistoryBloc>().add(
+  //     LoadHistory(isIncome: widget.isIncome),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HistoryBloc, HistoryState>(
+    return BlocBuilder<TransactionsHistoryBloc, TransactionsHistoryState>(
       builder: (context, state) {
         if (state is HistoryLoading) {
           return const Scaffold(
@@ -161,7 +164,9 @@ class _HistoryListPageState extends State<HistoryListPage> {
                     value: state.sort,
                     onChanged: (sort) {
                       if (sort != null) {
-                        context.read<HistoryBloc>().add(ChangeSort(sort));
+                        context.read<TransactionsHistoryBloc>().add(
+                          ChangeSort(sort),
+                        );
                       }
                     },
                   ),

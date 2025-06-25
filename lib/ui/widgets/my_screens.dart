@@ -2,7 +2,7 @@ import 'package:coinio_app/ui/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:coinio_app/ui/blocs/navigation_bloc/navigation_state.dart';
 import 'package:coinio_app/ui/pages/accounts_page.dart';
 import 'package:coinio_app/ui/pages/categories_page.dart';
-import 'package:coinio_app/ui/pages/financial_list_page.dart';
+import 'package:coinio_app/ui/pages/transactions/transactions_page.dart';
 import 'package:coinio_app/ui/pages/settings_page.dart';
 import 'package:coinio_app/ui/widgets/my_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +17,8 @@ class MyScreens extends StatefulWidget {
 
 class _MyScreensState extends State<MyScreens> {
   final List<Widget> _screens = [
-    FinancialListPage(isIncome: false),
-    FinancialListPage(isIncome: true),
+    TransactionsPage(isIncome: false),
+    TransactionsPage(isIncome: true),
     AccountsPage(),
     CategoriesPage(),
     SettingsPage(),

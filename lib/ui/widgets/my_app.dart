@@ -12,18 +12,18 @@ class MyApp extends StatelessWidget {
   MyApp({super.key, required this.dependencies});
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
+  Widget build(final BuildContext context) => MaterialApp(
     title: 'Coins IO',
     debugShowCheckedModeBanner: false,
     home: MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => NavigationBloc()),
+        BlocProvider(create: (final context) => NavigationBloc()),
         BlocProvider(
           create:
-              (context) => TransactionBloc(
+              (final context) => TransactionBloc(
                 getTransactionUseCase: dependencies.getTransactionUseCase,
-                getTransactionsByPeriodUseCase:
-                    dependencies.getTransactionsByPeriodUseCase,
+                getTransactionsByPeriodUsecase:
+                    dependencies.getTransactionsByPeriodUsecase,
               )..add(
                 LoadTransactionsByPeriod(
                   startDate: DateTime.now().subtract(const Duration(days: 30)),
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         ),
         // BlocProvider(
         //   create:
-        //       (context) => HistoryBloc(
+        //       (context) => TransactionsHistoryBloc(
         //         transactionRepository: dependencies.transactionRepository,
         //       ),
         // ),
