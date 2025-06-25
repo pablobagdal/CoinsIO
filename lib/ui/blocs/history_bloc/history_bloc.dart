@@ -1,4 +1,4 @@
-import 'package:coinio_app/data/repositories/transaction_repository.dart';
+import 'package:coinio_app/domain/repositories/transaction_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'history_event.dart';
 import 'history_state.dart';

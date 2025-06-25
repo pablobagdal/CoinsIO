@@ -1,4 +1,4 @@
-import 'package:coinio_app/data/repositories/account_repository.dart';
+import 'package:coinio_app/domain/repositories/account_repository.dart';
 import 'package:coinio_app/domain/models/account/account.dart';
 import 'package:coinio_app/domain/models/account_create_request/account_create_request.dart';
 import 'package:coinio_app/domain/models/account_history/account_history.dart';

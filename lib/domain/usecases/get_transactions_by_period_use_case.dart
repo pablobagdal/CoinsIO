@@ -1,4 +1,4 @@
-import 'package:coinio_app/data/repositories/transaction_repository.dart';
+import 'package:coinio_app/domain/repositories/transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
 
 class GetTransactionsByPeriodUseCase {
