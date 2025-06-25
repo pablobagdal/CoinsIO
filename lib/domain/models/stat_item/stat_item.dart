@@ -6,18 +6,18 @@ part 'stat_item.g.dart';
 abstract class StatItem with _$StatItem {
   const factory StatItem({
     /// example: 1
-    required int categoryId,
+    required final int categoryId,
 
     /// example: Зарплата
-    required String categoryName,
+    required final String categoryName,
 
     /// example: 💰
-    required String emoji,
+    required final String emoji,
 
     /// example: 5000.00
-    required String amount,
+    required final String amount,
   }) = _StatItem;
 
-  factory StatItem.fromJson(Map<String, dynamic> json) =>
+  factory StatItem.fromJson(final Map<String, dynamic> json) =>
       _$StatItemFromJson(json);
 }

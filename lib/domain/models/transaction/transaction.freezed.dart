@@ -16,14 +16,14 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Transaction {
 
-// example: 1
- int get id;// example: 1
- int get accountId;// example: 1
- int get categoryId;// example: 500.00
- String get amount;// example: 2023-10-01T12:00:00Z
- DateTime get transactionDate;// example: Зарплата за месяц
- String? get comment;// example: 2023-10-01T12:00:00Z
- DateTime get createdAt;// example: 2023-10-01T12:00:00Z
+/// example: 1
+ int get id;/// example: 1
+ int get accountId;/// example: 1
+ int get categoryId;/// example: 500.00
+ String get amount;/// example: 2023-10-01T12:00:00Z
+ DateTime get transactionDate;/// example: Зарплата за месяц
+ String? get comment;/// example: 2023-10-01T12:00:00Z
+ DateTime get createdAt;/// example: 2023-10-01T12:00:00Z
  DateTime get updatedAt;
 /// Create a copy of Transaction
 /// with the given fields replaced by the non-null parameter values.
@@ -98,21 +98,21 @@ class _Transaction implements Transaction {
   const _Transaction({required this.id, required this.accountId, required this.categoryId, required this.amount, required this.transactionDate, this.comment, required this.createdAt, required this.updatedAt});
   factory _Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
 
-// example: 1
+/// example: 1
 @override final  int id;
-// example: 1
+/// example: 1
 @override final  int accountId;
-// example: 1
+/// example: 1
 @override final  int categoryId;
-// example: 500.00
+/// example: 500.00
 @override final  String amount;
-// example: 2023-10-01T12:00:00Z
+/// example: 2023-10-01T12:00:00Z
 @override final  DateTime transactionDate;
-// example: Зарплата за месяц
+/// example: Зарплата за месяц
 @override final  String? comment;
-// example: 2023-10-01T12:00:00Z
+/// example: 2023-10-01T12:00:00Z
 @override final  DateTime createdAt;
-// example: 2023-10-01T12:00:00Z
+/// example: 2023-10-01T12:00:00Z
 @override final  DateTime updatedAt;
 
 /// Create a copy of Transaction

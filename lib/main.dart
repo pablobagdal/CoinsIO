@@ -22,7 +22,7 @@ class AppDependencies {
   }
 }
 
-void main(List<String> args) {
+void main(final List<String> args) {
   final dependencies = AppDependencies();
   // ignore: prefer_const_constructors
   runApp(MyApp(dependencies: dependencies));

@@ -16,11 +16,11 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AccountHistoryResponse {
 
-// example: 1
- int get accountId;// example: Основной счет
- String get accountName;// example: USD
- String get currency;// example: 2000.00
- String get currentBalance;// example: [AccountHistory{...}]
+/// example: 1
+ int get accountId;/// example: Основной счет
+ String get accountName;/// example: USD
+ String get currency;/// example: 2000.00
+ String get currentBalance;/// example: [AccountHistory{...}]
  List<AccountHistory> get history;
 /// Create a copy of AccountHistoryResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -92,17 +92,17 @@ class _AccountHistoryResponse implements AccountHistoryResponse {
   const _AccountHistoryResponse({required this.accountId, required this.accountName, required this.currency, required this.currentBalance, required final  List<AccountHistory> history}): _history = history;
   factory _AccountHistoryResponse.fromJson(Map<String, dynamic> json) => _$AccountHistoryResponseFromJson(json);
 
-// example: 1
+/// example: 1
 @override final  int accountId;
-// example: Основной счет
+/// example: Основной счет
 @override final  String accountName;
-// example: USD
+/// example: USD
 @override final  String currency;
-// example: 2000.00
+/// example: 2000.00
 @override final  String currentBalance;
-// example: [AccountHistory{...}]
+/// example: [AccountHistory{...}]
  final  List<AccountHistory> _history;
-// example: [AccountHistory{...}]
+/// example: [AccountHistory{...}]
 @override List<AccountHistory> get history {
   if (_history is EqualUnmodifiableListView) return _history;
   // ignore: implicit_dynamic_type

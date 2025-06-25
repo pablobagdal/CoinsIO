@@ -7,18 +7,18 @@ part 'category.g.dart';
 abstract class Category with _$Category {
   const factory Category({
     /// example: 1
-    required int id,
+    required final int id,
 
     /// example: Зарплата
-    required String name,
+    required final String name,
 
     /// example: 💰
-    required String emoji,
+    required final String emoji,
 
     /// example: true
-    required bool isIncome,
+    required final bool isIncome,
   }) = _Category;
 
-  factory Category.fromJson(Map<String, dynamic> json) =>
+  factory Category.fromJson(final Map<String, dynamic> json) =>
       _$CategoryFromJson(json);
 }

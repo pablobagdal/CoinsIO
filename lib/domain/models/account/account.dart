@@ -7,23 +7,23 @@ part 'account.g.dart';
 abstract class Account with _$Account {
   const factory Account({
     /// example: 1
-    required int id,
+    required final int id,
 
     /// example: 1
-    required int userId,
+    required final int userId,
 
     /// example: Основной счёт
-    required String name,
+    required final String name,
 
     /// example: 1000.00
-    required String balance,
+    required final String balance,
 
     /// example: RUB
-    required String currency,
-    required DateTime createdAt,
-    required DateTime updatedAt,
+    required final String currency,
+    required final DateTime createdAt,
+    required final DateTime updatedAt,
   }) = _Account;
 
-  factory Account.fromJson(Map<String, dynamic> json) =>
+  factory Account.fromJson(final Map<String, dynamic> json) =>
       _$AccountFromJson(json);
 }

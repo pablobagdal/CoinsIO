@@ -7,15 +7,15 @@ part 'account_update_request.g.dart';
 abstract class AccountUpdateRequest with _$AccountUpdateRequest {
   const factory AccountUpdateRequest({
     /// example: Основной счёт
-    required String name,
+    required final String name,
 
     /// example: 100.00
-    required String balance,
+    required final String balance,
 
     /// example: RUB
-    required String currency,
+    required final String currency,
   }) = _AccountUpdateRequest;
 
-  factory AccountUpdateRequest.fromJson(Map<String, dynamic> json) =>
+  factory AccountUpdateRequest.fromJson(final Map<String, dynamic> json) =>
       _$AccountUpdateRequestFromJson(json);
 }

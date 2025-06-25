@@ -16,12 +16,12 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TransactionResponse {
 
-// example: 1
- int get id; AccountBrief get account; Category get category;// example: 500.00
- String get amount;// example: 2023-10-01T12:00:00Z
- DateTime get transactionDate;// example: Зарплата за месяц
- String? get comment;// example: 2023-10-01T12:00:00Z
- DateTime get createdAt;// example: 2023-10-01T12:00:00Z
+/// example: 1
+ int get id; AccountBrief get account; Category get category;/// example: 500.00
+ String get amount;/// example: 2023-10-01T12:00:00Z
+ DateTime get transactionDate;/// example: Зарплата за месяц
+ String? get comment;/// example: 2023-10-01T12:00:00Z
+ DateTime get createdAt;/// example: 2023-10-01T12:00:00Z
  DateTime get updatedAt;
 /// Create a copy of TransactionResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -114,19 +114,19 @@ class _TransactionResponse implements TransactionResponse {
   const _TransactionResponse({required this.id, required this.account, required this.category, required this.amount, required this.transactionDate, this.comment, required this.createdAt, required this.updatedAt});
   factory _TransactionResponse.fromJson(Map<String, dynamic> json) => _$TransactionResponseFromJson(json);
 
-// example: 1
+/// example: 1
 @override final  int id;
 @override final  AccountBrief account;
 @override final  Category category;
-// example: 500.00
+/// example: 500.00
 @override final  String amount;
-// example: 2023-10-01T12:00:00Z
+/// example: 2023-10-01T12:00:00Z
 @override final  DateTime transactionDate;
-// example: Зарплата за месяц
+/// example: Зарплата за месяц
 @override final  String? comment;
-// example: 2023-10-01T12:00:00Z
+/// example: 2023-10-01T12:00:00Z
 @override final  DateTime createdAt;
-// example: 2023-10-01T12:00:00Z
+/// example: 2023-10-01T12:00:00Z
 @override final  DateTime updatedAt;
 
 /// Create a copy of TransactionResponse

@@ -1,7 +1,10 @@
 import 'package:coinio_app/data/repositories/account_repository.dart';
 import 'package:coinio_app/domain/models/account/account.dart';
+import 'package:coinio_app/domain/models/account_create_request/account_create_request.dart';
 import 'package:coinio_app/domain/models/account_history/account_history.dart';
+import 'package:coinio_app/domain/models/account_history_response/account_history_response.dart';
 import 'package:coinio_app/domain/models/account_state/account_state.dart';
+import 'package:coinio_app/domain/models/account_update_request/account_update_request.dart';
 
 class MockAccountRepository implements AccountRepository {
   @override
@@ -14,7 +17,9 @@ class MockAccountRepository implements AccountRepository {
   }
 
   @override
-  Future<void> updateAccount({required final Account account}) async {
+  Future<void> updateAccount({
+    required final AccountUpdateRequest account,
+  }) async {
     await Future.delayed(const Duration(seconds: 1));
 
     // TODO add logger instead of prints
@@ -22,7 +27,7 @@ class MockAccountRepository implements AccountRepository {
   }
 
   @override
-  Future<void> addAccount({required final Account account}) async {
+  Future<void> addAccount({required final AccountCreateRequest account}) async {
     await Future.delayed(const Duration(seconds: 1));
 
     print(
@@ -31,12 +36,12 @@ class MockAccountRepository implements AccountRepository {
   }
 
   @override
-  Future<List<AccountHistory>> getAccountHistory({
+  Future<AccountHistoryResponse> getAccountHistory({
     required final int id,
   }) async {
     await Future.delayed(const Duration(seconds: 1));
 
-    List<AccountHistory> history = _mockHistory(id);
+    AccountHistoryResponse history = _mockHistory(id);
 
     return history;
   }
@@ -71,46 +76,52 @@ class MockAccountRepository implements AccountRepository {
     ),
   ];
 
-  List<AccountHistory> _mockHistory(final int id) => [
-    AccountHistory(
-      id: 1,
-      accountId: id,
-      changeType: ChangeType.CREATION,
-      previousState: const AccountState(
-        id: 0,
-        name: 'Начальное состояние',
-        balance: '0.00',
-        currency: 'RUB',
-      ),
-      newState: const AccountState(
+  AccountHistoryResponse _mockHistory(final int id) => AccountHistoryResponse(
+    accountId: 1,
+    accountName: 'Основной счёт',
+    currency: 'RUB',
+    currentBalance: '100.00',
+    history: [
+      AccountHistory(
         id: 1,
-        name: 'Следующее состояние',
-        balance: '100.00',
-        currency: 'RUB',
+        accountId: id,
+        changeType: ChangeType.creation,
+        previousState: const AccountState(
+          id: 0,
+          name: 'Начальное состояние',
+          balance: '0.00',
+          currency: 'RUB',
+        ),
+        newState: const AccountState(
+          id: 1,
+          name: 'Следующее состояние',
+          balance: '100.00',
+          currency: 'RUB',
+        ),
+        changeTimestamp: DateTime.now().subtract(const Duration(days: 10)),
+        createdAt: DateTime.now().subtract(const Duration(days: 10)),
       ),
-      changeTimestamp: DateTime.now().subtract(const Duration(days: 10)),
-      createdAt: DateTime.now().subtract(const Duration(days: 10)),
-    ),
-    AccountHistory(
-      id: 2,
-      accountId: id,
-      changeType: ChangeType.MODIFICATION,
-      previousState: const AccountState(
+      AccountHistory(
         id: 1,
-        name: 'Следующее состояние',
-        balance: '1000.00',
-        currency: 'RUB',
+        accountId: id,
+        changeType: ChangeType.creation,
+        previousState: const AccountState(
+          id: 1,
+          name: 'Следующее состояние',
+          balance: '100.00',
+          currency: 'RUB',
+        ),
+        newState: const AccountState(
+          id: 2,
+          name: 'Следующее состояние 2',
+          balance: '1000.00',
+          currency: 'RUB',
+        ),
+        changeTimestamp: DateTime.now().subtract(const Duration(days: 9)),
+        createdAt: DateTime.now().subtract(const Duration(days: 9)),
       ),
-      newState: const AccountState(
-        id: 2,
-        name: 'Последнее состояние',
-        balance: '500.00',
-        currency: 'RUB',
-      ),
-      changeTimestamp: DateTime.now().subtract(const Duration(days: 5)),
-      createdAt: DateTime.now().subtract(const Duration(days: 5)),
-    ),
-  ];
+    ],
+  );
 
   Account _mockAccount({required final int id}) => Account(
     balance: '1000.00',

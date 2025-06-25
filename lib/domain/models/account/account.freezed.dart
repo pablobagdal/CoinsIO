@@ -16,11 +16,11 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Account {
 
-// example: 1
- int get id;// example: 1
- int get userId;// example: Основной счёт
- String get name;// example: 1000.00
- String get balance;// example: RUB
+/// example: 1
+ int get id;/// example: 1
+ int get userId;/// example: Основной счёт
+ String get name;/// example: 1000.00
+ String get balance;/// example: RUB
  String get currency; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of Account
 /// with the given fields replaced by the non-null parameter values.
@@ -94,15 +94,15 @@ class _Account implements Account {
   const _Account({required this.id, required this.userId, required this.name, required this.balance, required this.currency, required this.createdAt, required this.updatedAt});
   factory _Account.fromJson(Map<String, dynamic> json) => _$AccountFromJson(json);
 
-// example: 1
+/// example: 1
 @override final  int id;
-// example: 1
+/// example: 1
 @override final  int userId;
-// example: Основной счёт
+/// example: Основной счёт
 @override final  String name;
-// example: 1000.00
+/// example: 1000.00
 @override final  String balance;
-// example: RUB
+/// example: RUB
 @override final  String currency;
 @override final  DateTime createdAt;
 @override final  DateTime updatedAt;

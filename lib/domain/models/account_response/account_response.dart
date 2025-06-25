@@ -8,16 +8,16 @@ part 'account_response.g.dart';
 abstract class AccountResponse with _$AccountResponse {
   const factory AccountResponse({
     /// example: 1
-    required int id,
+    required final int id,
 
     /// example: Основной счёт
-    required String name,
+    required final String name,
 
     /// example: 1000.00
-    required String balance,
+    required final String balance,
 
     /// example: RUB
-    required String currency,
+    required final String currency,
 
     /// example: [StatItem{
     ///  categoryId*	integer
@@ -29,7 +29,7 @@ abstract class AccountResponse with _$AccountResponse {
     ///  amount*	string
     ///  example: 5000.00
     ///  }]
-    required List<StatItem> incomeStats,
+    required final List<StatItem> incomeStats,
 
     /// example: [StatItem{
     /// categoryId*	integer
@@ -41,11 +41,11 @@ abstract class AccountResponse with _$AccountResponse {
     /// amount*	string
     /// example: 5000.00
     /// }]
-    required List<StatItem> expenseStats,
-    required DateTime createdAt,
-    required DateTime updatedAt,
+    required final List<StatItem> expenseStats,
+    required final DateTime createdAt,
+    required final DateTime updatedAt,
   }) = _AccountResponse;
 
-  factory AccountResponse.fromJson(Map<String, dynamic> json) =>
+  factory AccountResponse.fromJson(final Map<String, dynamic> json) =>
       _$AccountResponseFromJson(json);
 }

@@ -7,21 +7,21 @@ part 'transaction_request.g.dart';
 abstract class TransactionRequest with _$TransactionRequest {
   const factory TransactionRequest({
     /// example: 1
-    required int accountId,
+    required final int accountId,
 
     /// example: 1
-    required int categoryId,
+    required final int categoryId,
 
     /// example: 500.00
-    required String amount,
+    required final String amount,
 
     /// example: 2023-10-01T12:00:00Z
-    required String transactionDate,
+    required final String transactionDate,
 
     /// example: Зарплата за месяц
-    String? comment,
+    final String? comment,
   }) = _TransactionRequest;
 
-  factory TransactionRequest.fromJson(Map<String, dynamic> json) =>
+  factory TransactionRequest.fromJson(final Map<String, dynamic> json) =>
       _$TransactionRequestFromJson(json);
 }

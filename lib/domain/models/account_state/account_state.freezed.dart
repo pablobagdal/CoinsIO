@@ -16,10 +16,10 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AccountState {
 
-// example: 1
- int get id;// example: Основной счет
- String get name;// example: 1000.00
- String get balance;// example: USD
+/// example: 1
+ int get id;/// example: Основной счет
+ String get name;/// example: 1000.00
+ String get balance;/// example: USD
  String get currency;
 /// Create a copy of AccountState
 /// with the given fields replaced by the non-null parameter values.
@@ -90,13 +90,13 @@ class _AccountState implements AccountState {
   const _AccountState({required this.id, required this.name, required this.balance, required this.currency});
   factory _AccountState.fromJson(Map<String, dynamic> json) => _$AccountStateFromJson(json);
 
-// example: 1
+/// example: 1
 @override final  int id;
-// example: Основной счет
+/// example: Основной счет
 @override final  String name;
-// example: 1000.00
+/// example: 1000.00
 @override final  String balance;
-// example: USD
+/// example: USD
 @override final  String currency;
 
 /// Create a copy of AccountState

@@ -8,21 +8,21 @@ part 'account_history_response.g.dart';
 abstract class AccountHistoryResponse with _$AccountHistoryResponse {
   const factory AccountHistoryResponse({
     /// example: 1
-    required int accountId,
+    required final int accountId,
 
     /// example: Основной счет
-    required String accountName,
+    required final String accountName,
 
     /// example: USD
-    required String currency,
+    required final String currency,
 
     /// example: 2000.00
-    required String currentBalance,
+    required final String currentBalance,
 
     /// example: [AccountHistory{...}]
-    required List<AccountHistory> history,
+    required final List<AccountHistory> history,
   }) = _AccountHistoryResponse;
 
-  factory AccountHistoryResponse.fromJson(Map<String, dynamic> json) =>
+  factory AccountHistoryResponse.fromJson(final Map<String, dynamic> json) =>
       _$AccountHistoryResponseFromJson(json);
 }
