@@ -12,39 +12,35 @@ class MyApp extends StatelessWidget {
   MyApp({super.key, required this.dependencies});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Coins IO',
-      debugShowCheckedModeBanner: false,
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => NavigationBloc()),
-          BlocProvider(
-            create:
-                (context) => TransactionBloc(
-                  getTransactionUseCase: dependencies.getTransactionUseCase,
-                  getTransactionsByPeriodUseCase:
-                      dependencies.getTransactionsByPeriodUseCase,
-                )..add(
-                  LoadTransactionsByPeriod(
-                    startDate: DateTime.now().subtract(
-                      const Duration(days: 30),
-                    ),
-                    endDate: DateTime.now(),
-                    id: 1,
-                  ),
+  Widget build(BuildContext context) => MaterialApp(
+    title: 'Coins IO',
+    debugShowCheckedModeBanner: false,
+    home: MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => NavigationBloc()),
+        BlocProvider(
+          create:
+              (context) => TransactionBloc(
+                getTransactionUseCase: dependencies.getTransactionUseCase,
+                getTransactionsByPeriodUseCase:
+                    dependencies.getTransactionsByPeriodUseCase,
+              )..add(
+                LoadTransactionsByPeriod(
+                  startDate: DateTime.now().subtract(const Duration(days: 30)),
+                  endDate: DateTime.now(),
+                  id: 1,
                 ),
-          ),
-          // BlocProvider(
-          //   create:
-          //       (context) => HistoryBloc(
-          //         transactionRepository: dependencies.transactionRepository,
-          //       ),
-          // ),
-        ],
-        child: const MyScreens(),
-      ),
-      theme: AppTheme.light,
-    );
-  }
+              ),
+        ),
+        // BlocProvider(
+        //   create:
+        //       (context) => HistoryBloc(
+        //         transactionRepository: dependencies.transactionRepository,
+        //       ),
+        // ),
+      ],
+      child: const MyScreens(),
+    ),
+    theme: AppTheme.light,
+  );
 }

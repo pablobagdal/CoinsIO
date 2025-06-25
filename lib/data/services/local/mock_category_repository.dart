@@ -18,9 +18,9 @@ class MockCategoryRepository implements CategoryRepository {
   @override
   Future<List<Category>> getCategoriesByType({required final bool isIncome}) =>
       getCategories().then(
-        (categories) =>
+        (final categories) =>
             categories
-                .where((category) => category.isIncome == isIncome)
+                .where((final category) => category.isIncome == isIncome)
                 .toList(),
       );
 }
