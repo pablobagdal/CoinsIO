@@ -1,5 +1,3 @@
-// enum HistorySort { dateDesc, dateAsc, amountDesc, amountAsc }
-
 abstract class TransactionsHistoryEvent {
   const TransactionsHistoryEvent();
 }

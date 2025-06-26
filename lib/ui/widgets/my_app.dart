@@ -14,25 +14,5 @@ class MyApp extends StatelessWidget {
     darkTheme: AppTheme.dark,
     themeMode: ThemeMode.system,
     routerConfig: router,
-    // home: MultiBlocProvider(
-    //   providers: [
-    //     BlocProvider(create: (final context) => NavigationBloc()),
-    //     BlocProvider(
-    //       create:
-    //           (final context) => TransactionBloc(
-    //             getTransactionUseCase: dependencies.getTransactionUseCase,
-    //             getTransactionsByPeriodUsecase:
-    //                 dependencies.getTransactionsByPeriodUsecase,
-    //           )..add(
-    //             LoadTransactionsByPeriod(
-    //               startDate: DateTime.now().subtract(const Duration(days: 30)),
-    //               endDate: DateTime.now(),
-    //               id: 1,
-    //             ),
-    //           ),
-    //     ),
-    //   ],
-    //   child: const MyScreens(),
-    // ),
   );
 }

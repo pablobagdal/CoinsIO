@@ -69,7 +69,7 @@ final GoRouter router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: '/income',
+              path: '/incomes',
               builder:
                   (final context, final state) =>
                       const TransactionsPage(isIncome: true),
@@ -87,7 +87,7 @@ final GoRouter router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: '/account',
+              path: '/accounts',
               builder: (final context, final state) => const AccountsPage(),
             ),
           ],

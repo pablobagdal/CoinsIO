@@ -7,6 +7,7 @@ import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_histo
 import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class TransactionsPage extends StatelessWidget {
   final bool isIncome;
@@ -42,12 +43,17 @@ class _TodayTransactionsView extends StatelessWidget {
   const _TodayTransactionsView({required this.isIncome});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(final BuildContext context) => Scaffold(
     appBar: AppBar(
       title: Text(isIncome ? 'Доходы сегодня' : 'Расходы сегодня'),
       centerTitle: true,
       actions: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.history_outlined)),
+        IconButton(
+          onPressed: () {
+            context.go(isIncome ? 'incomes/history' : 'incomes/expenses');
+          },
+          icon: const Icon(Icons.history_outlined),
+        ),
       ],
     ),
     floatingActionButton: FloatingActionButton(
@@ -75,7 +81,7 @@ class _TodayTransactionsView extends StatelessWidget {
     }
 
     if (state is TransactionsHistoryLoaded) {
-      final trx =
+      final transactions =
           state.transactions
               .where(
                 (final transaction) =>
@@ -85,10 +91,10 @@ class _TodayTransactionsView extends StatelessWidget {
 
       return RefreshIndicator(
         child:
-            trx.isEmpty
+            transactions.isEmpty
                 ? _TransactionsListEmpty(isIncome: isIncome)
                 : _TransactionsList(
-                  transactions: trx,
+                  transactions: transactions,
                   onTapTransaction: (_) {},
                   isIncome: isIncome,
                 ),
@@ -112,7 +118,7 @@ class _TransactionsListEmpty extends StatelessWidget {
   const _TransactionsListEmpty({required this.isIncome});
 
   @override
-  Widget build(BuildContext context) => ListView(
+  Widget build(final BuildContext context) => ListView(
     physics: const AlwaysScrollableScrollPhysics(),
     children: [
       SizedBox(
