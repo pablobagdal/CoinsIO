@@ -50,7 +50,7 @@ class _TodayTransactionsView extends StatelessWidget {
       actions: [
         IconButton(
           onPressed: () {
-            context.go(isIncome ? 'incomes/history' : 'incomes/expenses');
+            context.go(isIncome ? '/incomes/history' : '/expenses/history');
           },
           icon: const Icon(Icons.history_outlined),
         ),

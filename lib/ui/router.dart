@@ -24,23 +24,23 @@ final GoRouter router = GoRouter(
                 }
               },
               destinations: [
-                NavigationDestination(
+                const NavigationDestination(
                   icon: Icon(MyIcons.spendings),
                   label: 'Расходы',
                 ),
-                NavigationDestination(
+                const NavigationDestination(
                   icon: Icon(MyIcons.incomes),
                   label: 'Доходы',
                 ),
-                NavigationDestination(
+                const NavigationDestination(
                   icon: Icon(MyIcons.account),
                   label: 'Счета',
                 ),
-                NavigationDestination(
+                const NavigationDestination(
                   icon: Icon(MyIcons.category),
                   label: 'Статьи',
                 ),
-                NavigationDestination(
+                const NavigationDestination(
                   icon: Icon(MyIcons.settings),
                   label: 'Настройки',
                 ),

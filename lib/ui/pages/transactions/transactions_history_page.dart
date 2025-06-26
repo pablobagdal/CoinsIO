@@ -3,8 +3,8 @@ import 'package:coinio_app/data/repositories/mock_transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
 import 'package:coinio_app/domain/usecases/transactions/get_transactions_by_period_usecase.dart';
 import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_bloc.dart';
+import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_event.dart';
 import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_state.dart';
-import 'package:coinio_app/ui/widgets/history_sort_drop_down.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,46 +12,46 @@ class TransactionsHistoryPage extends StatelessWidget {
   final bool isIncome;
   const TransactionsHistoryPage({super.key, required this.isIncome});
 
-  Future<void> _pickDate(
-    final BuildContext context,
-    final bool isFrom,
-    final DateTime initial,
-  ) async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: initial,
-      firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null) {
-      // if (context.mounted) {}
-      final bloc = context.read<TransactionsHistoryBloc>();
-      final state = bloc.state;
-      if (state is TransactionsHistoryLoaded) {
-        DateTime from =
-            isFrom
-                ? DateTime(picked.year, picked.month, picked.day, 0, 0, 0)
-                : state.startDate;
-        DateTime to =
-            !isFrom
-                ? DateTime(picked.year, picked.month, picked.day, 23, 59, 59)
-                : state.endDate;
+  // Future<void> _pickDate(
+  //   final BuildContext context,
+  //   final bool isFrom,
+  //   final DateTime initial,
+  // ) async {
+  //   final picked = await showDatePicker(
+  //     context: context,
+  //     initialDate: initial,
+  //     firstDate: DateTime(2000),
+  //     lastDate: DateTime.now(),
+  //   );
+  //   if (picked != null) {
+  //     // if (context.mounted) {}
+  //     final bloc = context.read<TransactionsHistoryBloc>();
+  //     final state = bloc.state;
+  //     if (state is TransactionsHistoryLoaded) {
+  //       DateTime from =
+  //           isFrom
+  //               ? DateTime(picked.year, picked.month, picked.day, 0, 0, 0)
+  //               : state.startDate;
+  //       DateTime to =
+  //           !isFrom
+  //               ? DateTime(picked.year, picked.month, picked.day, 23, 59, 59)
+  //               : state.endDate;
 
-        // Корректировка границ периода
-        if (from.isAfter(to)) {
-          if (isFrom) {
-            to = from;
-          } else {
-            from = to;
-          }
-        }
+  //       // Корректировка границ периода
+  //       if (from.isAfter(to)) {
+  //         if (isFrom) {
+  //           to = from;
+  //         } else {
+  //           from = to;
+  //         }
+  //       }
 
-        // bloc.add(
-        //   ChangePeriod(startDate: from, endDate: to, isIncome: widget.isIncome),
-        // );
-      }
-    }
-  }
+  //       // bloc.add(
+  //       //   ChangePeriod(startDate: from, endDate: to, isIncome: widget.isIncome),
+  //       // );
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(final BuildContext context) {
@@ -68,6 +68,8 @@ class TransactionsHistoryPage extends StatelessWidget {
             isIncome: isIncome,
             startDate: startDate,
             endDate: endDate,
+          )..add(
+            LoadTransactionsHistory(startDate: startDate, endDate: endDate),
           ),
       child: _TransactionsHistoryView(),
     );
@@ -92,7 +94,7 @@ class _TransactionsHistoryView extends StatelessWidget {
         if (state is TransactionsHistoryLoaded) {
           return _TransactionsHistoryViewBody(
             transactions: state.transactions,
-            isIncome: context.read<TransactionsHistoryPage>().isIncome,
+            isIncome: context.read<TransactionsHistoryBloc>().isIncome,
           );
         }
 
