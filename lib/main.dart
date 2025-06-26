@@ -23,7 +23,7 @@ import 'package:flutter/material.dart';
 // }
 
 void main(final List<String> args) {
-  final dependencies = AppDependencies();
+  // final dependencies = AppDependencies();
   // ignore: prefer_const_constructors
-  runApp(MyApp(dependencies: dependencies));
+  runApp(MyApp());
 }

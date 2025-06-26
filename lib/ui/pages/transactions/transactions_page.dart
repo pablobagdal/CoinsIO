@@ -39,7 +39,7 @@ class TransactionsPage extends StatelessWidget {
 
 class _TodayTransactionsView extends StatelessWidget {
   final bool isIncome;
-  _TodayTransactionsView({required this.isIncome});
+  const _TodayTransactionsView({required this.isIncome});
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -88,7 +88,7 @@ class _TodayTransactionsView extends StatelessWidget {
             trx.isEmpty
                 ? _TransactionsListEmpty(isIncome: isIncome)
                 : _TransactionsList(
-                  transactions: [],
+                  transactions: trx,
                   onTapTransaction: (_) {},
                   isIncome: isIncome,
                 ),
@@ -155,7 +155,7 @@ class _TransactionsList extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     // Sort transactions by date, newest first
     // transactions.sort(
     //   (final a, final b) =>
@@ -198,7 +198,7 @@ class _TransactionsList extends StatelessWidget {
                 child: ListTile(
                   leading: CircleAvatar(
                     child: Text(
-                      transactions[index].category.emoji,
+                      transaction.category.emoji,
                       style: TextStyle(fontSize: 28),
                     ),
                   ),

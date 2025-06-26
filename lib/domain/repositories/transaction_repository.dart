@@ -20,7 +20,7 @@ abstract class TransactionRepository {
   /// get all transactions by period. Most commonly used method
   /// TODO here its' final but mock doesn't have it final
   Future<List<TransactionResponse>> getTransactionsByPeriod({
-    // required final int id,
+    required final int id,
     final DateTime? startDate,
     final DateTime? endDate,
   });
