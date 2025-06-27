@@ -10,6 +10,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   final GetCategoriesUsecase getCategoriesUsecase;
   CategoriesBloc({required this.getCategoriesUsecase})
     : super(CategoriesLoading(categories: [])) {
+    on<LoadCategories>(_onLoadCategories);
     on<SearchCategoriesByName>(_onSearchCategoriesByName);
   }
 
@@ -26,5 +27,21 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     final filtered = cats.where((c) => c.isIncome == true).toList();
 
     emit(CategoriesLoaded(categories: filtered));
+  }
+
+  Future<void> _onLoadCategories(
+    LoadCategories event,
+    Emitter<CategoriesState> emit,
+  ) async {
+    emit(CategoriesLoading(categories: []));
+
+    try {
+      final categories = await getCategoriesUsecase.repository.getCategories();
+      // final categories = await getCategoriesUsecase();
+      // TODO use call instead of prev way
+      emit(CategoriesLoaded(categories: categories));
+    } catch (e) {
+      emit(CategoriesError(message: e.toString()));
+    }
   }
 }

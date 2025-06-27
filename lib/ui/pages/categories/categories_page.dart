@@ -1,6 +1,7 @@
 import 'package:coinio_app/data/repositories/mock_category_repository.dart';
 import 'package:coinio_app/domain/usecases/categories/get_categories_usecase.dart';
 import 'package:coinio_app/ui/blocs/categories_bloc/categories_bloc.dart';
+import 'package:coinio_app/ui/blocs/categories_bloc/categories_event.dart';
 import 'package:coinio_app/ui/blocs/categories_bloc/categories_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +16,7 @@ class CategoriesPage extends StatelessWidget {
           getCategoriesUsecase: GetCategoriesUsecase(
             repository: MockCategoryRepository(),
           ),
-        ),
+        )..add(LoadCategories()),
     child: _CategoriesPageView(),
   );
 }
@@ -63,7 +64,7 @@ class _CategoriesPageView extends StatelessWidget {
                   },
                 );
               } else if (state is CategoriesError) {
-                return Center(child: Text('Ошибка: ${state.error}'));
+                return Center(child: Text('Ошибка: ${state.message}'));
               }
               return const SizedBox.shrink();
             },

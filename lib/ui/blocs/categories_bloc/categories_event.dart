@@ -7,3 +7,5 @@ class SearchCategoriesByName extends CategoriesEvent {
 
   SearchCategoriesByName({required this.categories});
 }
+
+class LoadCategories extends CategoriesEvent {}

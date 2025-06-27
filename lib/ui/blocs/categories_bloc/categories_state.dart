@@ -1,21 +1,21 @@
 import 'package:coinio_app/domain/models/category/category.dart';
 
-abstract class CategoriesState {}
+abstract class CategoriesState {
+  List<Category> categories;
+
+  CategoriesState({required this.categories});
+}
 
 class CategoriesError extends CategoriesState {
-  final String error;
+  final String message;
 
-  CategoriesError({required this.error});
+  CategoriesError({required this.message}) : super(categories: []);
 }
 
 class CategoriesLoading extends CategoriesState {
-  final List<Category> categories;
-
-  CategoriesLoading({required this.categories});
+  CategoriesLoading({required super.categories});
 }
 
 class CategoriesLoaded extends CategoriesState {
-  final List<Category> categories;
-
-  CategoriesLoaded({required this.categories});
+  CategoriesLoaded({required super.categories});
 }
