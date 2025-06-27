@@ -6,7 +6,24 @@ import 'package:coinio_app/ui/blocs/accounts_bloc/account_event.dart';
 import 'package:coinio_app/ui/blocs/accounts_bloc/account_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
+
+Map<String, String> currencySigns = {'RUB': '₽', 'USD': '\$', 'EUR': '€'};
+
+final List<Currency> currencies = [
+  Currency(code: 'USD', name: 'Доллар США', symbol: '\$'),
+  Currency(code: 'EUR', name: 'Евро', symbol: '€'),
+  Currency(code: 'RUB', name: 'Рубль', symbol: '₽'),
+  // Добавьте другие валюты
+];
+
+class Currency {
+  final String code;
+  final String name;
+  final String symbol;
+
+  Currency({required this.code, required this.name, required this.symbol});
+}
 
 class AccountsPage extends StatelessWidget {
   const AccountsPage({super.key});
@@ -50,13 +67,14 @@ class _AccountPageView extends StatelessWidget {
             if (state is AccountLoading || state is AccountLoaded) {
               return IconButton(
                 onPressed: () {
+                  final bloc = context.read<AccountBloc>();
                   // context.go('/accounts/balance');
-                  _showEditDialog(context, state.account.name);
+                  _showEditDialog(context, bloc);
                 },
                 icon: const Icon(Icons.mode_edit_outlined),
               );
             } else {
-              return Icon(Icons.edit_outlined);
+              return const Icon(Icons.edit_outlined);
             }
           },
         ),
@@ -67,6 +85,7 @@ class _AccountPageView extends StatelessWidget {
         BlocBuilder<AccountBloc, AccountState>(
           builder:
               (final context, final state) => _accountBalanceRow(
+                context,
                 balance: state.account.balance,
                 currency: state.account.currency,
               ),
@@ -74,8 +93,10 @@ class _AccountPageView extends StatelessWidget {
         const Divider(height: 1),
         BlocBuilder<AccountBloc, AccountState>(
           builder:
-              (final context, final state) =>
-                  _accountCurrencyRow(currency: state.account.currency),
+              (final context, final state) => _accountCurrencyRow(
+                context,
+                currency: state.account.currency,
+              ),
         ),
         const Divider(height: 1),
         _accountGraphicView(context),
@@ -91,10 +112,10 @@ class _AccountPageView extends StatelessWidget {
 
   Future<void> _showEditDialog(
     final BuildContext context,
-    final String currentName,
+    final AccountBloc bloc,
   ) async {
     final TextEditingController controller = TextEditingController(
-      text: currentName,
+      text: bloc.state.account.name,
     );
 
     await showDialog(
@@ -118,9 +139,10 @@ class _AccountPageView extends StatelessWidget {
                   final newName = controller.text.trim();
                   if (newName.isNotEmpty) {
                     // Сохраняем новое название (например, через Bloc/Provider)
-                    context.read<AccountBloc>().add(
-                      UpdateAccountName(newName: newName),
-                    );
+                    // context.read<AccountBloc>().add(
+                    //   UpdateAccountName(newName: newName),
+                    // );
+                    bloc.add(UpdateAccountName(newName: newName));
                     Navigator.pop(context, newName); // Возвращаем новое имя
                   }
                 },
@@ -128,15 +150,17 @@ class _AccountPageView extends StatelessWidget {
               ),
             ],
           ),
-    ).then((final newName) {
-      if (newName != null) {
-        // Обновляем данные (например, через Bloc)
-        print('Новое название: $newName');
-      }
-    });
+    );
+    // .then((final newName) {
+    //   if (newName != null) {
+    //     // Обновляем данные (например, через Bloc)
+    //     print('Новое название: $newName');
+    //   }
+    // });
   }
 
-  Widget _accountBalanceRow({
+  Widget _accountBalanceRow(
+    final BuildContext context, {
     required final String balance,
     required final String currency,
   }) => Container(
@@ -165,32 +189,125 @@ class _AccountPageView extends StatelessWidget {
       ],
     ),
   );
-  Widget _accountCurrencyRow({required final String currency}) => Container(
-    padding: const EdgeInsets.all(16.0),
-    decoration: const BoxDecoration(color: AppColors.greenlight1),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Row(spacing: 16.0, children: [Text('Валюта')]),
-        Row(
-          spacing: 16.0,
-          children: [
-            const Text('RUB'),
-            IconButton(
-              icon: const Icon(Icons.arrow_forward_ios),
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
+  Widget _accountCurrencyRow(
+    final BuildContext context, {
+    required final String currency,
+  }) {
+    final currency = context.read<AccountBloc>().state.account.currency;
+    final sign = currencySigns[currency] ?? 'шт';
+
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      decoration: const BoxDecoration(color: AppColors.greenlight1),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Row(spacing: 16.0, children: [Text('Валюта')]),
+          Row(
+            spacing: 16.0,
+            children: [
+              Text(sign),
+              IconButton(
+                icon: const Icon(Icons.arrow_forward_ios),
+                onPressed: () {
+                  _openCurrencyBottomSheet(context);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _openCurrencyBottomSheet(final BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // Для адаптивной высоты
+      shape: const RoundedRectangleBorder(
+        // Закругленные углы
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (final context) {
+        final account = context.read<AccountBloc>().state.account;
+        return _CurrencyPicker(
+          context,
+          currencies: currencies,
+          currentCurrency: account.currency,
+        );
+      },
+    );
+  }
 
   Widget _accountGraphicView(final BuildContext context) => Center(
     child: Image.asset(
       'assets/temp_graphic.png',
       fit: BoxFit.cover,
       height: MediaQuery.of(context).size.height * 0.5,
+    ),
+  );
+}
+
+class _CurrencyPicker extends StatefulWidget {
+  final List<Currency> currencies;
+  final String currentCurrency;
+
+  const _CurrencyPicker(
+    final BuildContext context, {
+    required this.currencies,
+    required this.currentCurrency,
+  });
+
+  @override
+  State<_CurrencyPicker> createState() => _CurrencyPickerState();
+}
+
+class _CurrencyPickerState extends State<_CurrencyPicker> {
+  Currency? _selectedCurrency;
+
+  @override
+  Widget build(final BuildContext context) => Padding(
+    padding: const EdgeInsets.all(16),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Text(
+          'Выберите валюту',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 16),
+        Expanded(
+          child: ListView.builder(
+            itemCount: widget.currencies.length,
+            itemBuilder: (final context, final index) {
+              final currency = widget.currencies[index];
+              return ListTile(
+                leading: Text(
+                  currency.symbol,
+                  style: const TextStyle(fontSize: 20),
+                ),
+                title: Text(currency.name),
+                subtitle: Text(currency.code),
+                trailing:
+                    _selectedCurrency == currency
+                        ? const Icon(Icons.check, color: Colors.green)
+                        : null,
+                onTap: () {
+                  setState(() => _selectedCurrency = currency);
+                  context.read<AccountBloc>().add(
+                    UpdateAccountCurrency(newCurrency: currency.code),
+                  );
+
+                  Navigator.pop<String?>(
+                    context,
+                    currency.name,
+                  ); // Возвращаем выбранную валюту
+                },
+              );
+            },
+          ),
+        ),
+      ],
     ),
   );
 }
