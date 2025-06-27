@@ -2,6 +2,7 @@ import 'package:coinio_app/core/themes/colors.dart';
 import 'package:coinio_app/data/repositories/mock_account_repository.dart';
 import 'package:coinio_app/domain/usecases/accounts/get_account_usecase.dart';
 import 'package:coinio_app/ui/blocs/accounts_bloc/account_bloc.dart';
+import 'package:coinio_app/ui/blocs/accounts_bloc/account_event.dart';
 import 'package:coinio_app/ui/blocs/accounts_bloc/account_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,20 +45,39 @@ class _AccountPageView extends StatelessWidget {
         },
       ),
       actions: [
-        IconButton(
-          onPressed: () {
-            context.go('/accounts/balance');
+        BlocBuilder<AccountBloc, AccountState>(
+          builder: (final context, final state) {
+            if (state is AccountLoading || state is AccountLoaded) {
+              return IconButton(
+                onPressed: () {
+                  // context.go('/accounts/balance');
+                  _showEditDialog(context, state.account.name);
+                },
+                icon: const Icon(Icons.mode_edit_outlined),
+              );
+            } else {
+              return Icon(Icons.edit_outlined);
+            }
           },
-          icon: const Icon(Icons.mode_edit_outlined),
         ),
       ],
     ),
     body: Column(
       children: [
-        _accountBalanceRow(),
-        Divider(height: 1),
-        _accountCurrencyRow(),
-        Divider(height: 1),
+        BlocBuilder<AccountBloc, AccountState>(
+          builder:
+              (final context, final state) => _accountBalanceRow(
+                balance: state.account.balance,
+                currency: state.account.currency,
+              ),
+        ),
+        const Divider(height: 1),
+        BlocBuilder<AccountBloc, AccountState>(
+          builder:
+              (final context, final state) =>
+                  _accountCurrencyRow(currency: state.account.currency),
+        ),
+        const Divider(height: 1),
         _accountGraphicView(context),
       ],
     ),
@@ -69,13 +89,63 @@ class _AccountPageView extends StatelessWidget {
     ),
   );
 
-  Widget _accountBalanceRow() => Container(
-    padding: EdgeInsets.all(16.0),
-    decoration: BoxDecoration(color: AppColors.greenlight1),
+  Future<void> _showEditDialog(
+    final BuildContext context,
+    final String currentName,
+  ) async {
+    final TextEditingController controller = TextEditingController(
+      text: currentName,
+    );
+
+    await showDialog(
+      context: context,
+      builder:
+          (final context) => AlertDialog(
+            title: const Text('Изменить название счёта'),
+            content: TextField(
+              controller: controller,
+              decoration: const InputDecoration(
+                hintText: 'Введите новое название',
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Отмена'),
+              ),
+              TextButton(
+                onPressed: () {
+                  final newName = controller.text.trim();
+                  if (newName.isNotEmpty) {
+                    // Сохраняем новое название (например, через Bloc/Provider)
+                    context.read<AccountBloc>().add(
+                      UpdateAccountName(newName: newName),
+                    );
+                    Navigator.pop(context, newName); // Возвращаем новое имя
+                  }
+                },
+                child: const Text('Сохранить'),
+              ),
+            ],
+          ),
+    ).then((final newName) {
+      if (newName != null) {
+        // Обновляем данные (например, через Bloc)
+        print('Новое название: $newName');
+      }
+    });
+  }
+
+  Widget _accountBalanceRow({
+    required final String balance,
+    required final String currency,
+  }) => Container(
+    padding: const EdgeInsets.all(16.0),
+    decoration: const BoxDecoration(color: AppColors.greenlight1),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
+        const Row(
           spacing: 16.0,
           children: [
             CircleAvatar(child: Text('💰', style: TextStyle(fontSize: 28))),
@@ -85,25 +155,31 @@ class _AccountPageView extends StatelessWidget {
         Row(
           spacing: 16.0,
           children: [
-            Text('123 123'),
-            IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: () {}),
+            Text('$balance $currency'),
+            IconButton(
+              icon: const Icon(Icons.arrow_forward_ios),
+              onPressed: () {},
+            ),
           ],
         ),
       ],
     ),
   );
-  Widget _accountCurrencyRow() => Container(
-    padding: EdgeInsets.all(16.0),
-    decoration: BoxDecoration(color: AppColors.greenlight1),
+  Widget _accountCurrencyRow({required final String currency}) => Container(
+    padding: const EdgeInsets.all(16.0),
+    decoration: const BoxDecoration(color: AppColors.greenlight1),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(spacing: 16.0, children: [Text('Валюта')]),
+        const Row(spacing: 16.0, children: [Text('Валюта')]),
         Row(
           spacing: 16.0,
           children: [
-            Text('RUB'),
-            IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: () {}),
+            const Text('RUB'),
+            IconButton(
+              icon: const Icon(Icons.arrow_forward_ios),
+              onPressed: () {},
+            ),
           ],
         ),
       ],

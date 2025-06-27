@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:coinio_app/domain/models/account/account.dart';
 import 'package:coinio_app/domain/usecases/accounts/get_account_usecase.dart';
 import 'package:coinio_app/ui/blocs/accounts_bloc/account_event.dart';
@@ -22,5 +24,28 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
         ),
       ) {
     // on<someEvent>(someMethod);
+    on<UpdateAccountName>(_onUpdateAccountName);
+  }
+
+  Future<void> _onUpdateAccountName(
+    UpdateAccountName event,
+    Emitter<AccountState> emit,
+  ) async {
+    // emit(AccountLoading(account: account))
+    // TODO update name logic
+
+    // this account should be accessed from mock repo via any usecase
+    final account = Account(
+      id: 123,
+      userId: 1,
+      name: event.newName,
+      balance: '1233',
+      currency: 'RUB',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+
+    // emit(AccountLoading(account: account));
+    emit(AccountLoaded(account: account));
   }
 }
