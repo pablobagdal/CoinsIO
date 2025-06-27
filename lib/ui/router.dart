@@ -1,5 +1,6 @@
 import 'package:coinio_app/core/fonts/my_icons.dart';
-import 'package:coinio_app/ui/pages/accounts_page.dart';
+import 'package:coinio_app/ui/pages/accounts/account_change_balance.dart';
+import 'package:coinio_app/ui/pages/accounts/accounts_page.dart';
 import 'package:coinio_app/ui/pages/categories_page.dart';
 import 'package:coinio_app/ui/pages/settings_page.dart';
 import 'package:coinio_app/ui/pages/transactions/transactions_history_page.dart';
@@ -89,6 +90,14 @@ final GoRouter router = GoRouter(
             GoRoute(
               path: '/accounts',
               builder: (final context, final state) => const AccountsPage(),
+              routes: [
+                GoRoute(
+                  path: 'balance',
+                  builder:
+                      (final context, final state) =>
+                          const AccountChangeBalance(),
+                ),
+              ],
             ),
           ],
         ),

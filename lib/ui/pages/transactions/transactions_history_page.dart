@@ -16,8 +16,8 @@ class TransactionsHistoryPage extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final now = DateTime.now();
-    final startDate = DateTime(now.year, now.month - 1, now.day);
-    final endDate = DateTime(now.year, now.month, now.day, 23, 59, 59);
+    final DateTime startDate = DateTime(now.year, now.month - 1, now.day);
+    final DateTime endDate = DateTime(now.year, now.month, now.day, 23, 59, 59);
 
     return BlocProvider(
       create:
