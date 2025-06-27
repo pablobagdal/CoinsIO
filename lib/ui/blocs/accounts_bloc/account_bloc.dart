@@ -25,6 +25,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       ) {
     // on<someEvent>(someMethod);
     on<UpdateAccountName>(_onUpdateAccountName);
+    on<UpdateAccountCurrency>(_onUpdateAccountCurrency);
   }
 
   Future<void> _onUpdateAccountName(
@@ -46,6 +47,17 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     );
 
     // emit(AccountLoading(account: account));
+    emit(AccountLoaded(account: account));
+  }
+
+  Future<void> _onUpdateAccountCurrency(
+    UpdateAccountCurrency event,
+    Emitter<AccountState> emit,
+  ) async {
+    // final account = await getAccountUsecase.accountRepository.getAccount(id: 1)
+    //   ..copyWith(currency: event.newCurrency);
+    final account = event.account.copyWith(currency: event.newCurrency);
+
     emit(AccountLoaded(account: account));
   }
 }

@@ -228,12 +228,13 @@ class _AccountPageView extends StatelessWidget {
         // Закругленные углы
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
-      builder: (final context) {
+      builder: (_) {
         final account = context.read<AccountBloc>().state.account;
         return _CurrencyPicker(
           context,
           currencies: currencies,
           currentCurrency: account.currency,
+          bloc: context.read<AccountBloc>(),
         );
       },
     );
@@ -248,22 +249,17 @@ class _AccountPageView extends StatelessWidget {
   );
 }
 
-class _CurrencyPicker extends StatefulWidget {
+class _CurrencyPicker extends StatelessWidget {
   final List<Currency> currencies;
   final String currentCurrency;
-
+  final AccountBloc bloc;
+  // final Currency? _selectedCurrency;
   const _CurrencyPicker(
     final BuildContext context, {
     required this.currencies,
     required this.currentCurrency,
+    required this.bloc,
   });
-
-  @override
-  State<_CurrencyPicker> createState() => _CurrencyPickerState();
-}
-
-class _CurrencyPickerState extends State<_CurrencyPicker> {
-  Currency? _selectedCurrency;
 
   @override
   Widget build(final BuildContext context) => Padding(
@@ -278,9 +274,9 @@ class _CurrencyPickerState extends State<_CurrencyPicker> {
         const SizedBox(height: 16),
         Expanded(
           child: ListView.builder(
-            itemCount: widget.currencies.length,
+            itemCount: currencies.length,
             itemBuilder: (final context, final index) {
-              final currency = widget.currencies[index];
+              final currency = currencies[index];
               return ListTile(
                 leading: Text(
                   currency.symbol,
@@ -288,14 +284,16 @@ class _CurrencyPickerState extends State<_CurrencyPicker> {
                 ),
                 title: Text(currency.name),
                 subtitle: Text(currency.code),
-                trailing:
-                    _selectedCurrency == currency
-                        ? const Icon(Icons.check, color: Colors.green)
-                        : null,
+                // trailing:
+                //     _selectedCurrency == currency
+                //         ? const Icon(Icons.check, color: Colors.green)
+                //         : null,
                 onTap: () {
-                  setState(() => _selectedCurrency = currency);
-                  context.read<AccountBloc>().add(
-                    UpdateAccountCurrency(newCurrency: currency.code),
+                  bloc.add(
+                    UpdateAccountCurrency(
+                      newCurrency: currency.code,
+                      account: bloc.state.account,
+                    ),
                   );
 
                   Navigator.pop<String?>(
