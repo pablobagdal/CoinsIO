@@ -39,6 +39,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   go_router: ^15.2.4
   shake: ^3.0.0
+  fuzzywuzzy: ^1.2.0
 
 dev_dependencies:
   flutter_test:

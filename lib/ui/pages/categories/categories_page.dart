@@ -1,4 +1,5 @@
 import 'package:coinio_app/data/repositories/mock_category_repository.dart';
+import 'package:coinio_app/domain/models/category/category.dart';
 import 'package:coinio_app/domain/usecases/categories/get_categories_usecase.dart';
 import 'package:coinio_app/ui/blocs/categories_bloc/categories_bloc.dart';
 import 'package:coinio_app/ui/blocs/categories_bloc/categories_event.dart';
@@ -21,7 +22,35 @@ class CategoriesPage extends StatelessWidget {
   );
 }
 
-class _CategoriesPageView extends StatelessWidget {
+class _CategoriesPageView extends StatefulWidget {
+  @override
+  State<_CategoriesPageView> createState() => _CategoriesPageViewState();
+}
+
+class _CategoriesPageViewState extends State<_CategoriesPageView> {
+  List<Category> allCategories = [];
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   final state = context.read<CategoriesBloc>().state;
+  //   if (state is CategoriesLoaded) {
+  //     allCategories = state.categories;
+  //     print(allCategories);
+  //   }
+  // }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   final state = context.read<CategoriesBloc>().state;
+  //   if (state is CategoriesLoaded) {
+  //     allCategories = state.categories;
+  //     print(allCategories);
+  //   }
+  // }
+
   @override
   Widget build(final BuildContext context) => Scaffold(
     appBar: AppBar(title: const Text('Категории')),
@@ -37,6 +66,17 @@ class _CategoriesPageView extends StatelessWidget {
             ),
             onChanged: (final query) {
               // TODO: реализовать фильтрацию списка по запросу
+              // setState(() {});
+              if (query == '') {
+                context.read<CategoriesBloc>().add(LoadCategories());
+              } else {
+                context.read<CategoriesBloc>().add(
+                  SearchCategoriesByName(
+                    categories: allCategories,
+                    query: query,
+                  ),
+                );
+              }
             },
           ),
         ),
@@ -46,6 +86,7 @@ class _CategoriesPageView extends StatelessWidget {
               if (state is CategoriesLoading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is CategoriesLoaded) {
+                allCategories = state.categories;
                 final categories = state.categories;
                 if (categories.isEmpty) {
                   return const Center(child: Text('Нет категорий'));

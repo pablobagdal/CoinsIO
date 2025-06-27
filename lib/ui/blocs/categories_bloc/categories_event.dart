@@ -3,9 +3,10 @@ import 'package:coinio_app/domain/models/category/category.dart';
 abstract class CategoriesEvent {}
 
 class SearchCategoriesByName extends CategoriesEvent {
-  List<Category> categories;
+  final List<Category> categories;
+  final String query;
 
-  SearchCategoriesByName({required this.categories});
+  SearchCategoriesByName({required this.query, required this.categories});
 }
 
 class LoadCategories extends CategoriesEvent {}
