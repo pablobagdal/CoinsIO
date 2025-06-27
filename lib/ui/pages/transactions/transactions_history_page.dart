@@ -1,4 +1,5 @@
 import 'package:coinio_app/core/themes/colors.dart';
+import 'package:coinio_app/core/utils/type_format.dart';
 import 'package:coinio_app/data/repositories/mock_transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
 import 'package:coinio_app/domain/usecases/transactions/get_transactions_by_period_usecase.dart';
@@ -11,47 +12,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class TransactionsHistoryPage extends StatelessWidget {
   final bool isIncome;
   const TransactionsHistoryPage({super.key, required this.isIncome});
-
-  // Future<void> _pickDate(
-  //   final BuildContext context,
-  //   final bool isFrom,
-  //   final DateTime initial,
-  // ) async {
-  //   final picked = await showDatePicker(
-  //     context: context,
-  //     initialDate: initial,
-  //     firstDate: DateTime(2000),
-  //     lastDate: DateTime.now(),
-  //   );
-  //   if (picked != null) {
-  //     // if (context.mounted) {}
-  //     final bloc = context.read<TransactionsHistoryBloc>();
-  //     final state = bloc.state;
-  //     if (state is TransactionsHistoryLoaded) {
-  //       DateTime from =
-  //           isFrom
-  //               ? DateTime(picked.year, picked.month, picked.day, 0, 0, 0)
-  //               : state.startDate;
-  //       DateTime to =
-  //           !isFrom
-  //               ? DateTime(picked.year, picked.month, picked.day, 23, 59, 59)
-  //               : state.endDate;
-
-  //       // Корректировка границ периода
-  //       if (from.isAfter(to)) {
-  //         if (isFrom) {
-  //           to = from;
-  //         } else {
-  //           from = to;
-  //         }
-  //       }
-
-  //       // bloc.add(
-  //       //   ChangePeriod(startDate: from, endDate: to, isIncome: widget.isIncome),
-  //       // );
-  //     }
-  //   }
-  // }
 
   @override
   Widget build(final BuildContext context) {
@@ -119,52 +79,14 @@ class _TransactionsHistoryViewBody extends StatelessWidget {
       0.0,
       (final sum, final tr) => sum + double.parse(tr.amount),
     );
+    final sign = transactions.first.account.currency;
 
     return Column(
       children: [
-        GestureDetector(
-          onTap: () {},
-          // onTap: () => _pickDate(context, true, state.startDate),
-          child: Container(
-            decoration: const BoxDecoration(
-              color: AppColors.greenlight1,
-              border: Border(
-                bottom: BorderSide(color: AppColors.grey1, width: 1),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Начало'),
-                Text(
-                  // '${state.startDate.day.toString().padLeft(2, '0')}.${state.startDate.month.toString().padLeft(2, '0')}.${state.startDate.year}',
-                  'text123',
-                ),
-              ],
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {},
-          // onTap: () => _pickDate(context, false, state.endDate),
-          child: Container(
-            decoration: const BoxDecoration(
-              color: AppColors.greenlight1,
-              border: Border(
-                bottom: BorderSide(color: AppColors.grey1, width: 1),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Конец'),
-                Text(
-                  // '${state.endDate.day.toString().padLeft(2, '0')}.${state.endDate.month.toString().padLeft(2, '0')}.${state.endDate.year}',
-                  'te12',
-                ),
-              ],
-            ),
-          ),
+        _buildDatePickerRow(
+          context,
+          startDate: context.read<TransactionsHistoryBloc>().state.startDate,
+          endDate: context.read<TransactionsHistoryBloc>().state.endDate,
         ),
         Container(
           decoration: const BoxDecoration(
@@ -175,7 +97,10 @@ class _TransactionsHistoryViewBody extends StatelessWidget {
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [const Text('Сумма'), Text('${totalSum.toString()} RUB')],
+            children: [
+              const Text('Сумма'),
+              Text('${totalSum.toString()} $sign'),
+            ],
           ),
         ),
         //               // Row(
@@ -260,4 +185,106 @@ class _TransactionsHistoryViewBody extends StatelessWidget {
       ],
     );
   }
+
+  Future<(DateTime, DateTime)?> _pickDate(
+    final BuildContext context, {
+    required final bool isStart,
+    required final DateTime currentStart,
+    required final DateTime currentEnd,
+  }) async {
+    final initialDate = isStart ? currentStart : currentEnd;
+
+    final date = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (date == null) return null;
+
+    DateTime newStart = currentStart;
+    DateTime newEnd = currentEnd;
+
+    if (isStart) {
+      newStart = DateTime(date.year, date.month, date.day);
+      if (newStart.isAfter(newEnd)) {
+        newEnd = DateTime(date.year, date.month, date.day, 23, 59, 59);
+      }
+    } else {
+      newEnd = DateTime(date.year, date.month, date.day, 23, 59, 59);
+      if (newEnd.isBefore(newStart)) {
+        newStart = DateTime(date.year, date.month, date.day);
+      }
+    }
+
+    return (newStart, newEnd);
+  }
+
+  Widget _datePickerWidget(
+    BuildContext context, {
+    required final DateTime startDate,
+    required final DateTime endDate,
+    required final bool isStart,
+  }) {
+    return InkWell(
+      onTap: () async {
+        final pickedDates = await _pickDate(
+          context,
+          isStart: isStart,
+          currentStart: startDate,
+          currentEnd: endDate,
+        );
+
+        if (!context.mounted || pickedDates == null) return;
+
+        final (newStartDate, newEndDate) = pickedDates;
+
+        if (newStartDate == startDate && newEndDate == endDate) return;
+
+        context.read<TransactionsHistoryBloc>().add(
+          LoadTransactionsHistory(startDate: newStartDate, endDate: newEndDate),
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        // color: Theme.of(context).colorScheme.secondary,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            isStart ? const Text('Начало') : const Text('Конец'),
+            Text(dateFormat(isStart ? startDate : endDate)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDatePickerRow(
+    BuildContext context, {
+    required final DateTime startDate,
+    required final DateTime endDate,
+  }) {
+    return Column(
+      children: [
+        _datePickerWidget(
+          context,
+          startDate: startDate,
+          endDate: endDate,
+          isStart: true,
+        ),
+        _datePickerWidget(
+          context,
+          startDate: startDate,
+          endDate: endDate,
+          isStart: false,
+        ),
+      ],
+    );
+  }
+
+  // Widget _sortTransactionsDropdownWidget(BuildContext context, {required final SortState sortState}) {
+
+  // }
 }

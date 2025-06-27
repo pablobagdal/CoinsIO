@@ -57,6 +57,9 @@ abstract class AppTheme {
       highlightElevation: 0,
       backgroundColor: AppColors.greenbright1,
     ),
+    // splashColor: AppColors.greenbright1.withOpacity(0.2),
+    // highlightColor: AppColors.greenbright1.withOpacity(0.1),
+    // hoverColor: AppColors.greenbright1.withOpacity(0.08),
     brightness: Brightness.light,
     useMaterial3: true,
   );
