@@ -4,6 +4,7 @@ import 'package:coinio_app/domain/usecases/accounts/get_account_usecase.dart';
 import 'package:coinio_app/ui/blocs/accounts_bloc/account_bloc.dart';
 import 'package:coinio_app/ui/blocs/accounts_bloc/account_event.dart';
 import 'package:coinio_app/ui/blocs/accounts_bloc/account_state.dart';
+import 'package:coinio_app/ui/pages/accounts/simple_spoiler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:go_router/go_router.dart';
@@ -179,7 +180,8 @@ class _AccountPageView extends StatelessWidget {
         Row(
           spacing: 16.0,
           children: [
-            Text('$balance $currency'),
+            SimpleSpoiler(balance: balance, currency: currency),
+            // Text('$balance $currency'),
             IconButton(
               icon: const Icon(Icons.arrow_forward_ios),
               onPressed: () {},
