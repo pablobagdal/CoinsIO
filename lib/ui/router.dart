@@ -3,6 +3,7 @@ import 'package:coinio_app/ui/pages/accounts/account_change_balance.dart';
 import 'package:coinio_app/ui/pages/accounts/accounts_page.dart';
 import 'package:coinio_app/ui/pages/categories/categories_page.dart';
 import 'package:coinio_app/ui/pages/settings_page.dart';
+import 'package:coinio_app/ui/pages/transactions/analysis_page.dart';
 import 'package:coinio_app/ui/pages/transactions/transactions_history_page.dart';
 import 'package:coinio_app/ui/pages/transactions/transactions_page.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +63,14 @@ final GoRouter router = GoRouter(
                   builder:
                       (final context, final state) =>
                           const TransactionsHistoryPage(isIncome: false),
+                  routes: [
+                    GoRoute(
+                      path: 'analysis',
+                      builder:
+                          (final context, final state) =>
+                              const AnalysisPage(isIncome: false),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -80,6 +89,14 @@ final GoRouter router = GoRouter(
                   builder:
                       (final context, final state) =>
                           const TransactionsHistoryPage(isIncome: true),
+                  routes: [
+                    GoRoute(
+                      path: 'analysis',
+                      builder:
+                          (final context, final state) =>
+                              const AnalysisPage(isIncome: true),
+                    ),
+                  ],
                 ),
               ],
             ),

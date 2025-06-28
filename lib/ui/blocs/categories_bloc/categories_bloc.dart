@@ -12,26 +12,29 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   CategoriesBloc({required this.getCategoriesUsecase})
     : super(CategoriesLoading(categories: [])) {
     on<LoadCategories>(_onLoadCategories);
-    on<SearchCategoriesByName>(_onSearchCategoriesByName);
+    // on<SearchCategoriesByName>(_onSearchCategoriesByName);
   }
 
-  Future<void> _onSearchCategoriesByName(
-    final SearchCategoriesByName event,
-    final Emitter<CategoriesState> emit,
-  ) async {
-    emit(CategoriesLoading(categories: []));
+  // Future<void> _onSearchCategoriesByName(
+  //   final SearchCategoriesByName event,
+  //   final Emitter<CategoriesState> emit,
+  // ) async {
+  //   emit(CategoriesLoading(categories: []));
 
-    final expectedRateLevel = 10;
+  //   final expectedRateLevel = 10;
 
-    final allCategories = event.categories;
-    // fuzzy wuzzy realization
-    final filtered =
-        allCategories
-            .where((final c) => ratio(event.query, c.name) > expectedRateLevel)
-            .toList();
-    // final filtered = allCategories;
-    emit(CategoriesLoaded(categories: filtered));
-  }
+  //   final allCategories = event.categories;
+  //   // fuzzy wuzzy realization
+  //   final filtered =
+  //       allCategories
+  //           .where(
+  //             (final c) =>
+  //                 ratio(event.query, c.name.toLowerCase()) > expectedRateLevel,
+  //           )
+  //           .toList();
+  //   // final filtered = allCategories;
+  //   emit(CategoriesLoaded(categories: filtered));
+  // }
 
   Future<void> _onLoadCategories(
     final LoadCategories event,

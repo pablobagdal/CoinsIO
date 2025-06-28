@@ -8,6 +8,7 @@ import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_histo
 import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class TransactionsHistoryPage extends StatelessWidget {
   final bool isIncome;
@@ -31,15 +32,32 @@ class TransactionsHistoryPage extends StatelessWidget {
           )..add(
             LoadTransactionsHistory(startDate: startDate, endDate: endDate),
           ),
-      child: _TransactionsHistoryView(),
+      child: _TransactionsHistoryView(isIncome: isIncome),
     );
   }
 }
 
 class _TransactionsHistoryView extends StatelessWidget {
+  final bool isIncome;
+  const _TransactionsHistoryView({required this.isIncome});
+
   @override
   Widget build(final BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Моя история')),
+    appBar: AppBar(
+      title: const Text('Моя история'),
+      actions: [
+        IconButton(
+          onPressed: () {
+            context.go(
+              isIncome
+                  ? '/incomes/history/analysis'
+                  : '/expenses/history/analysis',
+            );
+          },
+          icon: Icon(Icons.av_timer_rounded),
+        ),
+      ],
+    ),
     body: BlocBuilder<TransactionsHistoryBloc, TransactionsHistoryState>(
       builder: (final context, final state) {
         if (state is TransactionsHistoryLoading) {

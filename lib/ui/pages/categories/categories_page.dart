@@ -6,6 +6,7 @@ import 'package:coinio_app/ui/blocs/categories_bloc/categories_event.dart';
 import 'package:coinio_app/ui/blocs/categories_bloc/categories_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fuzzywuzzy/fuzzywuzzy.dart';
 
 class CategoriesPage extends StatelessWidget {
   const CategoriesPage({super.key});
@@ -28,7 +29,15 @@ class _CategoriesPageView extends StatefulWidget {
 }
 
 class _CategoriesPageViewState extends State<_CategoriesPageView> {
-  List<Category> allCategories = [];
+  final TextEditingController _searchController = TextEditingController();
+  String _query = '';
+  // List<Category> allCategories = [];
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   // @override
   // void initState() {
@@ -64,19 +73,25 @@ class _CategoriesPageViewState extends State<_CategoriesPageView> {
               prefixIcon: Icon(Icons.search),
               border: OutlineInputBorder(),
             ),
-            onChanged: (final query) {
-              // TODO: реализовать фильтрацию списка по запросу
-              // setState(() {});
-              if (query == '') {
-                context.read<CategoriesBloc>().add(LoadCategories());
-              } else {
-                context.read<CategoriesBloc>().add(
-                  SearchCategoriesByName(
-                    categories: allCategories,
-                    query: query,
-                  ),
-                );
-              }
+            // onChanged: (final query) {
+            //   // TODO: реализовать фильтрацию списка по запросу
+            //   setState(() {
+            //     if (query == '') {
+            //       context.read<CategoriesBloc>().add(LoadCategories());
+            //     } else {
+            //       context.read<CategoriesBloc>().add(
+            //         SearchCategoriesByName(
+            //           categories: allCategories,
+            //           query: query.trim().toLowerCase(),
+            //         ),
+            //       );
+            //     }
+            //   });
+            // },
+            onChanged: (value) {
+              setState(() {
+                _query = value.trim().toLowerCase();
+              });
             },
           ),
         ),
@@ -86,15 +101,23 @@ class _CategoriesPageViewState extends State<_CategoriesPageView> {
               if (state is CategoriesLoading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is CategoriesLoaded) {
-                allCategories = state.categories;
+                // allCategories = state.categories;
                 final categories = state.categories;
                 if (categories.isEmpty) {
                   return const Center(child: Text('Нет категорий'));
                 }
+                final filtered =
+                    _query == ''
+                        ? categories
+                        : categories.where((c) {
+                          return c.name.toLowerCase().contains(_query) ||
+                              ratio(c.name.toLowerCase(), _query) > 70;
+                        }).toList();
+
                 return ListView.builder(
-                  itemCount: categories.length,
+                  itemCount: filtered.length,
                   itemBuilder: (final context, final index) {
-                    final category = categories[index];
+                    final category = filtered[index];
                     return ListTile(
                       title: Text(category.name),
                       subtitle:

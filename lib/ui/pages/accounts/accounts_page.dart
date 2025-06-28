@@ -4,27 +4,32 @@ import 'package:coinio_app/domain/usecases/accounts/get_account_usecase.dart';
 import 'package:coinio_app/ui/blocs/accounts_bloc/account_bloc.dart';
 import 'package:coinio_app/ui/blocs/accounts_bloc/account_event.dart';
 import 'package:coinio_app/ui/blocs/accounts_bloc/account_state.dart';
+import 'package:coinio_app/ui/pages/accounts/show_currency_picker.dart';
 import 'package:coinio_app/ui/pages/accounts/simple_spoiler.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spoiler_widget/spoiler_widget.dart';
 // import 'package:go_router/go_router.dart';
+import 'package:shake/shake.dart';
+import 'dart:io' show Platform;
 
 Map<String, String> currencySigns = {'RUB': '₽', 'USD': '\$', 'EUR': '€'};
 
-final List<Currency> currencies = [
-  Currency(code: 'USD', name: 'Доллар США', symbol: '\$'),
-  Currency(code: 'EUR', name: 'Евро', symbol: '€'),
-  Currency(code: 'RUB', name: 'Рубль', symbol: '₽'),
-  // Добавьте другие валюты
-];
+// final List<Currency> currencies = [
+//   Currency(code: 'USD', name: 'Доллар США', symbol: '\$'),
+//   Currency(code: 'EUR', name: 'Евро', symbol: '€'),
+//   Currency(code: 'RUB', name: 'Рубль', symbol: '₽'),
+//   // Добавьте другие валюты
+// ];
 
-class Currency {
-  final String code;
-  final String name;
-  final String symbol;
+// class Currency {
+//   final String code;
+//   final String name;
+//   final String symbol;
 
-  Currency({required this.code, required this.name, required this.symbol});
-}
+//   Currency({required this.code, required this.name, required this.symbol});
+// }
 
 class AccountsPage extends StatelessWidget {
   const AccountsPage({super.key});
@@ -41,7 +46,44 @@ class AccountsPage extends StatelessWidget {
   );
 }
 
-class _AccountPageView extends StatelessWidget {
+class _AccountPageView extends StatefulWidget {
+  @override
+  State<_AccountPageView> createState() => _AccountPageViewState();
+}
+
+class _AccountPageViewState extends State<_AccountPageView> {
+  bool _textVisible = false;
+  late ShakeDetector? _detector;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (!kIsWeb && Platform.isAndroid) {
+      _detector?.stopListening();
+
+      _detector = ShakeDetector.autoStart(
+        onPhoneShake: (ShakeEvent event) {
+          setState(() {
+            _textVisible = !_textVisible;
+          });
+        },
+        minimumShakeCount: 2,
+        shakeSlopTimeMS: 500,
+        shakeCountResetTime: 3000,
+        shakeThresholdGravity: 2.7,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    if (!kIsWeb && Platform.isAndroid) {
+      _detector?.stopListening();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(final BuildContext context) => Scaffold(
     appBar: AppBar(
@@ -180,7 +222,17 @@ class _AccountPageView extends StatelessWidget {
         Row(
           spacing: 16.0,
           children: [
-            SimpleSpoiler(balance: balance, currency: currency),
+            // SimpleSpoiler(balance: balance, currency: currency),
+            SpoilerText(
+              text: '$balance ${currencySigns[currency]}',
+              config: TextSpoilerConfig(
+                isEnabled: _textVisible,
+                enableFadeAnimation: true,
+                enableGestureReveal: true,
+                textStyle: const TextStyle(fontSize: 16, color: Colors.black),
+                particleColor: Colors.grey,
+              ),
+            ),
             // Text('$balance $currency'),
             IconButton(
               icon: const Icon(Icons.arrow_forward_ios),
@@ -191,6 +243,7 @@ class _AccountPageView extends StatelessWidget {
       ],
     ),
   );
+
   Widget _accountCurrencyRow(
     final BuildContext context, {
     required final String currency,
@@ -211,8 +264,17 @@ class _AccountPageView extends StatelessWidget {
               Text(sign),
               IconButton(
                 icon: const Icon(Icons.arrow_forward_ios),
-                onPressed: () {
-                  _openCurrencyBottomSheet(context);
+                onPressed: () async {
+                  // _openCurrencyBottomSheet(context);
+                  final selected = await showCurrencyPicker(context);
+                  if (selected != null) {
+                    context.read<AccountBloc>().add(
+                      UpdateAccountCurrency(
+                        newCurrency: selected,
+                        account: context.read<AccountBloc>().state.account,
+                      ),
+                    );
+                  }
                 },
               ),
             ],
@@ -222,26 +284,7 @@ class _AccountPageView extends StatelessWidget {
     );
   }
 
-  void _openCurrencyBottomSheet(final BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true, // Для адаптивной высоты
-      shape: const RoundedRectangleBorder(
-        // Закругленные углы
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (_) {
-        final account = context.read<AccountBloc>().state.account;
-        return _CurrencyPicker(
-          context,
-          currencies: currencies,
-          currentCurrency: account.currency,
-          bloc: context.read<AccountBloc>(),
-        );
-      },
-    );
-  }
-
+  // void _openCurrencyBottomSheet(final BuildContext context) {
   Widget _accountGraphicView(final BuildContext context) => Center(
     child: Image.asset(
       'assets/temp_graphic.png',
@@ -251,63 +294,63 @@ class _AccountPageView extends StatelessWidget {
   );
 }
 
-class _CurrencyPicker extends StatelessWidget {
-  final List<Currency> currencies;
-  final String currentCurrency;
-  final AccountBloc bloc;
-  // final Currency? _selectedCurrency;
-  const _CurrencyPicker(
-    final BuildContext context, {
-    required this.currencies,
-    required this.currentCurrency,
-    required this.bloc,
-  });
+// class _CurrencyPicker extends StatelessWidget {
+//   final List<Currency> currencies;
+//   final String currentCurrency;
+//   final AccountBloc bloc;
+//   // final Currency? _selectedCurrency;
+//   const _CurrencyPicker(
+//     final BuildContext context, {
+//     required this.currencies,
+//     required this.currentCurrency,
+//     required this.bloc,
+//   });
 
-  @override
-  Widget build(final BuildContext context) => Padding(
-    padding: const EdgeInsets.all(16),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Text(
-          'Выберите валюту',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 16),
-        Expanded(
-          child: ListView.builder(
-            itemCount: currencies.length,
-            itemBuilder: (final context, final index) {
-              final currency = currencies[index];
-              return ListTile(
-                leading: Text(
-                  currency.symbol,
-                  style: const TextStyle(fontSize: 20),
-                ),
-                title: Text(currency.name),
-                subtitle: Text(currency.code),
-                // trailing:
-                //     _selectedCurrency == currency
-                //         ? const Icon(Icons.check, color: Colors.green)
-                //         : null,
-                onTap: () {
-                  bloc.add(
-                    UpdateAccountCurrency(
-                      newCurrency: currency.code,
-                      account: bloc.state.account,
-                    ),
-                  );
+//   @override
+//   Widget build(final BuildContext context) => Padding(
+//     padding: const EdgeInsets.all(16),
+//     child: Column(
+//       mainAxisSize: MainAxisSize.min,
+//       children: [
+//         const Text(
+//           'Выберите валюту',
+//           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//         ),
+//         const SizedBox(height: 16),
+//         Expanded(
+//           child: ListView.builder(
+//             itemCount: currencies.length,
+//             itemBuilder: (final context, final index) {
+//               final currency = currencies[index];
+//               return ListTile(
+//                 leading: Text(
+//                   currency.symbol,
+//                   style: const TextStyle(fontSize: 20),
+//                 ),
+//                 title: Text(currency.name),
+//                 subtitle: Text(currency.code),
+//                 // trailing:
+//                 //     _selectedCurrency == currency
+//                 //         ? const Icon(Icons.check, color: Colors.green)
+//                 //         : null,
+//                 onTap: () {
+//                   bloc.add(
+//                     UpdateAccountCurrency(
+//                       newCurrency: currency.code,
+//                       account: bloc.state.account,
+//                     ),
+//                   );
 
-                  Navigator.pop<String?>(
-                    context,
-                    currency.name,
-                  ); // Возвращаем выбранную валюту
-                },
-              );
-            },
-          ),
-        ),
-      ],
-    ),
-  );
-}
+//                   Navigator.pop<String?>(
+//                     context,
+//                     currency.name,
+//                   ); // Возвращаем выбранную валюту
+//                 },
+//               );
+//             },
+//           ),
+//         ),
+//       ],
+//     ),
+//   );
+// }

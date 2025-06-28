@@ -557,6 +557,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.1"
+  spoiler_widget:
+    dependency: "direct main"
+    description:
+      name: spoiler_widget
+      sha256: cb6487aba644f20e0227885d1c50e8e96c91afb3156e4f5e899234bbd24bcd42
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.12"
   stack_trace:
     dependency: transitive
     description:
