@@ -23,16 +23,11 @@ class MockAccountRepository implements AccountRepository {
     await Future.delayed(const Duration(seconds: 1));
 
     // TODO add logger instead of prints
-    print('Account updated: ${account.name}, Balance: ${account.balance}');
   }
 
   @override
   Future<void> addAccount({required final AccountCreateRequest account}) async {
     await Future.delayed(const Duration(seconds: 1));
-
-    print(
-      'Account successfully added: ${account.name}, Balance: ${account.balance}',
-    );
   }
 
   @override

@@ -289,7 +289,7 @@ class _AccountPageViewState extends State<_AccountPageView> {
     child: Image.asset(
       'assets/temp_graphic.png',
       fit: BoxFit.cover,
-      height: MediaQuery.of(context).size.height * 0.5,
+      height: MediaQuery.of(context).size.height * 0.3,
     ),
   );
 }

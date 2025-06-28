@@ -1,3 +1,4 @@
+import 'package:coinio_app/core/themes/colors.dart';
 import 'package:coinio_app/core/utils/type_format.dart';
 import 'package:coinio_app/data/repositories/mock_category_repository.dart';
 import 'package:coinio_app/data/repositories/mock_transaction_repository.dart';
@@ -131,7 +132,6 @@ class _TransactionsAnalysisViewState extends State<_TransactionsAnalysisView> {
                   sumsByCategoryId.entries.toList()
                     ..sort((final a, final b) => a.value.compareTo(b.value));
 
-              print('count = ${_categories.length}');
               return ListView(
                 children: [
                   InkWell(
@@ -167,7 +167,8 @@ class _TransactionsAnalysisViewState extends State<_TransactionsAnalysisView> {
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.primary,
+                              // color: Theme.of(context).colorScheme.primary,
+                              color: AppColors.greenbright1,
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(dateFormat(start)),
@@ -210,7 +211,8 @@ class _TransactionsAnalysisViewState extends State<_TransactionsAnalysisView> {
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.primary,
+                              // color: Theme.of(context).colorScheme.primary,
+                              color: AppColors.greenbright1,
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(dateFormat(end)),
