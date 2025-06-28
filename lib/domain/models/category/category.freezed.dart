@@ -16,10 +16,10 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Category {
 
-// example: 1
- int get id;// example: Зарплата
- String get name;// example: 💰
- String get emoji;// example: true
+/// example: 1
+ int get id;/// example: Зарплата
+ String get name;/// example: 💰
+ String get emoji;/// example: true
  bool get isIncome;
 /// Create a copy of Category
 /// with the given fields replaced by the non-null parameter values.
@@ -90,13 +90,13 @@ class _Category implements Category {
   const _Category({required this.id, required this.name, required this.emoji, required this.isIncome});
   factory _Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 
-// example: 1
+/// example: 1
 @override final  int id;
-// example: Зарплата
+/// example: Зарплата
 @override final  String name;
-// example: 💰
+/// example: 💰
 @override final  String emoji;
-// example: true
+/// example: true
 @override final  bool isIncome;
 
 /// Create a copy of Category

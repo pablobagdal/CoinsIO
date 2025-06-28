@@ -16,11 +16,11 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TransactionRequest {
 
-// example: 1
- int get accountId;// example: 1
- int get categoryId;// example: 500.00
- String get amount;// example: 2023-10-01T12:00:00Z
- String get transactionDate;// example: Зарплата за месяц
+/// example: 1
+ int get accountId;/// example: 1
+ int get categoryId;/// example: 500.00
+ String get amount;/// example: 2023-10-01T12:00:00Z
+ String get transactionDate;/// example: Зарплата за месяц
  String? get comment;
 /// Create a copy of TransactionRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -92,15 +92,15 @@ class _TransactionRequest implements TransactionRequest {
   const _TransactionRequest({required this.accountId, required this.categoryId, required this.amount, required this.transactionDate, this.comment});
   factory _TransactionRequest.fromJson(Map<String, dynamic> json) => _$TransactionRequestFromJson(json);
 
-// example: 1
+/// example: 1
 @override final  int accountId;
-// example: 1
+/// example: 1
 @override final  int categoryId;
-// example: 500.00
+/// example: 500.00
 @override final  String amount;
-// example: 2023-10-01T12:00:00Z
+/// example: 2023-10-01T12:00:00Z
 @override final  String transactionDate;
-// example: Зарплата за месяц
+/// example: Зарплата за месяц
 @override final  String? comment;
 
 /// Create a copy of TransactionRequest

@@ -5,27 +5,38 @@ import 'package:json_annotation/json_annotation.dart';
 part 'account_history.g.dart';
 part 'account_history.freezed.dart';
 
-enum ChangeType { MODIFICATION, CREATION }
+enum ChangeType {
+  @JsonValue('MODIFICATION')
+  modification,
+  @JsonValue('CREATION')
+  creation,
+}
 
 @freezed
 abstract class AccountHistory with _$AccountHistory {
   const factory AccountHistory({
-    // example: 1
-    required int id,
-    // example: 1
-    required int accountId,
-    // example: MODIFICATION or CREATION
-    required ChangeType changeType,
-    // previous state of the account
-    required AccountState previousState,
-    // new state of the account after the change
-    required AccountState newState,
-    // timestamp of the change
-    required DateTime changeTimestamp,
-    // creation timestamp of the history record
-    required DateTime createdAt,
+    /// example: 1
+    required final int id,
+
+    /// example: 1
+    required final int accountId,
+
+    /// example: MODIFICATION or CREATION
+    required final ChangeType changeType,
+
+    /// previous state of the account
+    required final AccountState previousState,
+
+    /// new state of the account after the change
+    required final AccountState newState,
+
+    /// timestamp of the change
+    required final DateTime changeTimestamp,
+
+    /// creation timestamp of the history record
+    required final DateTime createdAt,
   }) = _AccountHistory;
 
-  factory AccountHistory.fromJson(Map<String, dynamic> json) =>
+  factory AccountHistory.fromJson(final Map<String, dynamic> json) =>
       _$AccountHistoryFromJson(json);
 }

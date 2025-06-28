@@ -27,7 +27,9 @@ abstract class AppTheme {
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: AppColors.white1,
       indicatorColor: const Color.fromARGB(255, 212, 250, 230),
-      labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>((states) {
+      labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>((
+        final states,
+      ) {
         if (states.contains(WidgetState.selected)) {
           return const TextStyle(
             color: AppColors.black1,
@@ -38,7 +40,7 @@ abstract class AppTheme {
         }
       }),
 
-      iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((states) {
+      iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((final states) {
         if (states.contains(WidgetState.selected)) {
           return const IconThemeData(color: AppColors.greenbright1);
         } else {
@@ -46,8 +48,8 @@ abstract class AppTheme {
         }
       }),
     ),
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
-      shape: const CircleBorder(),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      shape: CircleBorder(),
       elevation: 0,
       focusElevation: 0,
       hoverElevation: 0,
@@ -55,9 +57,25 @@ abstract class AppTheme {
       highlightElevation: 0,
       backgroundColor: AppColors.greenbright1,
     ),
+    // splashColor: AppColors.greenbright1.withOpacity(0.2),
+    // highlightColor: AppColors.greenbright1.withOpacity(0.1),
+    // hoverColor: AppColors.greenbright1.withOpacity(0.08),
     brightness: Brightness.light,
     useMaterial3: true,
   );
 
-  static final dark = ThemeData(brightness: Brightness.dark);
+  // static final light = ThemeData(
+  //   colorScheme: ColorScheme.fromSeed(
+  //     seedColor: Color.fromARGB(255, 42, 232, 128),
+  //     brightness: Brightness.light,
+  //   ),
+  //   useMaterial3: true, // важно для Material 3
+  // );
+  static final dark = ThemeData(
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: const Color.fromARGB(255, 17, 52, 142),
+      brightness: Brightness.dark,
+    ),
+    useMaterial3: true, // важно для Material 3
+  );
 }

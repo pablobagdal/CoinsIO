@@ -16,30 +16,30 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AccountResponse {
 
-// example: 1
- int get id;// example: Основной счёт
- String get name;// example: 1000.00
- String get balance;// example: RUB
- String get currency;// example: [StatItem{
-//  categoryId*	integer
-//  example: 1
-//  categoryName*	string
-//  example: Зарплата
-//  emoji*	string
-//  example: 💰
-//  amount*	string
-//  example: 5000.00
-//  }]
- List<StatItem> get incomeStats;// example: [StatItem{
-// categoryId*	integer
-// example: 1
-// categoryName*	string
-// example: Зарплата
-// emoji*	string
-// example: 💰
-// amount*	string
-// example: 5000.00
-// }]
+/// example: 1
+ int get id;/// example: Основной счёт
+ String get name;/// example: 1000.00
+ String get balance;/// example: RUB
+ String get currency;/// example: [StatItem{
+///  categoryId*	integer
+///  example: 1
+///  categoryName*	string
+///  example: Зарплата
+///  emoji*	string
+///  example: 💰
+///  amount*	string
+///  example: 5000.00
+///  }]
+ List<StatItem> get incomeStats;/// example: [StatItem{
+/// categoryId*	integer
+/// example: 1
+/// categoryName*	string
+/// example: Зарплата
+/// emoji*	string
+/// example: 💰
+/// amount*	string
+/// example: 5000.00
+/// }]
  List<StatItem> get expenseStats; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of AccountResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -114,62 +114,62 @@ class _AccountResponse implements AccountResponse {
   const _AccountResponse({required this.id, required this.name, required this.balance, required this.currency, required final  List<StatItem> incomeStats, required final  List<StatItem> expenseStats, required this.createdAt, required this.updatedAt}): _incomeStats = incomeStats,_expenseStats = expenseStats;
   factory _AccountResponse.fromJson(Map<String, dynamic> json) => _$AccountResponseFromJson(json);
 
-// example: 1
+/// example: 1
 @override final  int id;
-// example: Основной счёт
+/// example: Основной счёт
 @override final  String name;
-// example: 1000.00
+/// example: 1000.00
 @override final  String balance;
-// example: RUB
+/// example: RUB
 @override final  String currency;
-// example: [StatItem{
-//  categoryId*	integer
-//  example: 1
-//  categoryName*	string
-//  example: Зарплата
-//  emoji*	string
-//  example: 💰
-//  amount*	string
-//  example: 5000.00
-//  }]
+/// example: [StatItem{
+///  categoryId*	integer
+///  example: 1
+///  categoryName*	string
+///  example: Зарплата
+///  emoji*	string
+///  example: 💰
+///  amount*	string
+///  example: 5000.00
+///  }]
  final  List<StatItem> _incomeStats;
-// example: [StatItem{
-//  categoryId*	integer
-//  example: 1
-//  categoryName*	string
-//  example: Зарплата
-//  emoji*	string
-//  example: 💰
-//  amount*	string
-//  example: 5000.00
-//  }]
+/// example: [StatItem{
+///  categoryId*	integer
+///  example: 1
+///  categoryName*	string
+///  example: Зарплата
+///  emoji*	string
+///  example: 💰
+///  amount*	string
+///  example: 5000.00
+///  }]
 @override List<StatItem> get incomeStats {
   if (_incomeStats is EqualUnmodifiableListView) return _incomeStats;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_incomeStats);
 }
 
-// example: [StatItem{
-// categoryId*	integer
-// example: 1
-// categoryName*	string
-// example: Зарплата
-// emoji*	string
-// example: 💰
-// amount*	string
-// example: 5000.00
-// }]
+/// example: [StatItem{
+/// categoryId*	integer
+/// example: 1
+/// categoryName*	string
+/// example: Зарплата
+/// emoji*	string
+/// example: 💰
+/// amount*	string
+/// example: 5000.00
+/// }]
  final  List<StatItem> _expenseStats;
-// example: [StatItem{
-// categoryId*	integer
-// example: 1
-// categoryName*	string
-// example: Зарплата
-// emoji*	string
-// example: 💰
-// amount*	string
-// example: 5000.00
-// }]
+/// example: [StatItem{
+/// categoryId*	integer
+/// example: 1
+/// categoryName*	string
+/// example: Зарплата
+/// emoji*	string
+/// example: 💰
+/// amount*	string
+/// example: 5000.00
+/// }]
 @override List<StatItem> get expenseStats {
   if (_expenseStats is EqualUnmodifiableListView) return _expenseStats;
   // ignore: implicit_dynamic_type

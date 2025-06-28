@@ -16,13 +16,13 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AccountHistory {
 
-// example: 1
- int get id;// example: 1
- int get accountId;// example: MODIFICATION or CREATION
- ChangeType get changeType;// previous state of the account
- AccountState get previousState;// new state of the account after the change
- AccountState get newState;// timestamp of the change
- DateTime get changeTimestamp;// creation timestamp of the history record
+/// example: 1
+ int get id;/// example: 1
+ int get accountId;/// example: MODIFICATION or CREATION
+ ChangeType get changeType;/// previous state of the account
+ AccountState get previousState;/// new state of the account after the change
+ AccountState get newState;/// timestamp of the change
+ DateTime get changeTimestamp;/// creation timestamp of the history record
  DateTime get createdAt;
 /// Create a copy of AccountHistory
 /// with the given fields replaced by the non-null parameter values.
@@ -114,19 +114,19 @@ class _AccountHistory implements AccountHistory {
   const _AccountHistory({required this.id, required this.accountId, required this.changeType, required this.previousState, required this.newState, required this.changeTimestamp, required this.createdAt});
   factory _AccountHistory.fromJson(Map<String, dynamic> json) => _$AccountHistoryFromJson(json);
 
-// example: 1
+/// example: 1
 @override final  int id;
-// example: 1
+/// example: 1
 @override final  int accountId;
-// example: MODIFICATION or CREATION
+/// example: MODIFICATION or CREATION
 @override final  ChangeType changeType;
-// previous state of the account
+/// previous state of the account
 @override final  AccountState previousState;
-// new state of the account after the change
+/// new state of the account after the change
 @override final  AccountState newState;
-// timestamp of the change
+/// timestamp of the change
 @override final  DateTime changeTimestamp;
-// creation timestamp of the history record
+/// creation timestamp of the history record
 @override final  DateTime createdAt;
 
 /// Create a copy of AccountHistory

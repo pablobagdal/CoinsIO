@@ -16,10 +16,10 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$StatItem {
 
-// example: 1
- int get categoryId;// example: Зарплата
- String get categoryName;// example: 💰
- String get emoji;// example: 5000.00
+/// example: 1
+ int get categoryId;/// example: Зарплата
+ String get categoryName;/// example: 💰
+ String get emoji;/// example: 5000.00
  String get amount;
 /// Create a copy of StatItem
 /// with the given fields replaced by the non-null parameter values.
@@ -90,13 +90,13 @@ class _StatItem implements StatItem {
   const _StatItem({required this.categoryId, required this.categoryName, required this.emoji, required this.amount});
   factory _StatItem.fromJson(Map<String, dynamic> json) => _$StatItemFromJson(json);
 
-// example: 1
+/// example: 1
 @override final  int categoryId;
-// example: Зарплата
+/// example: Зарплата
 @override final  String categoryName;
-// example: 💰
+/// example: 💰
 @override final  String emoji;
-// example: 5000.00
+/// example: 5000.00
 @override final  String amount;
 
 /// Create a copy of StatItem

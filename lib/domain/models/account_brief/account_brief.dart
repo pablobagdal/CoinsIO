@@ -6,12 +6,12 @@ part 'account_brief.g.dart';
 @freezed
 abstract class AccountBrief with _$AccountBrief {
   const factory AccountBrief({
-    required int id,
-    required String name,
-    required String balance,
-    required String currency,
+    required final int id,
+    required final String name,
+    required final String balance,
+    required final String currency,
   }) = _AccountBrief;
 
-  factory AccountBrief.fromJson(Map<String, dynamic> json) =>
+  factory AccountBrief.fromJson(final Map<String, dynamic> json) =>
       _$AccountBriefFromJson(json);
 }

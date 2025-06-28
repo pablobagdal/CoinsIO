@@ -5,16 +5,19 @@ part 'stat_item.g.dart';
 @freezed
 abstract class StatItem with _$StatItem {
   const factory StatItem({
-    // example: 1
-    required int categoryId,
-    // example: Зарплата
-    required String categoryName,
-    // example: 💰
-    required String emoji,
-    // example: 5000.00
-    required String amount,
+    /// example: 1
+    required final int categoryId,
+
+    /// example: Зарплата
+    required final String categoryName,
+
+    /// example: 💰
+    required final String emoji,
+
+    /// example: 5000.00
+    required final String amount,
   }) = _StatItem;
 
-  factory StatItem.fromJson(Map<String, dynamic> json) =>
+  factory StatItem.fromJson(final Map<String, dynamic> json) =>
       _$StatItemFromJson(json);
 }

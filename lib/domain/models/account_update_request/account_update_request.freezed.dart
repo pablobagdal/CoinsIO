@@ -16,9 +16,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AccountUpdateRequest {
 
-// example: Основной счёт
- String get name;// example: 100.00
- String get balance;// example: RUB
+/// example: Основной счёт
+ String get name;/// example: 100.00
+ String get balance;/// example: RUB
  String get currency;
 /// Create a copy of AccountUpdateRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -88,11 +88,11 @@ class _AccountUpdateRequest implements AccountUpdateRequest {
   const _AccountUpdateRequest({required this.name, required this.balance, required this.currency});
   factory _AccountUpdateRequest.fromJson(Map<String, dynamic> json) => _$AccountUpdateRequestFromJson(json);
 
-// example: Основной счёт
+/// example: Основной счёт
 @override final  String name;
-// example: 100.00
+/// example: 100.00
 @override final  String balance;
-// example: RUB
+/// example: RUB
 @override final  String currency;
 
 /// Create a copy of AccountUpdateRequest

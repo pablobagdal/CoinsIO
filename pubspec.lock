@@ -235,8 +235,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   freezed:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: freezed
       sha256: "6022db4c7bfa626841b2a10f34dd1e1b68e8f8f9650db6112dcdeeca45ca793c"
@@ -244,7 +249,7 @@ packages:
     source: hosted
     version: "3.0.6"
   freezed_annotation:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: freezed_annotation
       sha256: c87ff004c8aa6af2d531668b46a4ea379f7191dc6dfa066acd53d506da6e044b
@@ -259,6 +264,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  fuzzywuzzy:
+    dependency: "direct main"
+    description:
+      name: fuzzywuzzy
+      sha256: "3004379ffd6e7f476a0c2091f38f16588dc45f67de7adf7c41aa85dec06b432c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   glob:
     dependency: transitive
     description:
@@ -267,6 +280,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.3"
+  go_router:
+    dependency: "direct main"
+    description:
+      name: go_router
+      sha256: ac294be30ba841830cfa146e5a3b22bb09f8dc5a0fdd9ca9332b04b0bde99ebf
+      url: "https://pub.dev"
+    source: hosted
+    version: "15.2.4"
   graphs:
     dependency: transitive
     description:
@@ -427,6 +448,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+  plugin_platform_interface:
+    dependency: transitive
+    description:
+      name: plugin_platform_interface
+      sha256: "4820fbfdb9478b1ebae27888254d445073732dae3d6ea81f0b7e06d5dedc3f02"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.8"
   pool:
     dependency: transitive
     description:
@@ -459,6 +488,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
+  sensors_plus:
+    dependency: transitive
+    description:
+      name: sensors_plus
+      sha256: "905282c917c6bb731c242f928665c2ea15445aa491249dea9d98d7c79dc8fd39"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.1"
+  sensors_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: sensors_plus_platform_interface
+      sha256: "58815d2f5e46c0c41c40fb39375d3f127306f7742efe3b891c0b1c87e2b5cd5d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
+  shake:
+    dependency: "direct main"
+    description:
+      name: shake
+      sha256: "7bb2bd14e9cd23a0d569f8a286b2b63ba1552ac348914d2d41ec757117ddda4e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   shelf:
     dependency: transitive
     description:
@@ -504,6 +557,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.1"
+  spoiler_widget:
+    dependency: "direct main"
+    description:
+      name: spoiler_widget
+      sha256: cb6487aba644f20e0227885d1c50e8e96c91afb3156e4f5e899234bbd24bcd42
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.12"
   stack_trace:
     dependency: transitive
     description:
@@ -626,4 +687,4 @@ packages:
     version: "3.1.3"
 sdks:
   dart: ">=3.8.0 <4.0.0"
-  flutter: ">=3.18.0-18.0.pre.54"
+  flutter: ">=3.27.0"

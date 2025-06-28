@@ -8,22 +8,27 @@ part 'transaction_response.g.dart';
 @freezed
 abstract class TransactionResponse with _$TransactionResponse {
   const factory TransactionResponse({
-    // example: 1
-    required int id,
-    required AccountBrief account,
-    required Category category,
-    // example: 500.00
-    required String amount,
-    // example: 2023-10-01T12:00:00Z
-    required DateTime transactionDate,
-    // example: Зарплата за месяц
-    String? comment,
-    // example: 2023-10-01T12:00:00Z
-    required DateTime createdAt,
-    // example: 2023-10-01T12:00:00Z
-    required DateTime updatedAt,
+    /// example: 1
+    required final int id,
+    required final AccountBrief account,
+    required final Category category,
+
+    /// example: 500.00
+    required final String amount,
+
+    /// example: 2023-10-01T12:00:00Z
+    required final DateTime transactionDate,
+
+    /// example: Зарплата за месяц
+    final String? comment,
+
+    /// example: 2023-10-01T12:00:00Z
+    required final DateTime createdAt,
+
+    /// example: 2023-10-01T12:00:00Z
+    required final DateTime updatedAt,
   }) = _TransactionResponse;
 
-  factory TransactionResponse.fromJson(Map<String, dynamic> json) =>
+  factory TransactionResponse.fromJson(final Map<String, dynamic> json) =>
       _$TransactionResponseFromJson(json);
 }
