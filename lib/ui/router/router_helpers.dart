@@ -1,7 +1,7 @@
 part of 'router.dart';
 
 _transactionsGoRoute({required bool isIncome}) => GoRoute(
-  path: '/expenses',
+  path: isIncome ? '/incomes' : '/expenses',
   builder: (final context, final state) => TransactionsPage(isIncome: isIncome),
   routes: [
     GoRoute(
