@@ -1,5 +1,5 @@
 import 'package:coinio_app/core/themes/app_theme.dart';
-import 'package:coinio_app/ui/router.dart';
+import 'package:coinio_app/ui/router/router.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {

@@ -3,11 +3,14 @@ import 'package:coinio_app/ui/pages/accounts/account_change_balance.dart';
 import 'package:coinio_app/ui/pages/accounts/accounts_page.dart';
 import 'package:coinio_app/ui/pages/categories/categories_page.dart';
 import 'package:coinio_app/ui/pages/settings_page.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:coinio_app/ui/pages/transactions/analysis_page.dart';
 import 'package:coinio_app/ui/pages/transactions/transactions_history_page.dart';
 import 'package:coinio_app/ui/pages/transactions/transactions_page.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
+part 'router_helpers.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/expenses',
@@ -50,58 +53,8 @@ final GoRouter router = GoRouter(
             ),
           ),
       branches: [
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/expenses',
-              builder:
-                  (final context, final state) =>
-                      const TransactionsPage(isIncome: false),
-              routes: [
-                GoRoute(
-                  path: 'history',
-                  builder:
-                      (final context, final state) =>
-                          const TransactionsHistoryPage(isIncome: false),
-                  routes: [
-                    GoRoute(
-                      path: 'analysis',
-                      builder:
-                          (final context, final state) =>
-                              const AnalysisPage(isIncome: false),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/incomes',
-              builder:
-                  (final context, final state) =>
-                      const TransactionsPage(isIncome: true),
-              routes: [
-                GoRoute(
-                  path: 'history',
-                  builder:
-                      (final context, final state) =>
-                          const TransactionsHistoryPage(isIncome: true),
-                  routes: [
-                    GoRoute(
-                      path: 'analysis',
-                      builder:
-                          (final context, final state) =>
-                              const AnalysisPage(isIncome: true),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
+        StatefulShellBranch(routes: [_transactionsGoRoute(isIncome: false)]),
+        StatefulShellBranch(routes: [_transactionsGoRoute(isIncome: true)]),
         StatefulShellBranch(
           routes: [
             GoRoute(
