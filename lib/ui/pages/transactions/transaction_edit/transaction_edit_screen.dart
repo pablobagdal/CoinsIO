@@ -24,6 +24,10 @@ class _TransactionEditScreenState extends State<TransactionEditScreen> {
   String? selectedAccount = 'Сбербанк';
   String? selectedCategory = 'Питание';
 
+  bool accountError = false;
+  bool categoryError = false;
+  bool sumError = false;
+
   @override
   void initState() {
     super.initState();
@@ -57,7 +61,31 @@ class _TransactionEditScreenState extends State<TransactionEditScreen> {
           centerTitle: true,
           title: Text(widget.isIncome ? 'Мои доходы' : 'Мои расходы'),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.check)),
+            IconButton(
+              onPressed: () {
+                final sum = sumController.text.trim();
+                setState(() {
+                  accountError =
+                      (selectedAccount == null || selectedAccount!.isEmpty);
+                  categoryError =
+                      (selectedCategory == null || selectedCategory!.isEmpty);
+                  sumError = sum.isEmpty;
+                });
+                if (accountError || categoryError || sumError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Пожалуйста, заполните все обязательные поля',
+                      ),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  return;
+                }
+                // TODO: здесь логика сохранения
+              },
+              icon: const Icon(Icons.check),
+            ),
           ],
         ),
         body: Padding(
@@ -66,61 +94,93 @@ class _TransactionEditScreenState extends State<TransactionEditScreen> {
             children: [
               const SizedBox(height: 8),
               ListTile(
-                leading: const Text(
+                leading: Text(
                   'Счет',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: accountError ? Colors.red : null,
+                  ),
                 ),
-                trailing: DropdownButton<String>(
-                  icon: const Icon(Icons.arrow_forward_ios),
-                  underline: SizedBox.shrink(),
-                  value: selectedAccount,
-                  items:
-                      ['Сбербанк', 'Газпромбанк']
-                          .map(
-                            (final item) => DropdownMenuItem(
-                              value: item,
-                              child: Text(item),
-                            ),
-                          )
-                          .toList(),
-                  onChanged: (final item) {
-                    setState(() {
-                      selectedAccount = item;
-                    });
-                  },
+                trailing: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: accountError ? Colors.red : Colors.transparent,
+                      width: 1.5,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: DropdownButton<String>(
+                    icon: const Icon(Icons.arrow_forward_ios),
+                    underline: SizedBox.shrink(),
+                    value: selectedAccount,
+                    items:
+                        ['Сбербанк', 'Газпромбанк']
+                            .map(
+                              (final item) => DropdownMenuItem(
+                                value: item,
+                                child: Text(item),
+                              ),
+                            )
+                            .toList(),
+                    onChanged: (final item) {
+                      setState(() {
+                        selectedAccount = item;
+                        accountError = false;
+                      });
+                    },
+                  ),
                 ),
               ),
               const Divider(),
               ListTile(
-                leading: const Text(
+                leading: Text(
                   'Статья',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: categoryError ? Colors.red : null,
+                  ),
                 ),
-                trailing: DropdownButton<String>(
-                  icon: const Icon(Icons.arrow_forward_ios),
-                  underline: SizedBox.shrink(),
-                  value: selectedCategory,
-                  items:
-                      ['Ремонт', 'Питание']
-                          .map(
-                            (final item) => DropdownMenuItem(
-                              value: item,
-                              child: Text(item),
-                            ),
-                          )
-                          .toList(),
-                  onChanged: (final item) {
-                    setState(() {
-                      selectedCategory = item;
-                    });
-                  },
+                trailing: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: categoryError ? Colors.red : Colors.transparent,
+                      width: 1.5,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: DropdownButton<String>(
+                    icon: const Icon(Icons.arrow_forward_ios),
+                    underline: SizedBox.shrink(),
+                    value: selectedCategory,
+                    items:
+                        ['Ремонт', 'Питание']
+                            .map(
+                              (final item) => DropdownMenuItem(
+                                value: item,
+                                child: Text(item),
+                              ),
+                            )
+                            .toList(),
+                    onChanged: (final item) {
+                      setState(() {
+                        selectedCategory = item;
+                        categoryError = false;
+                      });
+                    },
+                  ),
                 ),
               ),
               const Divider(),
               ListTile(
-                leading: const Text(
+                leading: Text(
                   'Сумма',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: sumError ? Colors.red : null,
+                  ),
                 ),
                 trailing: SizedBox(
                   width: 300,
@@ -136,14 +196,19 @@ class _TransactionEditScreenState extends State<TransactionEditScreen> {
                       signed: false,
                       decimal: false,
                     ),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    decoration: const InputDecoration(
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: '0',
+                      hintStyle: TextStyle(color: sumError ? Colors.red : null),
                     ),
+                    onChanged: (_) {
+                      if (sumError) {
+                        setState(() {
+                          sumError = false;
+                        });
+                      }
+                    },
                   ),
                 ),
                 onTap: () {},
@@ -224,31 +289,29 @@ class _TransactionEditScreenState extends State<TransactionEditScreen> {
               ),
               const Divider(),
               // section for comment
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: TextField(
-                    controller: commentController,
-                    minLines: 1,
-                    maxLines: null,
-                    maxLength: 300,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            commentController.clear();
-                            FocusScope.of(context).unfocus();
-                          });
-                        },
-                        icon: const Icon(Icons.clear),
-                      ),
-                      hintText: 'Комментарий',
-                      border: InputBorder.none,
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TextField(
+                  controller: commentController,
+                  minLines: 1,
+                  maxLines: null,
+                  maxLength: 300,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          commentController.clear();
+                          FocusScope.of(context).unfocus();
+                        });
+                      },
+                      icon: const Icon(Icons.clear),
                     ),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    hintText: 'Комментарий',
+                    border: InputBorder.none,
+                  ),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
