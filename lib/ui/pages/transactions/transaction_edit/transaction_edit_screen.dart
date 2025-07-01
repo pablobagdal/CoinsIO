@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:coinio_app/core/utils/type_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +21,8 @@ class _TransactionEditScreenState extends State<TransactionEditScreen> {
   DateTime selectedDateTime = DateTime.now();
   late final TextEditingController sumController;
   late final TextEditingController commentController;
+  String? selectedAccount = 'Сбербанк';
+  String? selectedCategory = 'Питание';
 
   @override
   void initState() {
@@ -62,7 +62,7 @@ class _TransactionEditScreenState extends State<TransactionEditScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
+          child: ListView(
             children: [
               const SizedBox(height: 8),
               ListTile(
@@ -70,20 +70,25 @@ class _TransactionEditScreenState extends State<TransactionEditScreen> {
                   'Счет',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
-                trailing: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Сбербанк',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Icon(Icons.arrow_forward_ios),
-                  ],
+                trailing: DropdownButton<String>(
+                  icon: const Icon(Icons.arrow_forward_ios),
+                  underline: SizedBox.shrink(),
+                  value: selectedAccount,
+                  items:
+                      ['Сбербанк', 'Газпромбанк']
+                          .map(
+                            (final item) => DropdownMenuItem(
+                              value: item,
+                              child: Text(item),
+                            ),
+                          )
+                          .toList(),
+                  onChanged: (final item) {
+                    setState(() {
+                      selectedAccount = item;
+                    });
+                  },
                 ),
-                onTap: () {},
               ),
               const Divider(),
               ListTile(
@@ -91,20 +96,25 @@ class _TransactionEditScreenState extends State<TransactionEditScreen> {
                   'Статья',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
-                trailing: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Ремонт',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Icon(Icons.arrow_forward_ios),
-                  ],
+                trailing: DropdownButton<String>(
+                  icon: const Icon(Icons.arrow_forward_ios),
+                  underline: SizedBox.shrink(),
+                  value: selectedCategory,
+                  items:
+                      ['Ремонт', 'Питание']
+                          .map(
+                            (final item) => DropdownMenuItem(
+                              value: item,
+                              child: Text(item),
+                            ),
+                          )
+                          .toList(),
+                  onChanged: (final item) {
+                    setState(() {
+                      selectedCategory = item;
+                    });
+                  },
                 ),
-                onTap: () {},
               ),
               const Divider(),
               ListTile(
@@ -214,23 +224,33 @@ class _TransactionEditScreenState extends State<TransactionEditScreen> {
               ),
               const Divider(),
               // section for comment
-              ListTile(
-                leading: SizedBox(
-                  width: 300,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: TextField(
                     controller: commentController,
                     minLines: 1,
                     maxLines: null,
                     maxLength: 300,
                     decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            commentController.clear();
+                            FocusScope.of(context).unfocus();
+                          });
+                        },
+                        icon: const Icon(Icons.clear),
+                      ),
                       hintText: 'Комментарий',
                       border: InputBorder.none,
                     ),
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-
-                onTap: () {},
               ),
               const Divider(),
               const Spacer(),
