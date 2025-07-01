@@ -1,5 +1,4 @@
 import 'package:coinio_app/core/fonts/my_icons.dart';
-import 'package:coinio_app/main.dart';
 import 'package:coinio_app/ui/pages/accounts/account_change_balance.dart';
 import 'package:coinio_app/ui/pages/accounts/accounts_page.dart';
 import 'package:coinio_app/ui/pages/categories/categories_page.dart';

@@ -64,19 +64,11 @@ abstract class AppTheme {
     brightness: Brightness.light,
     useMaterial3: true,
   );
-
-  // static final light = ThemeData(
-  //   colorScheme: ColorScheme.fromSeed(
-  //     seedColor: Color.fromARGB(255, 42, 232, 128),
-  //     brightness: Brightness.light,
-  //   ),
-  //   useMaterial3: true, // важно для Material 3
-  // );
   static final dark = ThemeData(
     colorScheme: ColorScheme.fromSeed(
       seedColor: const Color.fromARGB(255, 17, 52, 142),
       brightness: Brightness.dark,
     ),
-    useMaterial3: true, // важно для Material 3
+    useMaterial3: true,
   );
 }
