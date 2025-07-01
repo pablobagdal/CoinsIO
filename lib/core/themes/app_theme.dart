@@ -14,6 +14,7 @@ abstract class AppTheme {
       ),
     ),
     appBarTheme: const AppBarTheme(
+      centerTitle: true,
       backgroundColor: AppColors.greenbright1,
       foregroundColor: AppColors.black1,
       elevation: 0,

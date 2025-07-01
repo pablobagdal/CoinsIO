@@ -58,7 +58,9 @@ class _TodayTransactionsView extends StatelessWidget {
     ),
     floatingActionButton: FloatingActionButton(
       onPressed: () {
-        // TODO: переход к созданию транзакции
+        context.go(
+          isIncome ? '/incomes/transaction-edit' : '/expenses/transaction-edit',
+        );
       },
       child: const Icon(Icons.add),
     ),
@@ -162,11 +164,6 @@ class _TransactionsList extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    // Sort transactions by date, newest first
-    // transactions.sort(
-    //   (final a, final b) =>
-    //       b.transactionDate.compareTo(a.transactionDate),
-    // );
     final totalAmount = transactions.fold<double>(
       0.0,
       (final sum, final item) => sum + double.parse(item.amount),
@@ -175,14 +172,14 @@ class _TransactionsList extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           color: AppColors.greenlight1,
           child: Row(
-            children: [
-              Text('Всего'),
-              Text('${totalAmount} ${transactions.first.account.currency}'),
-            ],
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Всего'),
+              Text('$totalAmount ${transactions.first.account.currency}'),
+            ],
           ),
         ),
         Expanded(
@@ -196,16 +193,16 @@ class _TransactionsList extends StatelessWidget {
                   border: Border(
                     top:
                         index == 0
-                            ? BorderSide(color: AppColors.grey1, width: 1)
+                            ? const BorderSide(color: AppColors.grey1, width: 1)
                             : BorderSide.none,
-                    bottom: BorderSide(color: AppColors.grey1, width: 1),
+                    bottom: const BorderSide(color: AppColors.grey1, width: 1),
                   ),
                 ),
                 child: ListTile(
                   leading: CircleAvatar(
                     child: Text(
                       transaction.category.emoji,
-                      style: TextStyle(fontSize: 28),
+                      style: const TextStyle(fontSize: 28),
                     ),
                   ),
                   title: Text(
@@ -213,25 +210,27 @@ class _TransactionsList extends StatelessWidget {
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text(
-                    '${transaction.comment ?? ""}', // Display date only
+                    transaction.comment ?? '', // Display date only
                   ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Text(
                         '${isIncome ? '+' : '-'}${transaction.amount}${transaction.account.currency}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
                         ),
                       ),
                       IconButton(
                         icon: const Icon(Icons.arrow_forward_ios),
-                        onPressed: () {},
-                        // () => _deleteTransaction(
-                        //   context,
-                        //   transaction.id,
-                        // ),
+                        onPressed: () {
+                          context.go(
+                            isIncome
+                                ? '/incomes/transaction-edit?id=${transaction.id}'
+                                : '/expenses/transaction-edit?id=${transaction.id}',
+                          );
+                        },
                       ),
                     ],
                   ),

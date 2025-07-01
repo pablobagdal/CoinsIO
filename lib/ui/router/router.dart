@@ -1,8 +1,10 @@
 import 'package:coinio_app/core/fonts/my_icons.dart';
+import 'package:coinio_app/main.dart';
 import 'package:coinio_app/ui/pages/accounts/account_change_balance.dart';
 import 'package:coinio_app/ui/pages/accounts/accounts_page.dart';
 import 'package:coinio_app/ui/pages/categories/categories_page.dart';
 import 'package:coinio_app/ui/pages/settings_page.dart';
+import 'package:coinio_app/ui/pages/transactions/transaction_edit/transaction_edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,42 +18,7 @@ final GoRouter router = GoRouter(
   initialLocation: '/expenses',
   routes: [
     StatefulShellRoute.indexedStack(
-      builder:
-          (final context, final state, final shell) => Scaffold(
-            body: shell,
-            bottomNavigationBar: NavigationBar(
-              selectedIndex: shell.currentIndex,
-              onDestinationSelected: (final index) {
-                if (index == shell.currentIndex) {
-                  shell.goBranch(index, initialLocation: true);
-                } else {
-                  shell.goBranch(index);
-                }
-              },
-              destinations: [
-                const NavigationDestination(
-                  icon: Icon(MyIcons.spendings),
-                  label: 'Расходы',
-                ),
-                const NavigationDestination(
-                  icon: Icon(MyIcons.incomes),
-                  label: 'Доходы',
-                ),
-                const NavigationDestination(
-                  icon: Icon(MyIcons.account),
-                  label: 'Счета',
-                ),
-                const NavigationDestination(
-                  icon: Icon(MyIcons.category),
-                  label: 'Статьи',
-                ),
-                const NavigationDestination(
-                  icon: Icon(MyIcons.settings),
-                  label: 'Настройки',
-                ),
-              ],
-            ),
-          ),
+      builder: _scaffoldWithNavBar,
       branches: [
         StatefulShellBranch(routes: [_transactionsGoRoute(isIncome: false)]),
         StatefulShellBranch(routes: [_transactionsGoRoute(isIncome: true)]),
@@ -90,4 +57,39 @@ final GoRouter router = GoRouter(
       ],
     ),
   ],
+);
+
+/// method to create NavBar for whole app
+Widget _scaffoldWithNavBar(
+  final BuildContext context,
+  final GoRouterState state,
+  final StatefulNavigationShell shell,
+) => Scaffold(
+  body: shell,
+  bottomNavigationBar: NavigationBar(
+    selectedIndex: shell.currentIndex,
+    onDestinationSelected: (final index) {
+      if (index == shell.currentIndex) {
+        shell.goBranch(index, initialLocation: true);
+      } else {
+        shell.goBranch(index);
+      }
+    },
+    destinations: [
+      const NavigationDestination(
+        icon: Icon(MyIcons.spendings),
+        label: 'Расходы',
+      ),
+      const NavigationDestination(icon: Icon(MyIcons.incomes), label: 'Доходы'),
+      const NavigationDestination(icon: Icon(MyIcons.account), label: 'Счета'),
+      const NavigationDestination(
+        icon: Icon(MyIcons.category),
+        label: 'Статьи',
+      ),
+      const NavigationDestination(
+        icon: Icon(MyIcons.settings),
+        label: 'Настройки',
+      ),
+    ],
+  ),
 );

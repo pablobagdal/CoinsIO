@@ -113,91 +113,82 @@ class _TransactionsHistoryViewBody extends StatelessWidget {
               bottom: BorderSide(color: AppColors.grey1, width: 1),
             ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Сумма'),
-              Text('${totalSum.toString()} $sign'),
-            ],
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Сумма'),
+                Text('${totalSum.toString()} $sign'),
+              ],
+            ),
           ),
         ),
-        //               // Row(
-        //               //   mainAxisAlignment: MainAxisAlignment.end,
-        //               //   children: [
-        //               //     TransactionsHistorySortDropDown(
-        //               //       value: state.sort,
-        //               //       onChanged: (final sort) {
-        //               //         if (sort != null) {
-        //               //           context.read<TransactionsHistoryBloc>().add(
-        //               //             ChangeSort(sort),
-        //               //           );
-        //               //         }
-        //               //       },
-        //               //     ),
-        //               //   ],
-        //               // ),
         Expanded(
           child:
               transactions.isEmpty
                   ? const Center(child: Text('Нет данных за данный период'))
                   : ListView.builder(
                     itemCount: transactions.length,
-                    itemBuilder:
-                        (final context, final index) => Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              top:
-                                  index == 0
-                                      ? const BorderSide(
-                                        color: AppColors.grey1,
-                                        width: 1,
-                                      )
-                                      : BorderSide.none,
-                              bottom: const BorderSide(
-                                color: AppColors.grey1,
-                                width: 1,
-                              ),
-                            ),
-                          ),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              child: Text(
-                                transactions[index].category.emoji,
-                                style: const TextStyle(fontSize: 28),
-                              ),
-                            ),
-                            title: Text(
-                              transactions[index].category.name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            subtitle: Text(
-                              transactions[index].comment ??
-                                  '', // Display date only
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Text(
-                                  '${isIncome ? '+' : '-'}${transactions[index].amount}${transactions[index].account.currency}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0,
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.arrow_forward_ios),
-                                  onPressed: () {},
-                                  // () => _deleteTransaction(
-                                  //   context,
-                                  //   transaction.id,
-                                  // ),
-                                ),
-                              ],
+                    itemBuilder: (final context, final index) {
+                      final transaction = transactions[index];
+
+                      return Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            top:
+                                index == 0
+                                    ? const BorderSide(
+                                      color: AppColors.grey1,
+                                      width: 1,
+                                    )
+                                    : BorderSide.none,
+                            bottom: const BorderSide(
+                              color: AppColors.grey1,
+                              width: 1,
                             ),
                           ),
                         ),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            child: Text(
+                              transactions[index].category.emoji,
+                              style: const TextStyle(fontSize: 28),
+                            ),
+                          ),
+                          title: Text(
+                            transactions[index].category.name,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            transactions[index].comment ??
+                                '', // Display date only
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                '${isIncome ? '+' : '-'}${transactions[index].amount}${transactions[index].account.currency}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.arrow_forward_ios),
+                                onPressed: () {
+                                  context.go(
+                                    isIncome
+                                        ? '/incomes/history/transaction-edit?id=${transaction.id}'
+                                        : '/expenses/history/transaction-edit?id=${transaction.id}',
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
         ),
       ],
