@@ -19,4 +19,6 @@ abstract class AccountRepository {
   /// Возвращает историю изменений баланса и других параметров счета,
   /// произведенных вне транзакций (при создании или изменении счета)
   Future<AccountHistoryResponse> getAccountHistory({required final int id});
+
+  Future<void> deleteAccount({required final int id});
 }

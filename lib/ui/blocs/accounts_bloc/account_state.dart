@@ -1,19 +1,22 @@
 import 'package:coinio_app/domain/models/account/account.dart';
 
-abstract class AccountState {
-  final Account account;
+abstract class AccountState {}
 
-  AccountState({required this.account});
+class AccountInitial extends AccountState {
+  AccountInitial();
 }
 
 class AccountLoading extends AccountState {
-  AccountLoading({required super.account});
+  AccountLoading();
 }
 
 class AccountLoaded extends AccountState {
-  AccountLoaded({required super.account});
+  final Account account;
+  AccountLoaded({required this.account});
 }
 
 class AccountError extends AccountState {
-  AccountError({required super.account});
+  final Account? account;
+  final String message;
+  AccountError({required this.message, this.account});
 }

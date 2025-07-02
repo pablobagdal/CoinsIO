@@ -4,15 +4,13 @@ abstract class AccountEvent {}
 
 class ChangeAccount extends AccountEvent {}
 
-class UpdateAccountCurrency extends AccountEvent {
+class UpdateAccount extends AccountEvent {
   final Account account;
-  final String newCurrency;
 
-  UpdateAccountCurrency({required this.account, required this.newCurrency});
+  UpdateAccount({required this.account});
 }
 
-class UpdateAccountName extends AccountEvent {
-  final String newName;
-
-  UpdateAccountName({required this.newName});
+class LoadAccount extends AccountEvent {
+  final int id;
+  LoadAccount({required this.id});
 }

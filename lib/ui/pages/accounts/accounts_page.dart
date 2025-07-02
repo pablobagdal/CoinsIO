@@ -1,6 +1,6 @@
 import 'package:coinio_app/core/themes/colors.dart';
 import 'package:coinio_app/data/repositories/mock_repositories/mock_account_repository.dart';
-import 'package:coinio_app/domain/usecases/accounts/get_account_usecase.dart';
+import 'package:coinio_app/domain/usecases/account_usecases/get_account_usecase.dart';
 import 'package:coinio_app/ui/blocs/accounts_bloc/account_bloc.dart';
 import 'package:coinio_app/ui/blocs/accounts_bloc/account_event.dart';
 import 'package:coinio_app/ui/blocs/accounts_bloc/account_state.dart';

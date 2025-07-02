@@ -42,4 +42,10 @@ class AccountRepositoryImpl implements AccountRepository {
     // TODO: implement updateAccount
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> deleteAccount({required int id}) {
+    // TODO: implement deleteAccount
+    throw UnimplementedError();
+  }
 }

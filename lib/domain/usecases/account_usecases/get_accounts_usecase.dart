@@ -1,11 +1,10 @@
 import 'package:coinio_app/domain/models/account/account.dart';
 import 'package:coinio_app/domain/repositories/account_repository.dart';
 
-class GetAccountUsecase {
+class GetAccountsUsecase {
   final AccountRepository accountRepository;
 
-  GetAccountUsecase({required this.accountRepository});
+  GetAccountsUsecase({required this.accountRepository});
 
-  Future<Account> call(int id) async =>
-      await accountRepository.getAccount(id: id);
+  Future<List<Account>> call() async => await accountRepository.getAccounts();
 }
