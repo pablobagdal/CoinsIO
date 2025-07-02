@@ -14,3 +14,7 @@ class LoadAccount extends AccountEvent {
   final int id;
   LoadAccount({required this.id});
 }
+
+class LoadAccounts extends AccountEvent {
+  LoadAccounts();
+}

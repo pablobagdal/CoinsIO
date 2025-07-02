@@ -1,9 +1,9 @@
 import 'package:coinio_app/core/themes/colors.dart';
 import 'package:coinio_app/data/repositories/mock_repositories/mock_account_repository.dart';
 import 'package:coinio_app/domain/usecases/account_usecases/get_account_usecase.dart';
-import 'package:coinio_app/ui/blocs/accounts_bloc/account_bloc.dart';
-import 'package:coinio_app/ui/blocs/accounts_bloc/account_event.dart';
-import 'package:coinio_app/ui/blocs/accounts_bloc/account_state.dart';
+import 'package:coinio_app/ui/blocs/account_bloc/account_bloc.dart';
+import 'package:coinio_app/ui/blocs/account_bloc/account_event.dart';
+import 'package:coinio_app/ui/blocs/account_bloc/account_state.dart';
 import 'package:coinio_app/ui/pages/accounts/show_currency_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

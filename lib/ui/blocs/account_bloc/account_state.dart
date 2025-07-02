@@ -20,3 +20,8 @@ class AccountError extends AccountState {
   final String message;
   AccountError({required this.message, this.account});
 }
+
+class AccountsLoaded extends AccountState {
+  final List<Account> accounts;
+  AccountsLoaded({required this.accounts});
+}
