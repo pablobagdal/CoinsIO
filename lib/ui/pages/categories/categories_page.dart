@@ -1,4 +1,4 @@
-import 'package:coinio_app/data/repositories/mock_category_repository.dart';
+import 'package:coinio_app/data/repositories/mock_repositories/mock_category_repository.dart';
 import 'package:coinio_app/domain/models/category/category.dart';
 import 'package:coinio_app/domain/usecases/categories/get_categories_usecase.dart';
 import 'package:coinio_app/ui/blocs/categories_bloc/categories_bloc.dart';

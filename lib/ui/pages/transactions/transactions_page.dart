@@ -1,5 +1,5 @@
 import 'package:coinio_app/core/themes/colors.dart';
-import 'package:coinio_app/data/repositories/mock_transaction_repository.dart';
+import 'package:coinio_app/data/repositories/mock_repositories/mock_transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
 import 'package:coinio_app/domain/usecases/transactions/get_transactions_by_period_usecase.dart';
 import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_bloc.dart';
