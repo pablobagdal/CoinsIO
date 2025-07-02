@@ -15,4 +15,10 @@ class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
     // TODO: implement getCategoriesByType
     throw UnimplementedError();
   }
+
+  @override
+  Future<Category> getCategoryById({required int id}) {
+    // TODO: implement getCategoryById
+    throw UnimplementedError();
+  }
 }

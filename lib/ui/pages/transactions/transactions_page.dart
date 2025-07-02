@@ -1,10 +1,10 @@
 import 'package:coinio_app/core/themes/colors.dart';
 import 'package:coinio_app/data/repositories/mock_repositories/mock_transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
-import 'package:coinio_app/domain/usecases/transactions/get_transactions_by_period_usecase.dart';
-import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_bloc.dart';
-import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_event.dart';
-import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_state.dart';
+import 'package:coinio_app/domain/usecases/transaction_usecases/get_transactions_by_period_usecase.dart';
+import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
+import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_event.dart';
+import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -21,18 +21,31 @@ class TransactionsPage extends StatelessWidget {
     final DateTime startDate = DateTime(now.year, now.month, now.day);
     final DateTime endDate = DateTime(now.year, now.month, now.day, 23, 59, 59);
 
+    // Используем TransactionRepositoryImpl вместо MockTransactionRepository
+    final transactionRepository = TransactionRepositoryImpl();
     return BlocProvider(
-      create:
-          (final context) => TransactionsHistoryBloc(
-            getTransactionsByPeriod: GetTransactionsByPeriodUsecase(
-              repository: MockTransactionRepository(),
-            ),
-            isIncome: isIncome,
-            startDate: startDate,
-            endDate: endDate,
-          )..add(
-            LoadTransactionsHistory(startDate: startDate, endDate: endDate),
+      create: (context) {
+        return TransactionBloc(
+          getTransactionsByPeriodUsecase: GetTransactionsByPeriodUsecase(
+            repository: transactionRepository,
           ),
+          getTransactionUsecase: GetTransactionUsecase(
+            repository: transactionRepository,
+          ),
+          addTransactionUsecase: AddTransactionUsecase(
+            repository: transactionRepository,
+          ),
+          deleteTransactionUsecase: DeleteTransactionUsecase(
+            repository: transactionRepository,
+          ),
+          updateTransactionUsecase: UpdateTransactionUsecase(
+            repository: transactionRepository,
+          ),
+          isIncome: isIncome,
+          startDate: startDate,
+          endDate: endDate,
+        )..add(LoadTransactions(startDate: startDate, endDate: endDate));
+      },
       child: _TodayTransactionsView(isIncome: isIncome),
     );
   }
@@ -64,25 +77,25 @@ class _TodayTransactionsView extends StatelessWidget {
       },
       child: const Icon(Icons.add),
     ),
-    body: BlocBuilder<TransactionsHistoryBloc, TransactionsHistoryState>(
+    body: BlocBuilder<TransactionBloc, TransactionState>(
       builder: _todayTransactionsViewBody,
     ),
   );
 
   Widget _todayTransactionsViewBody(
     final BuildContext context,
-    final TransactionsHistoryState state,
+    final TransactionState state,
   ) {
-    if (state is TransactionsHistoryError) {
+    if (state is TransactionError) {
       // return const Center(child: Text('Ошибка: ${state.message}'));
       return const Center(child: Text('Ошибка: '));
     }
 
-    if (state is TransactionsHistoryLoading) {
+    if (state is TransactionLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (state is TransactionsHistoryLoaded) {
+    if (state is TransactionsLoaded) {
       final transactions =
           state.transactions
               .where(
@@ -101,8 +114,8 @@ class _TodayTransactionsView extends StatelessWidget {
                   isIncome: isIncome,
                 ),
         onRefresh: () async {
-          context.read<TransactionsHistoryBloc>().add(
-            LoadTransactionsHistory(
+          context.read<TransactionBloc>().add(
+            LoadTransactions(
               startDate: state.startDate,
               endDate: state.endDate,
             ),
