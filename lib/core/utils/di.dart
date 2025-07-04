@@ -18,10 +18,13 @@ import 'package:coinio_app/data/repositories/mock_repositories/mock_account_repo
 import 'package:coinio_app/data/repositories/mock_repositories/mock_category_repository.dart';
 import 'package:coinio_app/data/repositories/mock_repositories/mock_transaction_repository.dart';
 
-// DI
+/// DI
 final getIt = GetIt.instance;
 
-void setupDependencies(AppDatabase db) {
+/// Setup dependencies for the app
+void setupDependencies() {
+  final db = AppDatabase();
+  getIt.registerSingleton<AppDatabase>(db);
   // Account
   getIt.registerSingleton<AccountRepository>(AccountRepositoryImpl(db: db));
 
@@ -43,7 +46,7 @@ void setupDependencies(AppDatabase db) {
     () => GetCategoryByIdUsecase(categoryRepository: getIt()),
   );
   getIt.registerFactory(
-    () => GetCategoryByTypeUsecase(categoryRepository: getIt()),
+    () => GetCategoriesByTypeUsecase(categoryRepository: getIt()),
   );
   // Transaction
   getIt.registerSingleton<TransactionRepository>(
@@ -66,7 +69,8 @@ void setupDependencies(AppDatabase db) {
   );
 }
 
-void setupMockDependencies(AppDatabase db) {
+/// Setup mock dependencies for testing
+void setupMockDependencies() {
   // Account
   getIt.registerSingleton<AccountRepository>(MockAccountRepository());
 
@@ -88,7 +92,7 @@ void setupMockDependencies(AppDatabase db) {
     () => GetCategoryByIdUsecase(categoryRepository: getIt()),
   );
   getIt.registerFactory(
-    () => GetCategoryByTypeUsecase(categoryRepository: getIt()),
+    () => GetCategoriesByTypeUsecase(categoryRepository: getIt()),
   );
   // Transaction
   getIt.registerSingleton<TransactionRepository>(MockTransactionRepository());

@@ -1,14 +1,19 @@
 import 'package:coinio_app/core/themes/colors.dart';
 import 'package:coinio_app/core/utils/di.dart';
+import 'package:coinio_app/domain/models/account/account.dart';
+
 import 'package:coinio_app/domain/usecases/account_usecases/account_usecases.dart';
+
 import 'package:coinio_app/ui/blocs/account_bloc/account_bloc.dart';
 import 'package:coinio_app/ui/blocs/account_bloc/account_event.dart';
 import 'package:coinio_app/ui/blocs/account_bloc/account_state.dart';
+
 import 'package:coinio_app/ui/pages/accounts/show_currency_picker.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spoiler_widget/spoiler_widget.dart';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:shake/shake.dart';
 import 'dart:io' show Platform;
 
@@ -70,14 +75,6 @@ class _AccountPageViewState extends State<_AccountPageView> {
     appBar: AppBar(
       title: BlocBuilder<AccountBloc, AccountState>(
         builder: (final context, final state) {
-          if (state is AccountError) {
-            return const Text('Ваш счёт');
-          }
-
-          if (state is AccountLoading) {
-            return Text(state.account.name);
-          }
-
           if (state is AccountLoaded) {
             return Text(state.account.name);
           }
@@ -88,12 +85,12 @@ class _AccountPageViewState extends State<_AccountPageView> {
       actions: [
         BlocBuilder<AccountBloc, AccountState>(
           builder: (final context, final state) {
-            if (state is AccountLoading || state is AccountLoaded) {
+            if (state is AccountLoaded) {
               return IconButton(
                 onPressed: () {
                   final bloc = context.read<AccountBloc>();
                   // context.go('/accounts/balance');
-                  _showEditDialog(context, bloc);
+                  _showEditDialog(context, bloc: bloc, account: state.account);
                 },
                 icon: const Icon(Icons.mode_edit_outlined),
               );
@@ -107,20 +104,30 @@ class _AccountPageViewState extends State<_AccountPageView> {
     body: Column(
       children: [
         BlocBuilder<AccountBloc, AccountState>(
-          builder:
-              (final context, final state) => _accountBalanceRow(
+          builder: (final context, final state) {
+            if (state is AccountLoaded) {
+              return _accountBalanceRow(
                 context,
                 balance: state.account.balance,
                 currency: state.account.currency,
-              ),
+              );
+            } else {
+              return _accountBalanceRow(
+                context,
+                balance: 'Нет данных',
+                currency: 'Нет данных',
+              );
+            }
+          },
         ),
         const Divider(height: 1),
         BlocBuilder<AccountBloc, AccountState>(
-          builder:
-              (final context, final state) => _accountCurrencyRow(
-                context,
-                currency: state.account.currency,
-              ),
+          builder: (final context, final state) {
+            if (state is AccountLoaded) {
+              return _accountCurrencyRow(context, account: state.account);
+            }
+            return _accountCurrencyRow(context);
+          },
         ),
         const Divider(height: 1),
       ],
@@ -134,11 +141,12 @@ class _AccountPageViewState extends State<_AccountPageView> {
   );
 
   Future<void> _showEditDialog(
-    final BuildContext context,
-    final AccountBloc bloc,
-  ) async {
+    final BuildContext context, {
+    required final Account account,
+    required final AccountBloc bloc,
+  }) async {
     final TextEditingController controller = TextEditingController(
-      text: bloc.state.account.name,
+      text: account.name,
     );
 
     await showDialog(
@@ -165,7 +173,9 @@ class _AccountPageViewState extends State<_AccountPageView> {
                     // context.read<AccountBloc>().add(
                     //   UpdateAccountName(newName: newName),
                     // );
-                    bloc.add(UpdateAccountName(newName: newName));
+                    bloc.add(
+                      UpdateAccount(account: account.copyWith(name: newName)),
+                    );
                     Navigator.pop(context, newName); // Возвращаем новое имя
                   }
                 },
@@ -218,10 +228,10 @@ class _AccountPageViewState extends State<_AccountPageView> {
 
   Widget _accountCurrencyRow(
     final BuildContext context, {
-    required final String currency,
+    final Account? account,
   }) {
-    final currency = context.read<AccountBloc>().state.account.currency;
-    final sign = currencySigns[currency] ?? 'шт';
+    // final currency = context.read<AccountBloc>().state.account.currency;
+    final sign = account == null ? 'шт' : currencySigns[account.currency]!;
 
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -239,11 +249,11 @@ class _AccountPageViewState extends State<_AccountPageView> {
                 onPressed: () async {
                   // _openCurrencyBottomSheet(context);
                   final selected = await showCurrencyPicker(context);
-                  if (selected != null) {
+                  if (selected != null && account != null) {
                     context.read<AccountBloc>().add(
-                      UpdateAccountCurrency(
-                        newCurrency: selected,
-                        account: context.read<AccountBloc>().state.account,
+                      UpdateAccount(
+                        // newCurrency: selected,
+                        account: account.copyWith(currency: selected),
                       ),
                     );
                   }

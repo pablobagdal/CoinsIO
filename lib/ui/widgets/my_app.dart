@@ -1,6 +1,5 @@
 import 'package:coinio_app/core/themes/app_theme.dart';
 import 'package:coinio_app/core/utils/di.dart';
-import 'package:coinio_app/data/datasource/local/local_data_source/app_database.dart';
 import 'package:coinio_app/domain/usecases/account_usecases/account_usecases.dart';
 import 'package:coinio_app/domain/usecases/category_usecases/category_usecases.dart';
 import 'package:coinio_app/ui/blocs/account_bloc/account_bloc.dart';
@@ -11,8 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyApp extends StatelessWidget {
   // AppDependencies dependencies;
-  final AppDatabase db;
-  const MyApp({required this.db, super.key});
+
+  const MyApp({super.key});
 
   @override
   Widget build(final BuildContext context) => MultiBlocProvider(
@@ -30,7 +29,7 @@ class MyApp extends StatelessWidget {
             (_) => CategoryBloc(
               getCategoriesUsecase: getIt<GetCategoriesUsecase>(),
               getCategoryByIdUsecase: getIt<GetCategoryByIdUsecase>(),
-              getCategoryByTypeUsecase: getIt<GetCategoryByTypeUsecase>(),
+              getCategoriesByTypeUsecase: getIt<GetCategoriesByTypeUsecase>(),
             ),
       ),
     ],

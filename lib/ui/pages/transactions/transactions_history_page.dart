@@ -1,7 +1,6 @@
 import 'package:coinio_app/core/themes/colors.dart';
 import 'package:coinio_app/core/utils/di.dart';
 import 'package:coinio_app/core/utils/type_format.dart';
-import 'package:coinio_app/data/repositories/mock_repositories/mock_transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
 import 'package:coinio_app/domain/usecases/transaction_usecases/transaction_usecases.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
@@ -24,13 +23,12 @@ class TransactionsHistoryPage extends StatelessWidget {
     return BlocProvider(
       create:
           (final context) => TransactionBloc(
-            getTransactionsByPeriodUsecase: GetTransactionsByPeriodUsecase(
-              transactionRepository: MockTransactionRepository(),
-            ),
             isIncome: isIncome,
             startDate: startDate,
             endDate: endDate,
             getTransactionUsecase: getIt<GetTransactionUsecase>(),
+            getTransactionsByPeriodUsecase:
+                getIt<GetTransactionsByPeriodUsecase>(),
             addTransactionUsecase: getIt<AddTransactionUsecase>(),
             deleteTransactionUsecase: getIt<DeleteTransactionUsecase>(),
             updateTransactionUsecase: getIt<UpdateTransactionUsecase>(),
@@ -57,7 +55,7 @@ class _TransactionsHistoryView extends StatelessWidget {
                   : '/expenses/history/analysis',
             );
           },
-          icon: Icon(Icons.av_timer_rounded),
+          icon: const Icon(Icons.av_timer_rounded),
         ),
       ],
     ),
@@ -76,6 +74,8 @@ class _TransactionsHistoryView extends StatelessWidget {
           return _TransactionsHistoryViewBody(
             transactions: state.transactions,
             isIncome: context.read<TransactionBloc>().isIncome,
+            startDate: state.startDate,
+            endDate: state.endDate,
           );
         }
 
@@ -88,10 +88,14 @@ class _TransactionsHistoryView extends StatelessWidget {
 class _TransactionsHistoryViewBody extends StatelessWidget {
   final List<TransactionResponse> transactions;
   final bool isIncome;
+  final DateTime startDate;
+  final DateTime endDate;
 
   const _TransactionsHistoryViewBody({
     required this.transactions,
     required this.isIncome,
+    required this.startDate,
+    required this.endDate,
   });
 
   @override
@@ -104,11 +108,7 @@ class _TransactionsHistoryViewBody extends StatelessWidget {
 
     return Column(
       children: [
-        _buildDatePickerRow(
-          context,
-          startDate: context.read<TransactionBloc>().state.startDate,
-          endDate: context.read<TransactionBloc>().state.endDate,
-        ),
+        _buildDatePickerRow(context, startDate: startDate, endDate: endDate),
         Container(
           decoration: const BoxDecoration(
             color: AppColors.greenlight1,
@@ -117,7 +117,7 @@ class _TransactionsHistoryViewBody extends StatelessWidget {
             ),
           ),
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -1,7 +1,7 @@
 import 'package:coinio_app/core/themes/colors.dart';
-import 'package:coinio_app/data/repositories/mock_repositories/mock_transaction_repository.dart';
+import 'package:coinio_app/core/utils/di.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
-import 'package:coinio_app/domain/usecases/transaction_usecases/get_transactions_by_period_usecase.dart';
+import 'package:coinio_app/domain/usecases/transaction_usecases/transaction_usecases.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_event.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_state.dart';
@@ -21,31 +21,19 @@ class TransactionsPage extends StatelessWidget {
     final DateTime startDate = DateTime(now.year, now.month, now.day);
     final DateTime endDate = DateTime(now.year, now.month, now.day, 23, 59, 59);
 
-    // Используем TransactionRepositoryImpl вместо MockTransactionRepository
-    final transactionRepository = TransactionRepositoryImpl();
     return BlocProvider(
-      create: (context) {
-        return TransactionBloc(
-          getTransactionsByPeriodUsecase: GetTransactionsByPeriodUsecase(
-            repository: transactionRepository,
-          ),
-          getTransactionUsecase: GetTransactionUsecase(
-            repository: transactionRepository,
-          ),
-          addTransactionUsecase: AddTransactionUsecase(
-            repository: transactionRepository,
-          ),
-          deleteTransactionUsecase: DeleteTransactionUsecase(
-            repository: transactionRepository,
-          ),
-          updateTransactionUsecase: UpdateTransactionUsecase(
-            repository: transactionRepository,
-          ),
-          isIncome: isIncome,
-          startDate: startDate,
-          endDate: endDate,
-        )..add(LoadTransactions(startDate: startDate, endDate: endDate));
-      },
+      create:
+          (context) => TransactionBloc(
+            getTransactionsByPeriodUsecase:
+                getIt<GetTransactionsByPeriodUsecase>(),
+            getTransactionUsecase: getIt<GetTransactionUsecase>(),
+            addTransactionUsecase: getIt<AddTransactionUsecase>(),
+            deleteTransactionUsecase: getIt<DeleteTransactionUsecase>(),
+            updateTransactionUsecase: getIt<UpdateTransactionUsecase>(),
+            isIncome: isIncome,
+            startDate: startDate,
+            endDate: endDate,
+          )..add(LoadTransactions(startDate: startDate, endDate: endDate)),
       child: _TodayTransactionsView(isIncome: isIncome),
     );
   }
