@@ -1,17 +1,16 @@
 import 'package:coinio_app/core/themes/colors.dart';
+import 'package:coinio_app/core/utils/di.dart';
 import 'package:coinio_app/core/utils/type_format.dart';
-import 'package:coinio_app/data/repositories/mock_repositories/mock_category_repository.dart';
-import 'package:coinio_app/data/repositories/mock_repositories/mock_transaction_repository.dart';
 import 'package:coinio_app/domain/models/category/category.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
-import 'package:coinio_app/domain/usecases/categories/get_categories_usecase.dart';
-import 'package:coinio_app/domain/usecases/transactions/get_transactions_by_period_usecase.dart';
-import 'package:coinio_app/ui/blocs/categories_bloc/categories_bloc.dart';
-import 'package:coinio_app/ui/blocs/categories_bloc/categories_event.dart';
-import 'package:coinio_app/ui/blocs/categories_bloc/categories_state.dart';
-import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_bloc.dart';
-import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_event.dart';
-import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_state.dart';
+import 'package:coinio_app/domain/usecases/category_usecases/category_usecases.dart';
+import 'package:coinio_app/domain/usecases/transaction_usecases/transaction_usecases.dart';
+import 'package:coinio_app/ui/blocs/category_bloc/category_bloc.dart';
+import 'package:coinio_app/ui/blocs/category_bloc/category_event.dart';
+import 'package:coinio_app/ui/blocs/category_bloc/category_state.dart';
+import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
+import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_event.dart';
+import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,23 +29,24 @@ class AnalysisPage extends StatelessWidget {
       providers: [
         BlocProvider(
           create:
-              (_) => TransactionsHistoryBloc(
-                getTransactionsByPeriod: GetTransactionsByPeriodUsecase(
-                  repository: MockTransactionRepository(),
-                ),
+              (_) => TransactionBloc(
                 isIncome: isIncome,
                 startDate: startDate,
                 endDate: endDate,
-              )..add(
-                LoadTransactionsHistory(startDate: startDate, endDate: endDate),
-              ),
+                getTransactionsByPeriodUsecase:
+                    getIt<GetTransactionsByPeriodUsecase>(),
+                getTransactionUsecase: getIt<GetTransactionUsecase>(),
+                addTransactionUsecase: getIt<AddTransactionUsecase>(),
+                deleteTransactionUsecase: getIt<DeleteTransactionUsecase>(),
+                updateTransactionUsecase: getIt<UpdateTransactionUsecase>(),
+              )..add(LoadTransactions(startDate: startDate, endDate: endDate)),
         ),
         BlocProvider(
           create:
-              (_) => CategoriesBloc(
-                getCategoriesUsecase: GetCategoriesUsecase(
-                  repository: MockCategoryRepository(),
-                ),
+              (_) => CategoryBloc(
+                getCategoriesUsecase: getIt<GetCategoriesUsecase>(),
+                getCategoryByIdUsecase: getIt<GetCategoryByIdUsecase>(),
+                getCategoriesByTypeUsecase: getIt<GetCategoriesByTypeUsecase>(),
               )..add(LoadCategories()),
         ),
       ],
@@ -74,7 +74,7 @@ class _TransactionsAnalysisViewState extends State<_TransactionsAnalysisView> {
   //   // final cats = await categoryRepo.getAllCategories();
   //   if (mounted) {
   //     setState(() {
-  //       _categories = context.read<CategoriesBloc>().state.categories;
+  //       _categories = context.read<CategoryBloc>().state.categories;
   //       // _categories = cats;
   //     });
   //   }
@@ -98,22 +98,22 @@ class _TransactionsAnalysisViewState extends State<_TransactionsAnalysisView> {
       centerTitle: true,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     ),
-    body: BlocBuilder<CategoriesBloc, CategoriesState>(
+    body: BlocBuilder<CategoryBloc, CategoryState>(
       builder: (context, state) {
-        if (state is CategoriesError) {
+        if (state is CategoryError) {
           return Center(child: Text('Ошибка: ${state.message}'));
         }
         if (state is CategoriesLoaded) {
           _categories = state.categories;
         }
 
-        return BlocBuilder<TransactionsHistoryBloc, TransactionsHistoryState>(
+        return BlocBuilder<TransactionBloc, TransactionState>(
           builder: (final context, final state) {
-            if (state is TransactionsHistoryLoading) {
+            if (state is TransactionLoading) {
               return const Center(child: CircularProgressIndicator());
-            } else if (state is TransactionsHistoryError) {
+            } else if (state is TransactionError) {
               return Center(child: Text('Ошибка: ${state.message}'));
-            } else if (state is TransactionsHistoryLoaded) {
+            } else if (state is TransactionsLoaded) {
               final totalSum = state.transactions.fold<double>(
                 0,
                 (final sum, final tx) => sum + double.parse(tx.amount),
@@ -150,8 +150,8 @@ class _TransactionsAnalysisViewState extends State<_TransactionsAnalysisView> {
                         end = newEnd;
                       });
 
-                      context.read<TransactionsHistoryBloc>().add(
-                        LoadTransactionsHistory(startDate: start, endDate: end),
+                      context.read<TransactionBloc>().add(
+                        LoadTransactions(startDate: start, endDate: end),
                       );
                     },
                     child: Container(
@@ -194,8 +194,8 @@ class _TransactionsAnalysisViewState extends State<_TransactionsAnalysisView> {
                         end = newEnd;
                       });
 
-                      context.read<TransactionsHistoryBloc>().add(
-                        LoadTransactionsHistory(startDate: start, endDate: end),
+                      context.read<TransactionBloc>().add(
+                        LoadTransactions(startDate: start, endDate: end),
                       );
                     },
                     child: Container(

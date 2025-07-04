@@ -1,11 +1,12 @@
 import 'package:coinio_app/core/themes/colors.dart';
+import 'package:coinio_app/core/utils/di.dart';
 import 'package:coinio_app/core/utils/type_format.dart';
 import 'package:coinio_app/data/repositories/mock_repositories/mock_transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
-import 'package:coinio_app/domain/usecases/transactions/get_transactions_by_period_usecase.dart';
-import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_bloc.dart';
-import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_event.dart';
-import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_state.dart';
+import 'package:coinio_app/domain/usecases/transaction_usecases/transaction_usecases.dart';
+import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
+import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_event.dart';
+import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -22,16 +23,18 @@ class TransactionsHistoryPage extends StatelessWidget {
 
     return BlocProvider(
       create:
-          (final context) => TransactionsHistoryBloc(
-            getTransactionsByPeriod: GetTransactionsByPeriodUsecase(
-              repository: MockTransactionRepository(),
+          (final context) => TransactionBloc(
+            getTransactionsByPeriodUsecase: GetTransactionsByPeriodUsecase(
+              transactionRepository: MockTransactionRepository(),
             ),
             isIncome: isIncome,
             startDate: startDate,
             endDate: endDate,
-          )..add(
-            LoadTransactionsHistory(startDate: startDate, endDate: endDate),
-          ),
+            getTransactionUsecase: getIt<GetTransactionUsecase>(),
+            addTransactionUsecase: getIt<AddTransactionUsecase>(),
+            deleteTransactionUsecase: getIt<DeleteTransactionUsecase>(),
+            updateTransactionUsecase: getIt<UpdateTransactionUsecase>(),
+          )..add(LoadTransactions(startDate: startDate, endDate: endDate)),
       child: _TransactionsHistoryView(isIncome: isIncome),
     );
   }
@@ -58,21 +61,21 @@ class _TransactionsHistoryView extends StatelessWidget {
         ),
       ],
     ),
-    body: BlocBuilder<TransactionsHistoryBloc, TransactionsHistoryState>(
+    body: BlocBuilder<TransactionBloc, TransactionState>(
       builder: (final context, final state) {
-        if (state is TransactionsHistoryLoading) {
+        if (state is TransactionLoading) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
         }
-        if (state is TransactionsHistoryError) {
+        if (state is TransactionError) {
           return Scaffold(body: Center(child: Text(state.message)));
         }
 
-        if (state is TransactionsHistoryLoaded) {
+        if (state is TransactionsLoaded) {
           return _TransactionsHistoryViewBody(
             transactions: state.transactions,
-            isIncome: context.read<TransactionsHistoryBloc>().isIncome,
+            isIncome: context.read<TransactionBloc>().isIncome,
           );
         }
 
@@ -103,8 +106,8 @@ class _TransactionsHistoryViewBody extends StatelessWidget {
       children: [
         _buildDatePickerRow(
           context,
-          startDate: context.read<TransactionsHistoryBloc>().state.startDate,
-          endDate: context.read<TransactionsHistoryBloc>().state.endDate,
+          startDate: context.read<TransactionBloc>().state.startDate,
+          endDate: context.read<TransactionBloc>().state.endDate,
         ),
         Container(
           decoration: const BoxDecoration(
@@ -235,63 +238,59 @@ class _TransactionsHistoryViewBody extends StatelessWidget {
     required final DateTime startDate,
     required final DateTime endDate,
     required final bool isStart,
-  }) {
-    return InkWell(
-      onTap: () async {
-        final pickedDates = await _pickDate(
-          context,
-          isStart: isStart,
-          currentStart: startDate,
-          currentEnd: endDate,
-        );
+  }) => InkWell(
+    onTap: () async {
+      final pickedDates = await _pickDate(
+        context,
+        isStart: isStart,
+        currentStart: startDate,
+        currentEnd: endDate,
+      );
 
-        if (!context.mounted || pickedDates == null) return;
+      if (!context.mounted || pickedDates == null) return;
 
-        final (newStartDate, newEndDate) = pickedDates;
+      final (newStartDate, newEndDate) = pickedDates;
 
-        if (newStartDate == startDate && newEndDate == endDate) return;
+      if (newStartDate == startDate && newEndDate == endDate) return;
 
-        context.read<TransactionsHistoryBloc>().add(
-          LoadTransactionsHistory(startDate: newStartDate, endDate: newEndDate),
-        );
-      },
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(16),
-        // color: Theme.of(context).colorScheme.secondary,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            isStart ? const Text('Начало') : const Text('Конец'),
-            Text(dateFormat(isStart ? startDate : endDate)),
-          ],
-        ),
+      context.read<TransactionBloc>().add(
+        LoadTransactions(startDate: newStartDate, endDate: newEndDate),
+      );
+    },
+    child: Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      // color: Theme.of(context).colorScheme.secondary,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          isStart ? const Text('Начало') : const Text('Конец'),
+          Text(dateFormat(isStart ? startDate : endDate)),
+        ],
       ),
-    );
-  }
+    ),
+  );
 
   Widget _buildDatePickerRow(
     BuildContext context, {
     required final DateTime startDate,
     required final DateTime endDate,
-  }) {
-    return Column(
-      children: [
-        _datePickerWidget(
-          context,
-          startDate: startDate,
-          endDate: endDate,
-          isStart: true,
-        ),
-        _datePickerWidget(
-          context,
-          startDate: startDate,
-          endDate: endDate,
-          isStart: false,
-        ),
-      ],
-    );
-  }
+  }) => Column(
+    children: [
+      _datePickerWidget(
+        context,
+        startDate: startDate,
+        endDate: endDate,
+        isStart: true,
+      ),
+      _datePickerWidget(
+        context,
+        startDate: startDate,
+        endDate: endDate,
+        isStart: false,
+      ),
+    ],
+  );
 
   // Widget _sortTransactionsDropdownWidget(BuildContext context, {required final SortState sortState}) {
 

@@ -8,11 +8,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final GetCategoriesUsecase getCategoriesUsecase;
   final GetCategoryByIdUsecase getCategoryByIdUsecase;
-  final GetCategoryByTypeUsecase getCategoryByTypeUsecase;
+  final GetCategoriesByTypeUsecase getCategoriesByTypeUsecase;
   CategoryBloc({
     required this.getCategoriesUsecase,
     required this.getCategoryByIdUsecase,
-    required this.getCategoryByTypeUsecase,
+    required this.getCategoriesByTypeUsecase,
   }) : super(CategoryInitial()) {
     on<LoadCategory>(_onLoadCategory);
     on<LoadCategories>(_onLoadCategories);
@@ -43,7 +43,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
       final categories =
           isIncome != null
-              ? await getCategoryByTypeUsecase(isIncome: isIncome)
+              ? await getCategoriesByTypeUsecase(isIncome: isIncome)
               : await getCategoriesUsecase();
 
       emit(CategoriesLoaded(categories: categories));
