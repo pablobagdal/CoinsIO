@@ -2,10 +2,10 @@ import 'package:coinio_app/domain/models/category/category.dart';
 import 'package:coinio_app/domain/repositories/category_repository.dart';
 
 class GetCategoryByTypeUsecase {
-  CategoryRepository repository;
+  CategoryRepository categoryRepository;
 
-  GetCategoryByTypeUsecase({required this.repository});
+  GetCategoryByTypeUsecase({required this.categoryRepository});
 
   Future<List<Category>> call({required final bool isIncome}) async =>
-      await repository.getCategoriesByType(isIncome: isIncome);
+      await categoryRepository.getCategoriesByType(isIncome: isIncome);
 }

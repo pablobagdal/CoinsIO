@@ -2,14 +2,17 @@ import 'package:coinio_app/domain/models/transaction_request/transaction_request
 import 'package:coinio_app/domain/repositories/transaction_repository.dart';
 
 class UpdateTransactionUsecase {
-  final TransactionRepository repository;
+  final TransactionRepository transactionRepository;
 
-  UpdateTransactionUsecase({required this.repository});
+  UpdateTransactionUsecase({required this.transactionRepository});
 
   Future<void> call({
     required final int id,
     required final TransactionRequest transaction,
   }) async {
-    await repository.updateTransaction(id: id, transaction: transaction);
+    await transactionRepository.updateTransaction(
+      id: id,
+      transaction: transaction,
+    );
   }
 }

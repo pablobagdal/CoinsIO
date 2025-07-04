@@ -2,10 +2,10 @@ import 'package:coinio_app/domain/repositories/transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
 
 class GetTransactionUsecase {
-  final TransactionRepository repository;
+  final TransactionRepository transactionRepository;
 
-  GetTransactionUsecase({required this.repository});
+  GetTransactionUsecase({required this.transactionRepository});
 
   Future<TransactionResponse> call({required final int id}) async =>
-      await repository.getTransaction(id: id);
+      await transactionRepository.getTransaction(id: id);
 }

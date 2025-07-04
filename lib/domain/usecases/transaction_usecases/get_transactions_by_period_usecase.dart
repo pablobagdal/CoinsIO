@@ -2,9 +2,9 @@ import 'package:coinio_app/domain/repositories/transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
 
 class GetTransactionsByPeriodUsecase {
-  final TransactionRepository repository;
+  final TransactionRepository transactionRepository;
 
-  GetTransactionsByPeriodUsecase({required this.repository});
+  GetTransactionsByPeriodUsecase({required this.transactionRepository});
 
   Future<List<TransactionResponse>> call({
     required final DateTime startDate,
@@ -12,7 +12,7 @@ class GetTransactionsByPeriodUsecase {
     required final bool isIncome,
     // required final int id,
   }) async {
-    final transactions = await repository.getTransactionsByPeriod(
+    final transactions = await transactionRepository.getTransactionsByPeriod(
       id: 1,
       startDate: startDate,
       endDate: endDate,

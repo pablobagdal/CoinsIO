@@ -1,9 +1,12 @@
+import 'package:coinio_app/data/datasource/local/local_data_source/app_database.dart';
 import 'package:coinio_app/domain/models/category/category.dart';
 import 'package:coinio_app/domain/repositories/category_repository.dart';
 
-abstract class CategoryLocalDataSource implements CategoryRepository {}
+class CategoryRepositoryImpl implements CategoryRepository {
+  final AppDatabase db;
 
-class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
+  CategoryRepositoryImpl({required this.db});
+
   @override
   Future<List<Category>> getCategories() {
     // TODO: implement getCategories

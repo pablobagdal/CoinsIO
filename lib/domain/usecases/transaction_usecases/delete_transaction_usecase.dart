@@ -1,11 +1,11 @@
 import 'package:coinio_app/domain/repositories/transaction_repository.dart';
 
 class DeleteTransactionUsecase {
-  final TransactionRepository repository;
+  final TransactionRepository transactionRepository;
 
-  DeleteTransactionUsecase({required this.repository});
+  DeleteTransactionUsecase({required this.transactionRepository});
 
   Future<void> call({required final int id}) async {
-    await repository.deleteTransaction(id: id);
+    await transactionRepository.deleteTransaction(id: id);
   }
 }
