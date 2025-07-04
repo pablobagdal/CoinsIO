@@ -127,4 +127,10 @@ class MockAccountRepository implements AccountRepository {
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
   );
+
+  @override
+  Future<void> deleteAccount({required int id}) async {
+    // TODO: implement deleteAccount
+    return await Future.delayed(const Duration(seconds: 1));
+  }
 }
