@@ -32,6 +32,7 @@ dev_dependencies:
   freezed_annotation: ^3.0.0
   icons_launcher: ^3.0.1
   drift_dev: ^2.27.0
+  flutter_native_splash: ^2.4.6
 
 
 flutter:
@@ -41,8 +42,9 @@ flutter:
       fonts:
         - asset: assets/fonts/MyIcons.ttf 
 
-# flutter pub get
-# dart run icons_launcher:create
+# Run the following commands to set up the icon launcher:
+# 1) flutter pub get
+# 2) dart run icons_launcher:create
 icons_launcher:
   image_path: 'assets/logo.png'
   platforms:
@@ -50,3 +52,47 @@ icons_launcher:
       enable: true
     ios:
       enable: true
+
+# Run the following commands to set up the splash screen:
+# 1) flutter clean
+# 2) flutter pub get
+# 3) flutter pub run flutter_native_splash:create
+flutter_native_splash:
+  # light mode support
+  color: "#42a5f5"
+  #background_image: "assets/background.png"
+
+  #image: assets/splash.png
+  #branding: assets/dart.png
+  #branding_mode: bottom
+  # branding_bottom_padding: 24
+
+  # dark mode support
+  color_dark: "#042a49"
+  #background_image_dark: "assets/dark-background.png"
+  #image_dark: assets/splash-invert.png
+  #branding_dark: assets/dart_dark.png
+
+  android_12:
+    # App icon with an icon background: This should be 960×960 pixels, and fit within a circle
+    # 640 pixels in diameter.
+    # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
+    # 768 pixels in diameter.  To fit a 1152x1152 image within a circle with a 768 diameter, simply 
+    # ensure that the most important design elements of your image are placed within a circular area
+    # with a 768 diameter at the center of the 1152x1152 canvas.
+    #image: assets/android12splash.png
+
+    # Splash screen background color.
+    color: "#42aff5"
+    # App icon background color.
+    #icon_background_color: "#111111"
+    # The branding property allows you to specify an image used as branding in the splash screen.
+    #branding: assets/dart.png
+
+    #image_dark: assets/android12splash-invert.png
+    color_dark: "#042a49"
+    #icon_background_color_dark: "#eeeeee"
+
+  android: true
+  ios: true
+  web: false
