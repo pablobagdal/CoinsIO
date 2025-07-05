@@ -37,8 +37,8 @@ class MockCategoryRepository implements CategoryRepository {
 }
 
 final List<Category> _mockCategories = [
-  const Category(id: 1, name: 'Зарплата', emoji: '💰💰💰', isIncome: true),
-  const Category(id: 2, name: 'Подработка', emoji: '💰', isIncome: true),
+  const Category(id: 1, name: 'Подработка', emoji: '💰', isIncome: true),
+  const Category(id: 2, name: 'Зарплата', emoji: '💰💰💰', isIncome: true),
   const Category(id: 3, name: 'Одежда', emoji: '👗', isIncome: false),
   const Category(id: 4, name: 'Медицина', emoji: '💊', isIncome: false),
   const Category(id: 5, name: 'Продукты', emoji: '🍭', isIncome: false),

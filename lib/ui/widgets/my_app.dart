@@ -3,6 +3,7 @@ import 'package:coinio_app/core/utils/di.dart';
 import 'package:coinio_app/domain/usecases/account_usecases/account_usecases.dart';
 import 'package:coinio_app/domain/usecases/category_usecases/category_usecases.dart';
 import 'package:coinio_app/ui/blocs/account_bloc/account_bloc.dart';
+import 'package:coinio_app/ui/blocs/account_bloc/account_event.dart';
 import 'package:coinio_app/ui/blocs/category_bloc/category_bloc.dart';
 import 'package:coinio_app/ui/router/router.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
               getAccountUsecase: getIt<GetAccountUsecase>(),
               getAccountsUsecase: getIt<GetAccountsUsecase>(),
               updateAccountUsecase: getIt<UpdateAccountUsecase>(),
-            ),
+            )..add(LoadAccount(id: 1)),
       ),
       BlocProvider(
         create:

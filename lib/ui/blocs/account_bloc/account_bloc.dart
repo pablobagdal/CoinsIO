@@ -48,6 +48,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     emit(AccountLoading());
     try {
       final account = await getAccountUsecase(id: event.id);
+      print('Account loaded: ${account.name}');
       emit(AccountLoaded(account: account));
     } catch (e) {
       emit(AccountError(message: e.toString()));

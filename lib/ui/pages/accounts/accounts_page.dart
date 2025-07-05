@@ -23,15 +23,7 @@ class AccountsPage extends StatelessWidget {
   const AccountsPage({super.key});
 
   @override
-  Widget build(final BuildContext context) => BlocProvider(
-    create:
-        (final context) => AccountBloc(
-          getAccountUsecase: getIt<GetAccountUsecase>(),
-          getAccountsUsecase: getIt<GetAccountsUsecase>(),
-          updateAccountUsecase: getIt<UpdateAccountUsecase>(),
-        ),
-    child: _AccountPageView(),
-  );
+  Widget build(final BuildContext context) => _AccountPageView();
 }
 
 class _AccountPageView extends StatefulWidget {
@@ -77,9 +69,9 @@ class _AccountPageViewState extends State<_AccountPageView> {
         builder: (final context, final state) {
           if (state is AccountLoaded) {
             return Text(state.account.name);
+          } else {
+            return const Text('Error name');
           }
-
-          return const Text('Error name');
         },
       ),
       actions: [

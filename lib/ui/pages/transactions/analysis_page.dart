@@ -115,9 +115,34 @@ class _TransactionsAnalysisView extends StatelessWidget {
                   totalSum: totalSum,
                   start: txState.startDate,
                   end: txState.endDate,
-                  onStartPick: () {},
-                  onEndPick: () {},
+                  onStartPick: () async {
+                    final result = await _pickDate(
+                      context,
+                      isStart: true,
+                      currentStart: txState.startDate,
+                      currentEnd: txState.endDate,
+                    );
+                    if (!context.mounted || result == null) return;
+                    final (newStart, newEnd) = result;
+                    context.read<TransactionBloc>().add(
+                      LoadTransactions(startDate: newStart, endDate: newEnd),
+                    );
+                  },
+                  onEndPick: () async {
+                    final result = await _pickDate(
+                      context,
+                      isStart: false,
+                      currentStart: txState.startDate,
+                      currentEnd: txState.endDate,
+                    );
+                    if (!context.mounted || result == null) return;
+                    final (newStart, newEnd) = result;
+                    context.read<TransactionBloc>().add(
+                      LoadTransactions(startDate: newStart, endDate: newEnd),
+                    );
+                  },
                 ),
+
                 Divider(height: 1, color: Theme.of(context).dividerColor),
                 if (categories.isEmpty)
                   const Center(child: CircularProgressIndicator())
@@ -127,6 +152,7 @@ class _TransactionsAnalysisView extends StatelessWidget {
                       Builder(
                         builder: (context) {
                           final myConfig = ChartConfig(
+                            centerSpaceRatio: 0.9,
                             items:
                                 sortedEntries
                                     .map(
@@ -140,7 +166,10 @@ class _TransactionsAnalysisView extends StatelessWidget {
                                     )
                                     .toList(),
                           );
-                          return AnimatedPieChart(config: myConfig);
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: AnimatedPieChart(config: myConfig),
+                          );
                         },
                       ),
                       ListView.separated(
@@ -248,6 +277,36 @@ class _TransactionsAnalysisView extends StatelessWidget {
     ),
   );
 
+  Future<(DateTime, DateTime)?> _pickDate(
+    BuildContext context, {
+    required bool isStart,
+    required DateTime currentStart,
+    required DateTime currentEnd,
+  }) async {
+    final initialDate = isStart ? currentStart : currentEnd;
+    final date = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+    );
+    if (date == null) return null;
+    DateTime newStart = currentStart;
+    DateTime newEnd = currentEnd;
+    if (isStart) {
+      newStart = DateTime(date.year, date.month, date.day);
+      if (newStart.isAfter(newEnd)) {
+        newEnd = DateTime(date.year, date.month, date.day, 23, 59, 59);
+      }
+    } else {
+      newEnd = DateTime(date.year, date.month, date.day, 23, 59, 59);
+      if (newEnd.isBefore(newStart)) {
+        newStart = DateTime(date.year, date.month, date.day);
+      }
+    }
+    return (newStart, newEnd);
+  }
+
   void _showTransactionsModal(
     BuildContext context,
     Category category,
@@ -339,19 +398,21 @@ class _DatePickersAndSummary extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Text('Начало'),
               ),
-              const SizedBox(width: 8),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.greenbright1,
-                  foregroundColor: Colors.black,
-                ),
-                onPressed: onStartPick,
-                child: Row(
-                  children: [
-                    const Icon(Icons.calendar_today, size: 16),
-                    const SizedBox(width: 6),
-                    Text('С ${dateFormat(start)}'),
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.greenbright1,
+                    foregroundColor: Colors.black,
+                  ),
+                  onPressed: onStartPick,
+                  child: Row(
+                    children: [
+                      const Icon(Icons.calendar_today, size: 16),
+                      const SizedBox(width: 6),
+                      Text('С ${dateFormat(start)}'),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -364,19 +425,21 @@ class _DatePickersAndSummary extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Text('Конец'),
               ),
-              const SizedBox(width: 8),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.greenbright1,
-                  foregroundColor: Colors.black,
-                ),
-                onPressed: onEndPick,
-                child: Row(
-                  children: [
-                    const Icon(Icons.calendar_today, size: 16),
-                    const SizedBox(width: 6),
-                    Text('По ${dateFormat(end)}'),
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.greenbright1,
+                    foregroundColor: Colors.black,
+                  ),
+                  onPressed: onEndPick,
+                  child: Row(
+                    children: [
+                      const Icon(Icons.calendar_today, size: 16),
+                      const SizedBox(width: 6),
+                      Text('По ${dateFormat(end)}'),
+                    ],
+                  ),
                 ),
               ),
             ],
