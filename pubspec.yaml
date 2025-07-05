@@ -21,6 +21,12 @@ dependencies:
   path_provider: ^2.1.5
   path: ^1.9.1
   get_it: ^8.0.3
+  # My package with AnimatedPieChart
+  my_first_package:
+    git:
+      url: https://github.com/pablobagdal/my_first_package.git
+      ref: main
+  
 
 dev_dependencies:
   flutter_test:

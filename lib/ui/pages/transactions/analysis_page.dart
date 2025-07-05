@@ -3,16 +3,21 @@ import 'package:coinio_app/core/utils/di.dart';
 import 'package:coinio_app/core/utils/type_format.dart';
 import 'package:coinio_app/domain/models/category/category.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
+
 import 'package:coinio_app/domain/usecases/category_usecases/category_usecases.dart';
 import 'package:coinio_app/domain/usecases/transaction_usecases/transaction_usecases.dart';
+
 import 'package:coinio_app/ui/blocs/category_bloc/category_bloc.dart';
 import 'package:coinio_app/ui/blocs/category_bloc/category_event.dart';
 import 'package:coinio_app/ui/blocs/category_bloc/category_state.dart';
+
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_event.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_state.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_first_package/my_first_package.dart';
 
 class AnalysisPage extends StatelessWidget {
   final bool isIncome;
@@ -241,103 +246,135 @@ class _TransactionsAnalysisViewState extends State<_TransactionsAnalysisView> {
                   if (_categories.isEmpty)
                     const Center(child: CircularProgressIndicator())
                   else
-                    ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: sortedEntries.length,
-                      itemBuilder: (final context, final index) {
-                        final entry = sortedEntries[index];
+                    Column(
+                      children: [
+                        Builder(
+                          builder: (context) {
+                            final myConfig = ChartConfig(
+                              items:
+                                  sortedEntries
+                                      .map(
+                                        (final entry) => ChartItem(
+                                          value: entry.value,
+                                          color: colorFromString(
+                                            categoryById[entry.key]!.name,
+                                          ),
+                                          label: categoryById[entry.key]!.name,
+                                        ),
+                                      )
+                                      .toList(),
+                            );
+                            return AnimatedPieChart(config: myConfig);
+                          },
+                        ),
+                        ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: sortedEntries.length,
+                          itemBuilder: (final context, final index) {
+                            final entry = sortedEntries[index];
 
-                        final categoryId = entry.key;
-                        final totalAmount = entry.value;
+                            final categoryId = entry.key;
+                            final totalAmount = entry.value;
 
-                        final category = _categories.firstWhere(
-                          (final c) => c.id == categoryId,
-                        );
+                            final category = _categories.firstWhere(
+                              (final c) => c.id == categoryId,
+                            );
 
-                        final percent =
-                            totalSum > 0 ? (totalAmount / totalSum * 100) : 0;
+                            final percent =
+                                totalSum > 0
+                                    ? (totalAmount / totalSum * 100)
+                                    : 0;
 
-                        final categoryTransactions =
-                            state.transactions
-                                .where(
-                                  (final tx) => tx.category.id == categoryId,
-                                )
-                                .toList()
-                              ..sort(
-                                (final a, final b) => b.transactionDate
-                                    .compareTo(a.transactionDate),
-                              );
+                            final categoryTransactions =
+                                state.transactions
+                                    .where(
+                                      (final tx) =>
+                                          tx.category.id == categoryId,
+                                    )
+                                    .toList()
+                                  ..sort(
+                                    (final a, final b) => b.transactionDate
+                                        .compareTo(a.transactionDate),
+                                  );
 
-                        final lastTransaction =
-                            categoryTransactions.isNotEmpty
-                                ? categoryTransactions.first
-                                : null;
+                            final lastTransaction =
+                                categoryTransactions.isNotEmpty
+                                    ? categoryTransactions.first
+                                    : null;
 
-                        return ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 10,
-                          ),
-                          title: Text(category.name),
-                          subtitle:
-                              lastTransaction != null
-                                  ? Text(
-                                    lastTransaction.comment ?? '',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  )
-                                  : null,
-                          leading: CircleAvatar(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.secondary,
-                            radius: 16,
-                            child: Text(
-                              category.emoji ?? '',
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Column(
+                            return ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 10,
+                              ),
+                              title: Text(category.name),
+                              subtitle:
+                                  lastTransaction != null
+                                      ? Text(
+                                        lastTransaction.comment ?? '',
+                                        style:
+                                            Theme.of(
+                                              context,
+                                            ).textTheme.bodySmall,
+                                      )
+                                      : null,
+                              leading: CircleAvatar(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.secondary,
+                                radius: 16,
+                                child: Text(
+                                  category.emoji ?? '',
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                              ),
+                              trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    '${percent.toStringAsFixed(1)}%',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        '${percent.toStringAsFixed(1)}%',
+                                        style:
+                                            Theme.of(
+                                              context,
+                                            ).textTheme.bodyMedium,
+                                      ),
+                                      Text(
+                                        entry.value.toStringAsFixed(2),
+                                        style:
+                                            Theme.of(
+                                              context,
+                                            ).textTheme.bodyMedium,
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    entry.value.toStringAsFixed(2),
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                  const SizedBox(width: 24),
+                                  Icon(
+                                    Icons.arrow_forward_ios_outlined,
+                                    size: 16,
+                                    color: Theme.of(context).iconTheme.color,
                                   ),
                                 ],
                               ),
-                              const SizedBox(width: 24),
-                              Icon(
-                                Icons.arrow_forward_ios_outlined,
-                                size: 16,
-                                color: Theme.of(context).iconTheme.color,
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            _showTransactionsModal(
-                              context,
-                              category,
-                              categoryTransactions,
+                              onTap: () {
+                                _showTransactionsModal(
+                                  context,
+                                  category,
+                                  categoryTransactions,
+                                );
+                              },
                             );
                           },
-                        );
-                      },
-                      separatorBuilder:
-                          (final BuildContext context, final int index) =>
-                              Divider(
-                                height: 1,
-                                color: Theme.of(context).dividerColor,
-                              ),
+                          separatorBuilder:
+                              (final BuildContext context, final int index) =>
+                                  Divider(
+                                    height: 1,
+                                    color: Theme.of(context).dividerColor,
+                                  ),
+                        ),
+                      ],
                     ),
                 ],
               );
@@ -424,7 +461,7 @@ class _TransactionsAnalysisViewState extends State<_TransactionsAnalysisView> {
       context: context,
       initialDate: initialDate,
       firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
+      lastDate: DateTime.now(),
     );
 
     if (date == null) return null;
