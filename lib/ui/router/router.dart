@@ -61,35 +61,47 @@ Widget _scaffoldWithNavBar(
   final BuildContext context,
   final GoRouterState state,
   final StatefulNavigationShell shell,
-) => Scaffold(
-  body: shell,
-  bottomNavigationBar: NavigationBar(
-    selectedIndex: shell.currentIndex,
-    onDestinationSelected: (final index) {
-      if (index == shell.currentIndex) {
-        shell.goBranch(index, initialLocation: true);
-      } else {
-        shell.goBranch(index);
-      }
-    },
-    destinations: [
-      const NavigationDestination(
-        icon: Icon(MyIcons.spendings),
-        label: 'Расходы',
-      ),
-      const NavigationDestination(icon: Icon(MyIcons.incomes), label: 'Доходы'),
-      const NavigationDestination(icon: Icon(MyIcons.account), label: 'Счета'),
-      const NavigationDestination(
-        icon: Icon(MyIcons.category),
-        label: 'Статьи',
-      ),
-      const NavigationDestination(
-        icon: Icon(MyIcons.settings),
-        label: 'Настройки',
-      ),
-    ],
-  ),
-);
+) {
+  final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
+  return Scaffold(
+    body: shell,
+    bottomNavigationBar:
+        isKeyboardOpen
+            ? null
+            : NavigationBar(
+              selectedIndex: shell.currentIndex,
+              onDestinationSelected: (final index) {
+                if (index == shell.currentIndex) {
+                  shell.goBranch(index, initialLocation: true);
+                } else {
+                  shell.goBranch(index);
+                }
+              },
+              destinations: const [
+                NavigationDestination(
+                  icon: Icon(MyIcons.spendings),
+                  label: 'Расходы',
+                ),
+                NavigationDestination(
+                  icon: Icon(MyIcons.incomes),
+                  label: 'Доходы',
+                ),
+                NavigationDestination(
+                  icon: Icon(MyIcons.account),
+                  label: 'Счета',
+                ),
+                NavigationDestination(
+                  icon: Icon(MyIcons.category),
+                  label: 'Статьи',
+                ),
+                NavigationDestination(
+                  icon: Icon(MyIcons.settings),
+                  label: 'Настройки',
+                ),
+              ],
+            ),
+  );
+}
 
 _transactionEditGoRoute({required final bool isIncome}) => GoRoute(
   path: 'transaction-edit',
