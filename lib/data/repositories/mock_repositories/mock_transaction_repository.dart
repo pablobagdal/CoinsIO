@@ -44,8 +44,8 @@ class MockTransactionRepository implements TransactionRepository {
     // TODO add Transaction
     final TransactionResponse newTransaction = TransactionResponse(
       id: 999,
-      account: _mockAccountBrief,
-      category: _mockCategoryIncome,
+      account: _mockAccountBrief(),
+      category: _mockCategoryIncome1(),
       amount: transaction.amount,
       transactionDate: transaction.transactionDate,
       createdAt: DateTime.now(),
@@ -87,8 +87,8 @@ class MockTransactionRepository implements TransactionRepository {
 
     _transactions[transactionIndex] = TransactionResponse(
       id: id,
-      account: _mockAccountBrief,
-      category: _mockCategoryIncome,
+      account: _mockAccountBrief(),
+      category: _mockCategoryIncome1(),
       amount: transaction.amount,
       transactionDate: transaction.transactionDate,
       createdAt: DateTime.now(),
@@ -101,18 +101,8 @@ class MockTransactionRepository implements TransactionRepository {
 final List<TransactionResponse> _transactions = [
   TransactionResponse(
     id: 1,
-    account: const AccountBrief(
-      id: 1,
-      name: 'Счет 1',
-      balance: '100.00',
-      currency: 'RUB',
-    ),
-    category: const Category(
-      id: 1,
-      name: 'Операция 1 доход',
-      emoji: '💰',
-      isIncome: true,
-    ),
+    account: _mockAccountBrief(),
+    category: _mockCategoryIncome1(),
     amount: '100.00',
     transactionDate: DateTime.now()
         .subtract(const Duration(hours: 1))
@@ -122,18 +112,8 @@ final List<TransactionResponse> _transactions = [
   ),
   TransactionResponse(
     id: 1,
-    account: const AccountBrief(
-      id: 1,
-      name: 'Счет 1',
-      balance: '100.00',
-      currency: 'RUB',
-    ),
-    category: const Category(
-      id: 1,
-      name: 'Операция 1 доход',
-      emoji: '💰',
-      isIncome: true,
-    ),
+    account: _mockAccountBrief(),
+    category: _mockCategoryIncome2(),
     amount: '100.00',
     transactionDate: DateTime.now()
         .subtract(const Duration(hours: 1))
@@ -143,18 +123,8 @@ final List<TransactionResponse> _transactions = [
   ),
   TransactionResponse(
     id: 1,
-    account: const AccountBrief(
-      id: 1,
-      name: 'Счет 1',
-      balance: '100.00',
-      currency: 'RUB',
-    ),
-    category: const Category(
-      id: 1,
-      name: 'Операция 1 доход',
-      emoji: '💰',
-      isIncome: true,
-    ),
+    account: _mockAccountBrief(),
+    category: _mockCategoryIncome1(),
     amount: '100.00',
     transactionDate: DateTime.now()
         .subtract(const Duration(hours: 1))
@@ -164,18 +134,8 @@ final List<TransactionResponse> _transactions = [
   ),
   TransactionResponse(
     id: 1,
-    account: const AccountBrief(
-      id: 1,
-      name: 'Счет 1',
-      balance: '100.00',
-      currency: 'RUB',
-    ),
-    category: const Category(
-      id: 1,
-      name: 'Операция 1 доход',
-      emoji: '💰',
-      isIncome: true,
-    ),
+    account: _mockAccountBrief(),
+    category: _mockCategoryIncome2(),
     amount: '100.00',
     transactionDate: DateTime.now()
         .subtract(const Duration(hours: 1))
@@ -185,18 +145,8 @@ final List<TransactionResponse> _transactions = [
   ),
   TransactionResponse(
     id: 1,
-    account: const AccountBrief(
-      id: 1,
-      name: 'Счет 1',
-      balance: '100.00',
-      currency: 'RUB',
-    ),
-    category: const Category(
-      id: 1,
-      name: 'Операция 1 доход',
-      emoji: '💰',
-      isIncome: true,
-    ),
+    account: _mockAccountBrief(),
+    category: _mockCategoryExpense1(),
     amount: '100.00',
     transactionDate: DateTime.now()
         .subtract(const Duration(hours: 1))
@@ -206,18 +156,8 @@ final List<TransactionResponse> _transactions = [
   ),
   TransactionResponse(
     id: 1,
-    account: const AccountBrief(
-      id: 1,
-      name: 'Счет 1',
-      balance: '100.00',
-      currency: 'RUB',
-    ),
-    category: const Category(
-      id: 1,
-      name: 'Операция 1 доход',
-      emoji: '💰',
-      isIncome: true,
-    ),
+    account: _mockAccountBrief(),
+    category: _mockCategoryExpense2(),
     amount: '100.00',
     transactionDate: DateTime.now()
         .subtract(const Duration(hours: 1))
@@ -227,18 +167,8 @@ final List<TransactionResponse> _transactions = [
   ),
   TransactionResponse(
     id: 1,
-    account: const AccountBrief(
-      id: 1,
-      name: 'Счет 1',
-      balance: '100.00',
-      currency: 'RUB',
-    ),
-    category: const Category(
-      id: 1,
-      name: 'Операция 2 доход',
-      emoji: '🤑',
-      isIncome: true,
-    ),
+    account: _mockAccountBrief(),
+    category: _mockCategoryExpense1(),
     amount: '100.00',
     transactionDate: DateTime.now().subtract(const Duration(hours: 1)),
     comment: 'Другое описание',
@@ -247,18 +177,8 @@ final List<TransactionResponse> _transactions = [
   ),
   TransactionResponse(
     id: 1,
-    account: const AccountBrief(
-      id: 1,
-      name: 'Счет 1',
-      balance: '100.00',
-      currency: 'RUB',
-    ),
-    category: const Category(
-      id: 1,
-      name: 'Операция 3 доход',
-      emoji: '💵',
-      isIncome: true,
-    ),
+    account: _mockAccountBrief(),
+    category: _mockCategoryExpense2(),
     amount: '100.00',
     transactionDate: DateTime.now().subtract(const Duration(hours: 1)),
     comment: 'Описание транзакции',
@@ -267,18 +187,8 @@ final List<TransactionResponse> _transactions = [
   ),
   TransactionResponse(
     id: 1,
-    account: const AccountBrief(
-      id: 1,
-      name: 'Счет 1',
-      balance: '100.00',
-      currency: 'RUB',
-    ),
-    category: const Category(
-      id: 1,
-      name: 'Операция 4 расход',
-      emoji: '💸',
-      isIncome: false,
-    ),
+    account: _mockAccountBrief(),
+    category: _mockCategoryIncome1(),
     amount: '120.00',
     transactionDate: DateTime.now().subtract(const Duration(hours: 1)),
     createdAt: DateTime.now().subtract(const Duration(hours: 1)),
@@ -286,18 +196,8 @@ final List<TransactionResponse> _transactions = [
   ),
   TransactionResponse(
     id: 1,
-    account: const AccountBrief(
-      id: 1,
-      name: 'Счет 1',
-      balance: '100.00',
-      currency: 'RUB',
-    ),
-    category: const Category(
-      id: 1,
-      name: 'Операция 5 расход',
-      emoji: '🧾',
-      isIncome: false,
-    ),
+    account: _mockAccountBrief(),
+    category: _mockCategoryIncome2(),
     amount: '100.00',
     transactionDate: DateTime.now().subtract(const Duration(hours: 1)),
     comment: 'Описание транзакции',
@@ -306,18 +206,8 @@ final List<TransactionResponse> _transactions = [
   ),
   TransactionResponse(
     id: 1,
-    account: const AccountBrief(
-      id: 1,
-      name: 'Счет 1',
-      balance: '100.00',
-      currency: 'RUB',
-    ),
-    category: const Category(
-      id: 1,
-      name: 'Операция 6 расход',
-      emoji: '🛒',
-      isIncome: false,
-    ),
+    account: _mockAccountBrief(),
+    category: _mockCategoryIncome1(),
     amount: '100.00',
     transactionDate: DateTime.now().subtract(const Duration(hours: 1)),
     comment: 'Описание транзакции',
@@ -326,18 +216,8 @@ final List<TransactionResponse> _transactions = [
   ),
   TransactionResponse(
     id: 1,
-    account: const AccountBrief(
-      id: 1,
-      name: 'Счет 1',
-      balance: '100.00',
-      currency: 'RUB',
-    ),
-    category: const Category(
-      id: 1,
-      name: 'Операция 7 расход',
-      emoji: '🍔',
-      isIncome: false,
-    ),
+    account: _mockAccountBrief(),
+    category: _mockCategoryIncome2(),
     amount: '100.00',
     transactionDate: DateTime.now().subtract(const Duration(hours: 24)),
     comment: 'Это всегда вчерашняя операция',
@@ -346,16 +226,19 @@ final List<TransactionResponse> _transactions = [
   ),
 ];
 
-final AccountBrief _mockAccountBrief = const AccountBrief(
+AccountBrief _mockAccountBrief() => const AccountBrief(
   id: 1,
-  name: 'Счет 1',
-  balance: '100.00',
+  name: 'Основной счет',
+  balance: '1000.00',
   currency: 'RUB',
 );
 
-final Category _mockCategoryIncome = const Category(
-  id: 1,
-  name: 'Категория мок доход',
-  emoji: '💰',
-  isIncome: true,
-);
+Category _mockCategoryIncome1() =>
+    const Category(id: 1, name: 'Зарплата', emoji: '💰', isIncome: true);
+Category _mockCategoryIncome2() =>
+    const Category(id: 2, name: 'Подработка', emoji: '💰', isIncome: true);
+
+Category _mockCategoryExpense1() =>
+    const Category(id: 3, name: 'Ремонт', emoji: '💰', isIncome: false);
+Category _mockCategoryExpense2() =>
+    const Category(id: 4, name: 'Трата', emoji: '💰', isIncome: false);
