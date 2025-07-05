@@ -22,6 +22,8 @@ dependencies:
   path: ^1.9.1
   get_it: ^8.0.3
   # My package with AnimatedPieChart
+  fl_chart: ^1.0.0
+  intl: ^0.20.2
   my_first_package:
     git:
       url: https://github.com/pablobagdal/my_first_package.git
