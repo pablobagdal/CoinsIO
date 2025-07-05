@@ -1,11 +1,11 @@
 import 'package:coinio_app/core/themes/colors.dart';
+import 'package:coinio_app/core/utils/di.dart';
 import 'package:coinio_app/core/utils/type_format.dart';
-import 'package:coinio_app/data/repositories/mock_transaction_repository.dart';
 import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
-import 'package:coinio_app/domain/usecases/transactions/get_transactions_by_period_usecase.dart';
-import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_bloc.dart';
-import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_event.dart';
-import 'package:coinio_app/ui/blocs/transactions_history_bloc/transactions_history_state.dart';
+import 'package:coinio_app/domain/usecases/transaction_usecases/transaction_usecases.dart';
+import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
+import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_event.dart';
+import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -22,16 +22,17 @@ class TransactionsHistoryPage extends StatelessWidget {
 
     return BlocProvider(
       create:
-          (final context) => TransactionsHistoryBloc(
-            getTransactionsByPeriod: GetTransactionsByPeriodUsecase(
-              repository: MockTransactionRepository(),
-            ),
+          (final context) => TransactionBloc(
             isIncome: isIncome,
             startDate: startDate,
             endDate: endDate,
-          )..add(
-            LoadTransactionsHistory(startDate: startDate, endDate: endDate),
-          ),
+            getTransactionUsecase: getIt<GetTransactionUsecase>(),
+            getTransactionsByPeriodUsecase:
+                getIt<GetTransactionsByPeriodUsecase>(),
+            addTransactionUsecase: getIt<AddTransactionUsecase>(),
+            deleteTransactionUsecase: getIt<DeleteTransactionUsecase>(),
+            updateTransactionUsecase: getIt<UpdateTransactionUsecase>(),
+          )..add(LoadTransactions(startDate: startDate, endDate: endDate)),
       child: _TransactionsHistoryView(isIncome: isIncome),
     );
   }
@@ -54,25 +55,27 @@ class _TransactionsHistoryView extends StatelessWidget {
                   : '/expenses/history/analysis',
             );
           },
-          icon: Icon(Icons.av_timer_rounded),
+          icon: const Icon(Icons.av_timer_rounded),
         ),
       ],
     ),
-    body: BlocBuilder<TransactionsHistoryBloc, TransactionsHistoryState>(
+    body: BlocBuilder<TransactionBloc, TransactionState>(
       builder: (final context, final state) {
-        if (state is TransactionsHistoryLoading) {
+        if (state is TransactionLoading) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
         }
-        if (state is TransactionsHistoryError) {
+        if (state is TransactionError) {
           return Scaffold(body: Center(child: Text(state.message)));
         }
 
-        if (state is TransactionsHistoryLoaded) {
+        if (state is TransactionsLoaded) {
           return _TransactionsHistoryViewBody(
             transactions: state.transactions,
-            isIncome: context.read<TransactionsHistoryBloc>().isIncome,
+            isIncome: context.read<TransactionBloc>().isIncome,
+            startDate: state.startDate,
+            endDate: state.endDate,
           );
         }
 
@@ -85,10 +88,14 @@ class _TransactionsHistoryView extends StatelessWidget {
 class _TransactionsHistoryViewBody extends StatelessWidget {
   final List<TransactionResponse> transactions;
   final bool isIncome;
+  final DateTime startDate;
+  final DateTime endDate;
 
   const _TransactionsHistoryViewBody({
     required this.transactions,
     required this.isIncome,
+    required this.startDate,
+    required this.endDate,
   });
 
   @override
@@ -101,11 +108,7 @@ class _TransactionsHistoryViewBody extends StatelessWidget {
 
     return Column(
       children: [
-        _buildDatePickerRow(
-          context,
-          startDate: context.read<TransactionsHistoryBloc>().state.startDate,
-          endDate: context.read<TransactionsHistoryBloc>().state.endDate,
-        ),
+        _buildDatePickerRow(context, startDate: startDate, endDate: endDate),
         Container(
           decoration: const BoxDecoration(
             color: AppColors.greenlight1,
@@ -113,91 +116,82 @@ class _TransactionsHistoryViewBody extends StatelessWidget {
               bottom: BorderSide(color: AppColors.grey1, width: 1),
             ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Сумма'),
-              Text('${totalSum.toString()} $sign'),
-            ],
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Сумма'),
+                Text('${totalSum.toString()} $sign'),
+              ],
+            ),
           ),
         ),
-        //               // Row(
-        //               //   mainAxisAlignment: MainAxisAlignment.end,
-        //               //   children: [
-        //               //     TransactionsHistorySortDropDown(
-        //               //       value: state.sort,
-        //               //       onChanged: (final sort) {
-        //               //         if (sort != null) {
-        //               //           context.read<TransactionsHistoryBloc>().add(
-        //               //             ChangeSort(sort),
-        //               //           );
-        //               //         }
-        //               //       },
-        //               //     ),
-        //               //   ],
-        //               // ),
         Expanded(
           child:
               transactions.isEmpty
                   ? const Center(child: Text('Нет данных за данный период'))
                   : ListView.builder(
                     itemCount: transactions.length,
-                    itemBuilder:
-                        (final context, final index) => Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              top:
-                                  index == 0
-                                      ? const BorderSide(
-                                        color: AppColors.grey1,
-                                        width: 1,
-                                      )
-                                      : BorderSide.none,
-                              bottom: const BorderSide(
-                                color: AppColors.grey1,
-                                width: 1,
-                              ),
-                            ),
-                          ),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              child: Text(
-                                transactions[index].category.emoji,
-                                style: const TextStyle(fontSize: 28),
-                              ),
-                            ),
-                            title: Text(
-                              transactions[index].category.name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            subtitle: Text(
-                              transactions[index].comment ??
-                                  '', // Display date only
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Text(
-                                  '${isIncome ? '+' : '-'}${transactions[index].amount}${transactions[index].account.currency}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0,
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.arrow_forward_ios),
-                                  onPressed: () {},
-                                  // () => _deleteTransaction(
-                                  //   context,
-                                  //   transaction.id,
-                                  // ),
-                                ),
-                              ],
+                    itemBuilder: (final context, final index) {
+                      final transaction = transactions[index];
+
+                      return Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            top:
+                                index == 0
+                                    ? const BorderSide(
+                                      color: AppColors.grey1,
+                                      width: 1,
+                                    )
+                                    : BorderSide.none,
+                            bottom: const BorderSide(
+                              color: AppColors.grey1,
+                              width: 1,
                             ),
                           ),
                         ),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            child: Text(
+                              transactions[index].category.emoji,
+                              style: const TextStyle(fontSize: 28),
+                            ),
+                          ),
+                          title: Text(
+                            transactions[index].category.name,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            transactions[index].comment ??
+                                '', // Display date only
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                '${isIncome ? '+' : '-'}${transactions[index].amount}${transactions[index].account.currency}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.arrow_forward_ios),
+                                onPressed: () {
+                                  context.go(
+                                    isIncome
+                                        ? '/incomes/history/transaction-edit?id=${transaction.id}'
+                                        : '/expenses/history/transaction-edit?id=${transaction.id}',
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
         ),
       ],
@@ -244,63 +238,59 @@ class _TransactionsHistoryViewBody extends StatelessWidget {
     required final DateTime startDate,
     required final DateTime endDate,
     required final bool isStart,
-  }) {
-    return InkWell(
-      onTap: () async {
-        final pickedDates = await _pickDate(
-          context,
-          isStart: isStart,
-          currentStart: startDate,
-          currentEnd: endDate,
-        );
+  }) => InkWell(
+    onTap: () async {
+      final pickedDates = await _pickDate(
+        context,
+        isStart: isStart,
+        currentStart: startDate,
+        currentEnd: endDate,
+      );
 
-        if (!context.mounted || pickedDates == null) return;
+      if (!context.mounted || pickedDates == null) return;
 
-        final (newStartDate, newEndDate) = pickedDates;
+      final (newStartDate, newEndDate) = pickedDates;
 
-        if (newStartDate == startDate && newEndDate == endDate) return;
+      if (newStartDate == startDate && newEndDate == endDate) return;
 
-        context.read<TransactionsHistoryBloc>().add(
-          LoadTransactionsHistory(startDate: newStartDate, endDate: newEndDate),
-        );
-      },
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(16),
-        // color: Theme.of(context).colorScheme.secondary,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            isStart ? const Text('Начало') : const Text('Конец'),
-            Text(dateFormat(isStart ? startDate : endDate)),
-          ],
-        ),
+      context.read<TransactionBloc>().add(
+        LoadTransactions(startDate: newStartDate, endDate: newEndDate),
+      );
+    },
+    child: Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      // color: Theme.of(context).colorScheme.secondary,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          isStart ? const Text('Начало') : const Text('Конец'),
+          Text(dateFormat(isStart ? startDate : endDate)),
+        ],
       ),
-    );
-  }
+    ),
+  );
 
   Widget _buildDatePickerRow(
     BuildContext context, {
     required final DateTime startDate,
     required final DateTime endDate,
-  }) {
-    return Column(
-      children: [
-        _datePickerWidget(
-          context,
-          startDate: startDate,
-          endDate: endDate,
-          isStart: true,
-        ),
-        _datePickerWidget(
-          context,
-          startDate: startDate,
-          endDate: endDate,
-          isStart: false,
-        ),
-      ],
-    );
-  }
+  }) => Column(
+    children: [
+      _datePickerWidget(
+        context,
+        startDate: startDate,
+        endDate: endDate,
+        isStart: true,
+      ),
+      _datePickerWidget(
+        context,
+        startDate: startDate,
+        endDate: endDate,
+        isStart: false,
+      ),
+    ],
+  );
 
   // Widget _sortTransactionsDropdownWidget(BuildContext context, {required final SortState sortState}) {
 

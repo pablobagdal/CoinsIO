@@ -16,7 +16,7 @@ abstract class TransactionRequest with _$TransactionRequest {
     required final String amount,
 
     /// example: 2023-10-01T12:00:00Z
-    required final String transactionDate,
+    required final DateTime transactionDate,
 
     /// example: Зарплата за месяц
     final String? comment,

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 abstract final class AppColors {
@@ -40,4 +42,16 @@ abstract final class AppColors {
   //   error: Colors.black,
   //   onError: AppColors.red1,
   // );
+}
+
+/// Генерирует цвет на основе строки (например, имени категории)
+Color colorFromString(String input) {
+  final hash = input.codeUnits.fold(0, (prev, elem) => prev + elem);
+  final rnd = Random(hash);
+  return Color.fromARGB(
+    255,
+    100 + rnd.nextInt(156), // чтобы не было слишком тёмных
+    100 + rnd.nextInt(156),
+    100 + rnd.nextInt(156),
+  );
 }
