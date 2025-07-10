@@ -1,6 +1,6 @@
 // import 'package:coinio_app/domain/models/transaction_request/transaction_request.dart';
-import 'package:coinio_app/domain/models/transaction_request/transaction_request.dart';
-import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
+import 'package:coinio_app/data/models/transaction_request/transaction_request.dart';
+import 'package:coinio_app/data/models/transaction_response/transaction_response.dart';
 
 abstract class TransactionRepository {
   Future<TransactionResponse> getTransaction({required final int id});

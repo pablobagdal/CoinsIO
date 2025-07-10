@@ -1,5 +1,5 @@
 import 'package:coinio_app/domain/repositories/category_repository.dart';
-import 'package:coinio_app/domain/models/category/category.dart';
+import 'package:coinio_app/data/models/category/category.dart';
 
 class MockCategoryRepository implements CategoryRepository {
   @override

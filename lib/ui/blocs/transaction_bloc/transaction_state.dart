@@ -1,4 +1,4 @@
-import 'package:coinio_app/domain/models/transaction_response/transaction_response.dart';
+import 'package:coinio_app/data/models/transaction_response/transaction_response.dart';
 
 abstract class TransactionState {}
 

@@ -1,4 +1,4 @@
-import 'package:coinio_app/domain/models/account_history/account_history.dart';
+import 'package:coinio_app/data/models/account_history/account_history.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'account_history_response.freezed.dart';

@@ -1,4 +1,4 @@
-import 'package:coinio_app/domain/models/account_create_request/account_create_request.dart';
+import 'package:coinio_app/data/models/account_create_request/account_create_request.dart';
 import 'package:coinio_app/domain/repositories/account_repository.dart';
 
 class AddAccountUsecase {

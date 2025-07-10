@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:coinio_app/domain/models/account_update_request/account_update_request.dart';
+import 'package:coinio_app/data/models/account_update_request/account_update_request.dart';
 import 'package:coinio_app/domain/usecases/account_usecases/account_usecases.dart';
 import 'package:coinio_app/ui/blocs/account_bloc/account_event.dart';
 import 'package:coinio_app/ui/blocs/account_bloc/account_state.dart';

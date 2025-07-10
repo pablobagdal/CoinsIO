@@ -1,6 +1,6 @@
 import 'package:coinio_app/core/themes/colors.dart';
 import 'package:coinio_app/core/utils/di.dart';
-import 'package:coinio_app/domain/models/account/account.dart';
+import 'package:coinio_app/data/models/account/account.dart';
 
 import 'package:coinio_app/domain/usecases/account_usecases/account_usecases.dart';
 

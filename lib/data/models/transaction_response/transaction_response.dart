@@ -1,5 +1,5 @@
-import 'package:coinio_app/domain/models/account_brief/account_brief.dart';
-import 'package:coinio_app/domain/models/category/category.dart';
+import 'package:coinio_app/data/models/account_brief/account_brief.dart';
+import 'package:coinio_app/data/models/category/category.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'transaction_response.freezed.dart';

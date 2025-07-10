@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 
-import 'package:coinio_app/data/datasource/local/local_data_source/app_database.dart';
+import 'package:coinio_app/data/datasources/local/local_data_source/app_database.dart';
 
 import 'package:coinio_app/domain/repositories/account_repository.dart';
 import 'package:coinio_app/data/repositories/account_repository_impl.dart';

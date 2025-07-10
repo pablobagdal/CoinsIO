@@ -1,9 +1,9 @@
-import 'package:coinio_app/data/datasource/local/local_data_source/app_database.dart';
+import 'package:coinio_app/data/datasources/local/local_data_source/app_database.dart';
 import 'package:coinio_app/data/repositories/mappers.dart';
-import 'package:coinio_app/domain/models/account/account.dart';
-import 'package:coinio_app/domain/models/account_create_request/account_create_request.dart';
-import 'package:coinio_app/domain/models/account_history_response/account_history_response.dart';
-import 'package:coinio_app/domain/models/account_update_request/account_update_request.dart';
+import 'package:coinio_app/data/models/account/account.dart';
+import 'package:coinio_app/data/models/account_create_request/account_create_request.dart';
+import 'package:coinio_app/data/models/account_history_response/account_history_response.dart';
+import 'package:coinio_app/data/models/account_update_request/account_update_request.dart';
 import 'package:coinio_app/domain/repositories/account_repository.dart';
 
 class AccountRepositoryImpl implements AccountRepository {

@@ -1,4 +1,4 @@
-import 'package:coinio_app/domain/models/account_state/account_state.dart';
+import 'package:coinio_app/data/models/account_state/account_state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
