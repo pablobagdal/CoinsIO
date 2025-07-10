@@ -13,7 +13,7 @@ dependencies:
   json_annotation: ^4.9.0
   bloc: ^9.0.0
   flutter_bloc: ^9.1.1
-  go_router: ^15.2.4
+  go_router: ^16.0.0
   shake: ^3.0.0
   fuzzywuzzy: ^1.2.0
   spoiler_widget: ^1.0.12
@@ -28,6 +28,7 @@ dependencies:
     git:
       url: https://github.com/pablobagdal/my_first_package.git
       ref: main
+  flutter_dotenv: ^5.2.1
   
 
 dev_dependencies:
@@ -43,12 +44,16 @@ dev_dependencies:
   flutter_native_splash: ^2.4.6
 
 
+
+
 flutter:
   uses-material-design: true
   fonts:
     - family: MyIcons
       fonts:
         - asset: assets/fonts/MyIcons.ttf 
+  assets:
+    - .env
 
 # Run the following commands to set up the icon launcher:
 # 1) flutter pub get
