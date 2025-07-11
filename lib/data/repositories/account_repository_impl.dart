@@ -1,9 +1,6 @@
-import 'package:coinio_app/core/utils/di.dart';
 import 'package:coinio_app/data/datasources/local/account_local_data_source.dart';
-import 'package:coinio_app/data/datasources/local/db/app_database.dart';
 import 'package:coinio_app/core/utils/mappers.dart';
 import 'package:coinio_app/data/datasources/remote/account_remote_data_source.dart';
-import 'package:coinio_app/data/models/account_model.dart';
 import 'package:coinio_app/domain/entities/account.dart';
 import 'package:coinio_app/domain/repositories/account_repository.dart';
 
@@ -24,7 +21,8 @@ class AccountRepositoryImpl implements AccountRepository {
 
   @override
   Future<Account> getAccount({required int id}) async {
-    final db = getIt<AppDatabase>();
+    final db = localDataSource.db;
+
     final row =
         await ((db.select(db.accountTable))
           ..where((acc) => acc.id.equals(id))).getSingle();
@@ -39,7 +37,7 @@ class AccountRepositoryImpl implements AccountRepository {
 
   @override
   Future<List<Account>> getAccounts() async {
-    final db = getIt<AppDatabase>();
+    final db = localDataSource.db;
     final row = await (db.select(db.accountTable)).get();
     return row.map((final acc) => accountFromDb(acc)).toList();
   }
