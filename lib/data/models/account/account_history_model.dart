@@ -1,9 +1,9 @@
-import 'package:coinio_app/data/models/account_state/account_state.dart';
+import 'package:coinio_app/data/models/account/account_state_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'account_history.g.dart';
-part 'account_history.freezed.dart';
+part 'account_history_model.g.dart';
+part 'account_history_model.freezed.dart';
 
 enum ChangeType {
   @JsonValue('MODIFICATION')
@@ -13,8 +13,8 @@ enum ChangeType {
 }
 
 @freezed
-abstract class AccountHistory with _$AccountHistory {
-  const factory AccountHistory({
+abstract class AccountHistoryModel with _$AccountHistoryModel {
+  const factory AccountHistoryModel({
     /// example: 1
     required final int id,
 
@@ -25,18 +25,18 @@ abstract class AccountHistory with _$AccountHistory {
     required final ChangeType changeType,
 
     /// previous state of the account
-    required final AccountState previousState,
+    required final AccountStateModel previousState,
 
     /// new state of the account after the change
-    required final AccountState newState,
+    required final AccountStateModel newState,
 
     /// timestamp of the change
     required final DateTime changeTimestamp,
 
     /// creation timestamp of the history record
     required final DateTime createdAt,
-  }) = _AccountHistory;
+  }) = _AccountHistoryModel;
 
-  factory AccountHistory.fromJson(final Map<String, dynamic> json) =>
-      _$AccountHistoryFromJson(json);
+  factory AccountHistoryModel.fromJson(final Map<String, dynamic> json) =>
+      _$AccountHistoryModelFromJson(json);
 }

@@ -29,6 +29,8 @@ dependencies:
       url: https://github.com/pablobagdal/my_first_package.git
       ref: main
   flutter_dotenv: ^5.2.1
+  worker_manager: ^7.2.6
+  dio: ^5.8.0+1
   
 
 dev_dependencies:
@@ -42,6 +44,7 @@ dev_dependencies:
   icons_launcher: ^3.0.1
   drift_dev: ^2.27.0
   flutter_native_splash: ^2.4.6
+  logger: ^2.6.0
 
 
 

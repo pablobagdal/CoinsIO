@@ -1,6 +1,6 @@
 import 'package:coinio_app/core/themes/colors.dart';
 import 'package:coinio_app/core/utils/di.dart';
-import 'package:coinio_app/data/models/transaction_response/transaction_response.dart';
+import 'package:coinio_app/data/models/transaction/transaction_response_model.dart';
 import 'package:coinio_app/domain/usecases/transaction_usecases/transaction_usecases.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:coinio_app/ui/blocs/transaction_bloc/transaction_event.dart';

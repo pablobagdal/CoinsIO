@@ -1,12 +1,12 @@
-import 'package:coinio_app/data/models/stat_item/stat_item.dart';
+import 'package:coinio_app/data/models/category/stat_item_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'account_response.freezed.dart';
-part 'account_response.g.dart';
+part 'account_response_model.freezed.dart';
+part 'account_response_model.g.dart';
 
 @freezed
-abstract class AccountResponse with _$AccountResponse {
-  const factory AccountResponse({
+abstract class AccountResponseModel with _$AccountResponseModel {
+  const factory AccountResponseModel({
     /// example: 1
     required final int id,
 
@@ -29,9 +29,9 @@ abstract class AccountResponse with _$AccountResponse {
     ///  amount*	string
     ///  example: 5000.00
     ///  }]
-    required final List<StatItem> incomeStats,
+    required final List<StatItemModel> incomeStats,
 
-    /// example: [StatItem{
+    /// example: [StatItemModel{
     /// categoryId*	integer
     /// example: 1
     /// categoryName*	string
@@ -41,11 +41,11 @@ abstract class AccountResponse with _$AccountResponse {
     /// amount*	string
     /// example: 5000.00
     /// }]
-    required final List<StatItem> expenseStats,
+    required final List<StatItemModel> expenseStats,
     required final DateTime createdAt,
     required final DateTime updatedAt,
-  }) = _AccountResponse;
+  }) = _AccountResponseModel;
 
-  factory AccountResponse.fromJson(final Map<String, dynamic> json) =>
-      _$AccountResponseFromJson(json);
+  factory AccountResponseModel.fromJson(final Map<String, dynamic> json) =>
+      _$AccountResponseModelFromJson(json);
 }

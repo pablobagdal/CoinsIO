@@ -28,3 +28,46 @@ flutter run
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+
+По ДЗ-5
+Как это работает
+1. Архитектура решения
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   UI Thread     │    │  Isolate Pool    │    │   Backend       │
+│                 │    │                  │    │                 │
+│ NetworkService  │───▶│  networkWorker   │───▶│  HTTP API       │
+│ (Dio + Inter.)  │    │  (Dio instance)  │    │                 │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+2. Поток выполнения
+
+Запрос создается в UI потоке через NetworkService
+Interceptor проверяет - нужно ли выполнять в изоляте
+Если да - создается IsolateRequest и отправляется в пул
+WorkerManager выбирает свободный изолят или создает новый
+В изоляте выполняется networkWorker с отдельным Dio
+Результат возвращается через IsolateResponse
+Interceptor преобразует ответ в стандартный Dio Response
+
+3. Преимущества такого подхода
+
+Прозрачность - API остается стандартным для Dio
+Гибкость - можно настроить, какие запросы выполнять в изолятах
+Эффективность - пул изолятов переиспользуется
+Отказоустойчивость - ошибки в изоляте не влияют на UI
+
+4. Настройка использования
+dart// Все запросы в изолятах
+enableIsolateForAllRequests: true
+
+// Только определенные эндпоинты
+isolateEnabledEndpoints: ['/heavy-endpoint']
+
+// Размер пула изолятов
+isolatePoolSize: 4
+5. Когда использовать изоляты
+
+Обработка больших JSON
+Загрузка/выгрузка файлов
+Сложные вычисления после получения данных
+Множественные параллельные запросы

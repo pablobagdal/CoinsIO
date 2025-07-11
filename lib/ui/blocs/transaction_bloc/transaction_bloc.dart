@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:coinio_app/data/models/transaction_request/transaction_request.dart';
+import 'package:coinio_app/data/models/transaction/transaction_request_model.dart';
 import 'package:coinio_app/domain/usecases/transaction_usecases/transaction_usecases.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'transaction_event.dart';

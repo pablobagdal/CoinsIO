@@ -24,6 +24,7 @@ final getIt = GetIt.instance;
 /// Setup dependencies for the app
 void setupDependencies() {
   final db = AppDatabase();
+
   getIt.registerSingleton<AppDatabase>(db);
   // Account
   getIt.registerSingleton<AccountRepository>(AccountRepositoryImpl(db: db));

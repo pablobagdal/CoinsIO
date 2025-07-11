@@ -1,22 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'transaction.freezed.dart';
-part 'transaction.g.dart';
-
-// extension TransactionTypeExtension on bool {
-//   String get isIncomeName {
-//     switch (this) {
-//       case true:
-//         return 'Доход';
-//       case false:
-//         return 'Расход';
-//     }
-//   }
-// }
+part 'transaction_model.freezed.dart';
+part 'transaction_model.g.dart';
 
 @freezed
-abstract class Transaction with _$Transaction {
-  const factory Transaction({
+abstract class TransactionModel with _$TransactionModel {
+  const factory TransactionModel({
     /// example: 1
     required final int id,
 
@@ -40,8 +29,8 @@ abstract class Transaction with _$Transaction {
 
     /// example: 2023-10-01T12:00:00Z
     required final DateTime updatedAt,
-  }) = _Transaction;
+  }) = _TransactionModel;
 
-  factory Transaction.fromJson(final Map<String, dynamic> json) =>
-      _$TransactionFromJson(json);
+  factory TransactionModel.fromJson(final Map<String, dynamic> json) =>
+      _$TransactionModelFromJson(json);
 }

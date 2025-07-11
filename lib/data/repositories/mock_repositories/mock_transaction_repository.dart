@@ -1,8 +1,8 @@
-import 'package:coinio_app/data/models/transaction_request/transaction_request.dart';
+import 'package:coinio_app/data/models/transaction/transaction_request_model.dart';
 import 'package:coinio_app/domain/repositories/transaction_repository.dart';
-import 'package:coinio_app/data/models/account_brief/account_brief.dart';
-import 'package:coinio_app/data/models/category/category.dart';
-import 'package:coinio_app/data/models/transaction_response/transaction_response.dart';
+import 'package:coinio_app/data/models/account/account_brief_model.dart';
+import 'package:coinio_app/data/models/category/category_model.dart';
+import 'package:coinio_app/data/models/transaction/transaction_response_model.dart';
 
 class MockTransactionRepository implements TransactionRepository {
   @override

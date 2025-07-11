@@ -1,4 +1,4 @@
-import 'package:coinio_app/data/models/category/category.dart';
+import 'package:coinio_app/data/models/category/category_model.dart';
 
 abstract class CategoryState {}
 

@@ -1,10 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-part 'stat_item.freezed.dart';
-part 'stat_item.g.dart';
+part 'stat_item_model.freezed.dart';
+part 'stat_item_model.g.dart';
 
 @freezed
-abstract class StatItem with _$StatItem {
-  const factory StatItem({
+abstract class StatItemModel with _$StatItemModel {
+  const factory StatItemModel({
     /// example: 1
     required final int categoryId,
 
@@ -16,8 +16,8 @@ abstract class StatItem with _$StatItem {
 
     /// example: 5000.00
     required final String amount,
-  }) = _StatItem;
+  }) = _StatItemModel;
 
-  factory StatItem.fromJson(final Map<String, dynamic> json) =>
-      _$StatItemFromJson(json);
+  factory StatItemModel.fromJson(final Map<String, dynamic> json) =>
+      _$StatItemModelFromJson(json);
 }

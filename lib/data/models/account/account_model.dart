@@ -1,11 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'account.freezed.dart';
-part 'account.g.dart';
+part 'account_model.freezed.dart';
+part 'account_model.g.dart';
 
 @freezed
-abstract class Account with _$Account {
-  const factory Account({
+abstract class AccountModel with _$AccountModel {
+  const factory AccountModel({
     required final int id,
     required final int userId,
 
@@ -15,8 +15,8 @@ abstract class Account with _$Account {
 
     required final DateTime createdAt,
     required final DateTime updatedAt,
-  }) = _Account;
+  }) = _AccountModel;
 
-  factory Account.fromJson(final Map<String, dynamic> json) =>
-      _$AccountFromJson(json);
+  factory AccountModel.fromJson(final Map<String, dynamic> json) =>
+      _$AccountModelFromJson(json);
 }

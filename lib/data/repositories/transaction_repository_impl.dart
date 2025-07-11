@@ -1,6 +1,6 @@
 import 'package:coinio_app/data/datasources/local/local_data_source/app_database.dart';
-import 'package:coinio_app/data/models/transaction_request/transaction_request.dart';
-import 'package:coinio_app/data/models/transaction_response/transaction_response.dart';
+import 'package:coinio_app/data/models/transaction/transaction_request_model.dart';
+import 'package:coinio_app/data/models/transaction/transaction_response_model.dart';
 import 'package:coinio_app/domain/repositories/transaction_repository.dart';
 
 class TransactionRepositoryImpl implements TransactionRepository {

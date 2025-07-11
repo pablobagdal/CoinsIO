@@ -1,4 +1,4 @@
-import 'package:coinio_app/data/models/category/category.dart';
+import 'package:coinio_app/domain/entities/category.dart';
 
 abstract class CategoryRepository {
   Future<List<Category>> getCategories();

@@ -1,10 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-part 'account_state.freezed.dart';
-part 'account_state.g.dart';
+part 'account_state_model.freezed.dart';
+part 'account_state_model.g.dart';
 
 @freezed
-abstract class AccountState with _$AccountState {
-  const factory AccountState({
+abstract class AccountStateModel with _$AccountStateModel {
+  const factory AccountStateModel({
     /// example: 1
     required final int id,
 
@@ -16,8 +16,8 @@ abstract class AccountState with _$AccountState {
 
     /// example: USD
     required final String currency,
-  }) = _AccountState;
+  }) = _AccountStateModel;
 
-  factory AccountState.fromJson(final Map<String, dynamic> json) =>
-      _$AccountStateFromJson(json);
+  factory AccountStateModel.fromJson(final Map<String, dynamic> json) =>
+      _$AccountStateModelFromJson(json);
 }

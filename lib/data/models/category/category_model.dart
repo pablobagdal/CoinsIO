@@ -1,11 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'category.freezed.dart';
-part 'category.g.dart';
+part 'category_model.freezed.dart';
+part 'category_model.g.dart';
 
 @freezed
-abstract class Category with _$Category {
-  const factory Category({
+abstract class CategoryModel with _$CategoryModel {
+  const factory CategoryModel({
     /// example: 1
     required final int id,
 
@@ -17,8 +17,8 @@ abstract class Category with _$Category {
 
     /// example: true
     required final bool isIncome,
-  }) = _Category;
+  }) = _CategoryModel;
 
-  factory Category.fromJson(final Map<String, dynamic> json) =>
-      _$CategoryFromJson(json);
+  factory CategoryModel.fromJson(final Map<String, dynamic> json) =>
+      _$CategoryModelFromJson(json);
 }

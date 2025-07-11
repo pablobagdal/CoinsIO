@@ -1,4 +1,4 @@
-import 'package:coinio_app/data/models/account_history_response/account_history_response.dart';
+import 'package:coinio_app/data/models/account/account_history_response_model.dart';
 import 'package:coinio_app/domain/repositories/account_repository.dart';
 
 class GetAccountHistoryUsecase {

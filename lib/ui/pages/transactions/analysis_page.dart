@@ -1,8 +1,8 @@
 import 'package:coinio_app/core/themes/colors.dart';
 import 'package:coinio_app/core/utils/di.dart';
 import 'package:coinio_app/core/utils/type_format.dart';
-import 'package:coinio_app/data/models/category/category.dart';
-import 'package:coinio_app/data/models/transaction_response/transaction_response.dart';
+import 'package:coinio_app/data/models/category/category_model.dart';
+import 'package:coinio_app/data/models/transaction/transaction_response_model.dart';
 
 import 'package:coinio_app/domain/usecases/category_usecases/category_usecases.dart';
 import 'package:coinio_app/domain/usecases/transaction_usecases/transaction_usecases.dart';

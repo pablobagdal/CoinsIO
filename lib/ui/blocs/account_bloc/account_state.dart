@@ -1,4 +1,4 @@
-import 'package:coinio_app/data/models/account/account.dart';
+import 'package:coinio_app/data/models/account/account_model.dart';
 
 abstract class AccountState {}
 

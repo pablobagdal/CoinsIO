@@ -1,6 +1,6 @@
 import 'package:coinio_app/core/utils/di.dart';
 import 'package:coinio_app/data/repositories/mock_repositories/mock_category_repository.dart';
-import 'package:coinio_app/data/models/category/category.dart';
+import 'package:coinio_app/data/models/category/category_model.dart';
 import 'package:coinio_app/domain/usecases/category_usecases/category_usecases.dart';
 import 'package:coinio_app/ui/blocs/category_bloc/category_bloc.dart';
 import 'package:coinio_app/ui/blocs/category_bloc/category_event.dart';

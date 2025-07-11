@@ -1,11 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'transaction_request.freezed.dart';
-part 'transaction_request.g.dart';
+part 'transaction_request_model.freezed.dart';
+part 'transaction_request_model.g.dart';
 
 @freezed
-abstract class TransactionRequest with _$TransactionRequest {
-  const factory TransactionRequest({
+abstract class TransactionRequestModel with _$TransactionRequestModel {
+  const factory TransactionRequestModel({
     /// example: 1
     required final int accountId,
 
@@ -20,8 +20,8 @@ abstract class TransactionRequest with _$TransactionRequest {
 
     /// example: Зарплата за месяц
     final String? comment,
-  }) = _TransactionRequest;
+  }) = _TransactionRequestModel;
 
-  factory TransactionRequest.fromJson(final Map<String, dynamic> json) =>
-      _$TransactionRequestFromJson(json);
+  factory TransactionRequestModel.fromJson(final Map<String, dynamic> json) =>
+      _$TransactionRequestModelFromJson(json);
 }

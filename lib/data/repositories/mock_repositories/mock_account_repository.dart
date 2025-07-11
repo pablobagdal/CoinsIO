@@ -1,10 +1,10 @@
 import 'package:coinio_app/domain/repositories/account_repository.dart';
-import 'package:coinio_app/data/models/account/account.dart';
-import 'package:coinio_app/data/models/account_create_request/account_create_request.dart';
-import 'package:coinio_app/data/models/account_history/account_history.dart';
-import 'package:coinio_app/data/models/account_history_response/account_history_response.dart';
-import 'package:coinio_app/data/models/account_state/account_state.dart';
-import 'package:coinio_app/data/models/account_update_request/account_update_request.dart';
+import 'package:coinio_app/data/models/account/account_model.dart';
+import 'package:coinio_app/data/models/account/account_create_request_model.dart';
+import 'package:coinio_app/data/models/account/account_history_model.dart';
+import 'package:coinio_app/data/models/account/account_history_response_model.dart';
+import 'package:coinio_app/data/models/account/account_state_model.dart';
+import 'package:coinio_app/data/models/account/account_update_request_model.dart';
 
 class MockAccountRepository implements AccountRepository {
   @override

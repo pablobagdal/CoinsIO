@@ -1,5 +1,5 @@
 import 'package:coinio_app/data/datasources/local/local_data_source/app_database.dart';
-import 'package:coinio_app/data/models/account/account.dart';
+import 'package:coinio_app/domain/entities/account.dart';
 
 Account accountFromDb(AccountTableData row) => Account(
   id: row.id,
