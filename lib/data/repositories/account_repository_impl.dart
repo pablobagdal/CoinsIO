@@ -1,24 +1,30 @@
-import 'package:coinio_app/data/datasources/local/local_data_source/app_database.dart';
+import 'package:coinio_app/core/utils/di.dart';
+import 'package:coinio_app/data/datasources/local/account_local_data_source.dart';
+import 'package:coinio_app/data/datasources/local/db/app_database.dart';
 import 'package:coinio_app/core/utils/mappers.dart';
-import 'package:coinio_app/data/models/account/account_model.dart';
-import 'package:coinio_app/data/models/account/account_create_request_model.dart';
-import 'package:coinio_app/data/models/account/account_history_response_model.dart';
-import 'package:coinio_app/data/models/account/account_update_request_model.dart';
+import 'package:coinio_app/data/datasources/remote/account_remote_data_source.dart';
+import 'package:coinio_app/data/models/account_model.dart';
+import 'package:coinio_app/domain/entities/account.dart';
 import 'package:coinio_app/domain/repositories/account_repository.dart';
 
 class AccountRepositoryImpl implements AccountRepository {
-  final AppDatabase db;
+  final AccountRemoteDataSource remoteDataSource;
+  final AccountLocalDataSource localDataSource;
 
-  AccountRepositoryImpl({required this.db});
+  AccountRepositoryImpl({
+    required this.localDataSource,
+    required this.remoteDataSource,
+  });
 
   @override
-  Future<void> addAccount({required AccountCreateRequestModel account}) {
+  Future<void> addAccount({required Account account}) {
     // TODO: implement addAccount
     throw UnimplementedError();
   }
 
   @override
   Future<Account> getAccount({required int id}) async {
+    final db = getIt<AppDatabase>();
     final row =
         await ((db.select(db.accountTable))
           ..where((acc) => acc.id.equals(id))).getSingle();
@@ -26,19 +32,20 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<AccountHistoryResponse> getAccountHistory({required int id}) {
+  Future<List<AccountHistory>> getAccountHistory({required int id}) {
     // TODO: implement getAccountHistory
     throw UnimplementedError();
   }
 
   @override
   Future<List<Account>> getAccounts() async {
+    final db = getIt<AppDatabase>();
     final row = await (db.select(db.accountTable)).get();
     return row.map((final acc) => accountFromDb(acc)).toList();
   }
 
   @override
-  Future<void> updateAccount({required AccountUpdateRequest account}) {
+  Future<void> updateAccount({required Account account}) {
     // TODO: implement updateAccount
     throw UnimplementedError();
   }

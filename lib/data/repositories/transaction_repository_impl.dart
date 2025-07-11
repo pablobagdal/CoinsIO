@@ -1,15 +1,19 @@
-import 'package:coinio_app/data/datasources/local/local_data_source/app_database.dart';
-import 'package:coinio_app/data/models/transaction/transaction_request_model.dart';
-import 'package:coinio_app/data/models/transaction/transaction_response_model.dart';
+import 'package:coinio_app/data/datasources/local/transaction_local_data_source.dart';
+import 'package:coinio_app/data/datasources/remote/transaction_remote_data_source.dart';
+import 'package:coinio_app/domain/entities/transaction.dart';
 import 'package:coinio_app/domain/repositories/transaction_repository.dart';
 
 class TransactionRepositoryImpl implements TransactionRepository {
-  final AppDatabase db;
+  final TransactionLocalDataSource localDataSource;
+  final TransactionRemoteDataSource remoteDataSource;
 
-  TransactionRepositoryImpl({required this.db});
+  TransactionRepositoryImpl({
+    required this.localDataSource,
+    required this.remoteDataSource,
+  });
 
   @override
-  Future<void> addTransaction({required TransactionRequest transaction}) {
+  Future<void> addTransaction({required Transaction transaction}) {
     // TODO: implement addTransaction
     throw UnimplementedError();
   }
@@ -21,13 +25,13 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
-  Future<TransactionResponse> getTransaction({required int id}) {
+  Future<Transaction> getTransaction({required int id}) {
     // TODO: implement getTransaction
     throw UnimplementedError();
   }
 
   @override
-  Future<List<TransactionResponse>> getTransactionsByPeriod({
+  Future<List<Transaction>> getTransactionsByPeriod({
     required int id,
     DateTime? startDate,
     DateTime? endDate,
@@ -37,10 +41,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
-  Future<void> updateTransaction({
-    required int id,
-    required TransactionRequest transaction,
-  }) {
+  Future<void> updateTransaction({required Transaction transaction}) {
     // TODO: implement updateTransaction
     throw UnimplementedError();
   }
