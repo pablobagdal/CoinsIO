@@ -23,7 +23,7 @@ abstract class AccountModel with _$AccountModel {
 }
 
 @freezed
-abstract class AccountBrief with _$AccountBriefModel {
+abstract class AccountBrief with _$AccountBrief {
   const factory AccountBrief({
     required final int id,
     required final String name,
