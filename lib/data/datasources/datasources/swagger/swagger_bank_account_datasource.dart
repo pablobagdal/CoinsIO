@@ -1,8 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:yandex_school_finance/core/datasource_failures.dart';
-import 'package:yandex_school_finance/data/models/freezed_models/account_models/account_history_response_model.dart';
-import 'package:yandex_school_finance/data/models/freezed_models/account_models/account_model.dart';
-import 'package:yandex_school_finance/data/models/freezed_models/account_models/account_update_request_model.dart';
 
 class SwaggerBankAccountDatasource {
   SwaggerBankAccountDatasource(this.dio);
