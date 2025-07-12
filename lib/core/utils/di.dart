@@ -30,9 +30,11 @@ final getIt = GetIt.instance;
 
 /// Setup dependencies for the app
 Future<void> setupDependencies() async {
+  getIt.registerSingleton<Dio>(Dio());
+
   getIt.registerSingleton<AppDatabase>(AppDatabase());
 
-  getIt.registerSingleton<ApiClient>(ApiClient(dio: Dio()));
+  getIt.registerSingleton<ApiClient>(ApiClient(dio: getIt()));
 
   // Account
   getIt.registerSingleton<AccountLocalDataSource>(

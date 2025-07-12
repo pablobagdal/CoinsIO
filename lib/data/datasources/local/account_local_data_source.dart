@@ -20,7 +20,6 @@ class AccountLocalDataSource {
             currency: account.currency,
             createdAt: account.createdAt,
             updatedAt: account.updatedAt,
-            // другие поля
           ),
         )
         .toList();
