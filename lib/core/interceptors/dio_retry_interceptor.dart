@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:coinio_app/core/utils/di.dart';
 import 'package:dio/dio.dart';
+import 'package:coinio_app/core/service_locator.dart';
 
 const kMaxRetryCount = 5;
 const kBaseRetryDelayInMilliseconds = 500;
@@ -24,7 +24,7 @@ class DioRetryInterceptor extends Interceptor {
     await Future.delayed(delay);
 
     try {
-      final response = await getIt.get<Dio>().fetch(err.requestOptions);
+      final response = await sl.get<Dio>().fetch(err.requestOptions);
       handler.resolve(response);
     } catch (_) {
       return handler.next(err);

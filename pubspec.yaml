@@ -16,6 +16,7 @@ dependencies:
   go_router: ^16.0.0
   shake: ^3.0.0
   fuzzywuzzy: ^1.2.0
+  fuzzy: ^0.5.1
   spoiler_widget: ^1.0.12
   drift: ^2.27.0
   path_provider: ^2.1.5
@@ -31,6 +32,13 @@ dependencies:
   flutter_dotenv: ^5.2.1
   worker_manager: ^7.2.6
   dio: ^5.8.0+1
+  drift_flutter: ^0.2.4
+  dartz: ^0.10.1
+  decimal: ^3.2.4
+  animated_finance_pie_chart:
+    git: https://github.com/Helohi/animated_finance_pie_chart.git
+  flutter_svg: ^2.2.0
+
   
 
 dev_dependencies:
@@ -57,6 +65,7 @@ flutter:
         - asset: assets/fonts/MyIcons.ttf 
   assets:
     - .env
+    - assets/icons/
 
 # Run the following commands to set up the icon launcher:
 # 1) flutter pub get

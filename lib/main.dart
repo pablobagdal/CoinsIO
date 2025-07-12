@@ -1,23 +1,33 @@
-import 'package:coinio_app/core/utils/di.dart';
 import 'package:flutter/material.dart';
-import 'package:coinio_app/ui/widgets/my_app.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:worker_manager/worker_manager.dart';
+import 'package:coinio_app/core/app_themes.dart';
+import 'package:coinio_app/core/app_router.dart';
+import 'package:coinio_app/core/service_locator.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
+  di.init();
 
-  // choose setup to use mocks or real data in DB and backend
-  setupDependencies();
-  // setupMockDependencies();
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.manual,
+    overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
+  );
 
-  // TODO try to move it to DI (getIt)
-  workerManager.log = true;
-  workerManager.init(isolatesCount: 4, dynamicSpawning: true);
+  runApp(const FinanceApp());
+}
 
-  // access sensitive values like API_TOKEN (you have to create this file)
-  // .env.example as an example
-  await dotenv.load(fileName: '.env');
+class FinanceApp extends StatelessWidget {
+  const FinanceApp({super.key});
 
-  runApp(const MyApp());
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      routerConfig: AppRouter.router,
+      themeMode: ThemeMode.light,
+      theme: AppThemes.lightTheme,
+      darkTheme: AppThemes.darkTheme,
+    );
+  }
 }
