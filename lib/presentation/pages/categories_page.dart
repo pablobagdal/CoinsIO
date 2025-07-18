@@ -1,3 +1,4 @@
+import 'package:coinio_app/l10n/gen/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:coinio_app/presentation/blocs/categories_cubit.dart';
@@ -32,7 +33,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Мои статьи"), centerTitle: true),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context).my_categories),
+        centerTitle: true,
+      ),
       body: Column(
         children: [
           TextField(
@@ -46,7 +50,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
               ),
               filled: true,
               fillColor: Color(0xffECE6F0),
-              hintText: "Найти статью",
+              hintText: AppLocalizations.of(context).find_category,
               hintStyle: TextStyle(color: Color(0xff49454F)),
               border: InputBorder.none,
               suffixIcon: Icon(Icons.search),
@@ -58,7 +62,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   (context, state) => switch (state) {
                     InitialState() ||
                     LoadingState() => const CenteredProgressIndicator(),
-                    ErrorState() => CenteredErrorText(message: state.message),
+                    ErrorState() => CenteredErrorText(
+                      message: state.message(context),
+                    ),
                     LoadedState() => ListView(
                       children: [
                         for (final category in state.categories)

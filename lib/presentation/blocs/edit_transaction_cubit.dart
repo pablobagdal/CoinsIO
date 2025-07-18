@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart' show BuildContext;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:coinio_app/data/models/freezed_models/account_models/account_brief_model.dart';
 import 'package:coinio_app/data/models/freezed_models/category_model.dart';
@@ -112,7 +113,7 @@ class CategoriesLoadedState extends CategoryUIStates {
 }
 
 class CategoriesErrorState extends CategoryUIStates {
-  final String message;
+  final String Function(BuildContext context) message;
 
   CategoriesErrorState({required this.message});
 }
@@ -128,7 +129,7 @@ class AccountsLoadedState extends AccountUIStates {
 }
 
 class AccountsErrorState extends AccountUIStates {
-  final String message;
+  final String Function(BuildContext context) message;
 
   AccountsErrorState({required this.message});
 }
@@ -140,7 +141,7 @@ class TransactionEditLoadingState extends TransactionStates {}
 class TransactionEditSuccessfully extends TransactionStates {}
 
 class TransactionEditError extends TransactionStates {
-  final String message;
+  final String Function(BuildContext context) message;
 
   TransactionEditError({required this.message});
 }

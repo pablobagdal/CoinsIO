@@ -8,22 +8,64 @@ import 'package:coinio_app/presentation/blocs/analyses_cubit.dart';
 import 'package:coinio_app/presentation/blocs/categories_cubit.dart';
 import 'package:coinio_app/presentation/blocs/edit_account_cubit.dart';
 import 'package:coinio_app/presentation/blocs/history_cubit.dart';
+import 'package:coinio_app/presentation/blocs/material_app_cubit.dart';
+import 'package:coinio_app/presentation/blocs/settings_cubit.dart';
 import 'package:coinio_app/presentation/blocs/transaction_cubit.dart';
 import 'package:coinio_app/presentation/pages/account_page.dart';
 import 'package:coinio_app/presentation/pages/analyses_page.dart';
 import 'package:coinio_app/presentation/pages/categories_page.dart';
 import 'package:coinio_app/presentation/pages/edit_account_page.dart';
 import 'package:coinio_app/presentation/pages/history_page.dart';
+import 'package:coinio_app/presentation/pages/pin_code_page.dart';
+import 'package:coinio_app/presentation/pages/settings_page.dart';
 import 'package:coinio_app/presentation/pages/todays_transaction_page.dart';
 import 'package:coinio_app/presentation/pages/navigation_bar_page.dart';
 
 class AppRouter {
-  static final router = GoRouter(
+  static int hapticLevel = 0;
+  static String? _afterPinRedirect;
+
+  static final _rootNavigatorKey = GlobalKey<NavigatorState>(
+    debugLabel: "root",
+  );
+
+  static GoRouter get router => GoRouter(
+    navigatorKey: _rootNavigatorKey,
+    initialLocation: "/settings",
+    redirect: (context, state) {
+      if (context.read<MaterialAppCubit>().isAuthenticated) {
+        return state.fullPath;
+      }
+      _afterPinRedirect = state.fullPath;
+      return "/pin";
+    },
+
     routes: [
-      GoRoute(path: "/", redirect: (context, state) => "/spends"),
+      GoRoute(path: "/", redirect: (_, _) => "/spends"),
+      GoRoute(
+        path: "/pin",
+        builder:
+            (context, state) => PinCodePage(
+              onBiometricsPassed: () {
+                context.read<MaterialAppCubit>().auth();
+                if (_afterPinRedirect == state.fullPath)
+                  _afterPinRedirect = null;
+                return _afterPinRedirect ?? "/spends";
+              },
+              onSubmitGoTo: (pin) {
+                if (context.read<MaterialAppCubit>().checkPin(pin)) {
+                  context.read<MaterialAppCubit>().auth();
+                  if (_afterPinRedirect == state.fullPath)
+                    _afterPinRedirect = null;
+                  return _afterPinRedirect ?? "/spends";
+                }
+                return null;
+              },
+            ),
+      ),
       StatefulShellRoute.indexedStack(
         builder:
-            (context, state, navigationShell) =>
+            (_, _, navigationShell) =>
                 NavigationBarPage(navShell: navigationShell),
         branches: [
           StatefulShellBranch(
@@ -61,14 +103,14 @@ class AppRouter {
               GoRoute(
                 path: "/account",
                 builder:
-                    (context, state) => BlocProvider(
+                    (_, _) => BlocProvider(
                       create: (context) => AccountCubit(sl(), sl(), sl()),
                       child: AccountPage(),
                     ),
                 routes: [
                   GoRoute(
                     path: "/edit/:id",
-                    builder: (context, state) {
+                    builder: (_, state) {
                       final account = state.extra as AccountModel?;
                       return BlocProvider(
                         create: (context) => EditAccountCubit(sl()),
@@ -88,7 +130,7 @@ class AppRouter {
               GoRoute(
                 path: "/categories",
                 builder:
-                    (context, state) => BlocProvider(
+                    (_, _) => BlocProvider(
                       create: (context) => CategoriesCubit(sl()),
                       child: CategoriesPage(),
                     ),
@@ -99,7 +141,24 @@ class AppRouter {
             routes: [
               GoRoute(
                 path: "/settings",
-                builder: (context, state) => const Placeholder(),
+                builder:
+                    (_, _) => BlocProvider(
+                      create: (context) => SettingsCubit(),
+                      child: SettingsPage(),
+                    ),
+                routes: [
+                  GoRoute(
+                    path: "/setPin",
+                    parentNavigatorKey: _rootNavigatorKey,
+                    builder:
+                        (context, _) => PinCodePage(
+                          onSubmitGoTo: (pin) {
+                            context.read<MaterialAppCubit>().setPin(pin);
+                            return "/settings";
+                          },
+                        ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -112,7 +171,7 @@ class AppRouter {
 Widget Function(BuildContext, GoRouterState) _todaysTransactionsBuilder(
   bool isIncome,
 ) {
-  Widget wrapper(BuildContext context, GoRouterState state) {
+  Widget wrapper(BuildContext _, GoRouterState _) {
     return BlocProvider(
       create: (context) => TransactionCubit(sl()),
       child: TodaysTransactionsPage(isIncome: isIncome),
@@ -123,7 +182,7 @@ Widget Function(BuildContext, GoRouterState) _todaysTransactionsBuilder(
 }
 
 Widget Function(BuildContext, GoRouterState) _historyBuilder(bool isIncome) {
-  Widget wrapper(BuildContext context, GoRouterState state) {
+  Widget wrapper(BuildContext _, GoRouterState _) {
     return BlocProvider(
       create: (context) => HistoryCubit(sl()),
       child: HistoryPage(isIncome: isIncome),
@@ -138,7 +197,7 @@ List<GoRoute> _historyRoutes(bool isIncome) {
     GoRoute(
       path: "/analyses",
       builder:
-          (context, state) => BlocProvider(
+          (_, _) => BlocProvider(
             create: (context) => AnalysesCubit(sl()),
             child: AnalysesPage(isIncome: isIncome),
           ),
